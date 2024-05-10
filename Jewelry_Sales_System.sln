@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34701.34
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jewelry_Sales_System", "Jewelry_Sales_System\Jewelry_Sales_System.csproj", "{8C380629-9E47-46B0-ADA2-0C86163F8CDD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. API", "1. API", "{5DDF0F70-3E7C-4AB8-B70B-E0D5BB2420F6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Application", "2. Application", "{EE154E9E-E810-45CD-B3FC-C131AF528CAB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Domain", "3. Domain", "{8AB7C208-F1D2-4825-B164-DBEABB85BD35}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Infrastructure", "4. Infrastructure", "{87F6AA92-FAE6-4634-9A0F-A9ADAEA1B681}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JewelrySalesSystem.Application", "JewelrySalesSystem.Application\JewelrySalesSystem.Application.csproj", "{20009182-1D89-4B22-AAE1-5750ECB69E15}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JewelrySalesSystem.Domain", "JewelrySalesSystem.Domain\JewelrySalesSystem.Domain.csproj", "{72A67C48-5440-4B89-9FAA-C30D57510B3C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JewelrySalesSystem.Infrastructure", "JewelrySalesSystem.Infrastructure\JewelrySalesSystem.Infrastructure.csproj", "{D867804A-FE89-4545-A851-BC37B68087EC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8C380629-9E47-46B0-ADA2-0C86163F8CDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C380629-9E47-46B0-ADA2-0C86163F8CDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C380629-9E47-46B0-ADA2-0C86163F8CDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C380629-9E47-46B0-ADA2-0C86163F8CDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20009182-1D89-4B22-AAE1-5750ECB69E15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20009182-1D89-4B22-AAE1-5750ECB69E15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20009182-1D89-4B22-AAE1-5750ECB69E15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20009182-1D89-4B22-AAE1-5750ECB69E15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72A67C48-5440-4B89-9FAA-C30D57510B3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72A67C48-5440-4B89-9FAA-C30D57510B3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72A67C48-5440-4B89-9FAA-C30D57510B3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72A67C48-5440-4B89-9FAA-C30D57510B3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D867804A-FE89-4545-A851-BC37B68087EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D867804A-FE89-4545-A851-BC37B68087EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D867804A-FE89-4545-A851-BC37B68087EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D867804A-FE89-4545-A851-BC37B68087EC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8C380629-9E47-46B0-ADA2-0C86163F8CDD} = {5DDF0F70-3E7C-4AB8-B70B-E0D5BB2420F6}
+		{20009182-1D89-4B22-AAE1-5750ECB69E15} = {EE154E9E-E810-45CD-B3FC-C131AF528CAB}
+		{72A67C48-5440-4B89-9FAA-C30D57510B3C} = {8AB7C208-F1D2-4825-B164-DBEABB85BD35}
+		{D867804A-FE89-4545-A851-BC37B68087EC} = {87F6AA92-FAE6-4634-9A0F-A9ADAEA1B681}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D9BF3ECC-6E45-432F-B514-06BFC4229E37}
+	EndGlobalSection
+EndGlobal
