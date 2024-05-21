@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Jewelry_Sales_System.API.Services;
+using JewelrySalesSystem.Application.Common.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -32,7 +34,7 @@ namespace Jewelry_Sales_System.Configuration
                         ValidateLifetime = true,
                         ValidIssuer = configuration.GetSection("Security.Bearer:Authority").Get<string>(),
                         ValidAudience = configuration.GetSection("Security.Bearer:Audience").Get<string>(),
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("HRM Nh@ M@y Th3p!!!")),
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SWD392 JeWellry!!!")),
                     };
                 });
 
@@ -45,7 +47,7 @@ namespace Jewelry_Sales_System.Configuration
         private static void ConfigureAuthorization(AuthorizationOptions options)
         {
             //Configure policies and other authorization options here. For example:
-            //options.AddPolicy("EmployeeOnly", policy => policy.RequireClaim("role", "employee"));
+            //options.AddPolicy("StaffOnly", policy => policy.RequireClaim("role", "Staff"));
             //options.AddPolicy("AdminOnly", policy => policy.RequireClaim("role", "Admin"));
         }
     }

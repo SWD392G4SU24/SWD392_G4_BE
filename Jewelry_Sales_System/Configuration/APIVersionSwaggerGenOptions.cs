@@ -26,7 +26,7 @@ namespace Jewelry_Sales_System.Configuration
         {
             var info = new OpenApiInfo()
             {
-                Title = "NhaMayThep API",
+                Title = "JeWellry API",
                 Version = description.ApiVersion.ToString()
             };
 

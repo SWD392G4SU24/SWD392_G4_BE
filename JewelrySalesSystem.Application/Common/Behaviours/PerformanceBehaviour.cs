@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using JewelrySalesSystem.Application.Common.Interfaces;
+using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;

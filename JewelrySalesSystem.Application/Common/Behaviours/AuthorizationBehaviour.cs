@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using JewelrySalesSystem.Application.Common.Exceptions;
+using JewelrySalesSystem.Application.Common.Interfaces;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Collections.Generic;

@@ -1,4 +1,6 @@
 ﻿using Asp.Versioning.ApiExplorer;
+using Jewelry_Sales_System.API.Filters;
+using JewelrySalesSystem.Application;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
@@ -65,7 +67,7 @@ namespace Jewelry_Sales_System.Configuration
                 options =>
                 {
                     options.RoutePrefix = "swagger";
-                    options.OAuthAppName("HRM API");
+                    options.OAuthAppName("JeWellry API");
                     options.EnableDeepLinking();
                     options.DisplayOperationId();
                     options.DefaultModelsExpandDepth(-1);
@@ -104,4 +106,4 @@ namespace Jewelry_Sales_System.Configuration
         }
     }
 }
-}
+

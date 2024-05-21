@@ -1,4 +1,5 @@
-﻿using MediatR.Pipeline;
+﻿using JewelrySalesSystem.Application.Common.Interfaces;
+using MediatR.Pipeline;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
