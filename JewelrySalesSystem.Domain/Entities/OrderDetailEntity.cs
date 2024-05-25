@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Domain.Entities
 {
+    [Table("OrderDetail")]
     public class OrderDetailEntity : BaseEntity
     {
         public required Guid OrderID { get; set; }

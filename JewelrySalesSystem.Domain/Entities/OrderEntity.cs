@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Domain.Entities
 {
+    [Table("Order")]
     public class OrderEntity : BaseEntity
     {
         public required string GhiChu {  get; set; }

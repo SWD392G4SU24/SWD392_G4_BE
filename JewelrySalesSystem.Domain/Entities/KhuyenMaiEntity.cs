@@ -2,12 +2,14 @@
 using JewelrySalesSystem.Domain.Entities.Configured;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Domain.Entities
 {
+    [Table("KhuyenMai")]
     public class KhuyenMaiEntity : BaseEntity
     {
         public required decimal DieuKienSuDung {  get; set; }

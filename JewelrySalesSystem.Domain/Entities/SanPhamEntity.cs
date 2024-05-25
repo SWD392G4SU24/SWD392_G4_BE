@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Domain.Entities
 {
+    [Table("SanPham")]
     public class SanPhamEntity : BaseEntity
     {
         public required decimal GiaSanPham {  get; set; }
