@@ -1,5 +1,6 @@
 ﻿using JewelrySalesSystem.Domain.Commons.Interfaces;
 using JewelrySalesSystem.Domain.Entities;
+using JewelrySalesSystem.Domain.Entities.Configured;
 using JewelrySalesSystem.Infrastructure.Persistence.Configurations;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -18,6 +19,7 @@ namespace JewelrySalesSystem.Infrastructure.Persistence
         }
         //khai báo dbSet ở đây
         public DbSet<UsersEntity> Users { get; set; }
+        public DbSet<RoleEntity> Roles { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

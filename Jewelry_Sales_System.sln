@@ -13,11 +13,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Domain", "3. Domain", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Infrastructure", "4. Infrastructure", "{87F6AA92-FAE6-4634-9A0F-A9ADAEA1B681}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JewelrySalesSystem.Application", "JewelrySalesSystem.Application\JewelrySalesSystem.Application.csproj", "{20009182-1D89-4B22-AAE1-5750ECB69E15}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JewelrySalesSystem.Application", "JewelrySalesSystem.Application\JewelrySalesSystem.Application.csproj", "{20009182-1D89-4B22-AAE1-5750ECB69E15}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JewelrySalesSystem.Domain", "JewelrySalesSystem.Domain\JewelrySalesSystem.Domain.csproj", "{72A67C48-5440-4B89-9FAA-C30D57510B3C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JewelrySalesSystem.Domain", "JewelrySalesSystem.Domain\JewelrySalesSystem.Domain.csproj", "{72A67C48-5440-4B89-9FAA-C30D57510B3C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JewelrySalesSystem.Infrastructure", "JewelrySalesSystem.Infrastructure\JewelrySalesSystem.Infrastructure.csproj", "{D867804A-FE89-4545-A851-BC37B68087EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JewelrySalesSystem.Infrastructure", "JewelrySalesSystem.Infrastructure\JewelrySalesSystem.Infrastructure.csproj", "{D867804A-FE89-4545-A851-BC37B68087EC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
