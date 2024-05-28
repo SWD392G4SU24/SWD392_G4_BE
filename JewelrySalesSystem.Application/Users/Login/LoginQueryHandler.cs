@@ -24,14 +24,14 @@ namespace JewelrySalesSystem.Application.Users.Login
         }
         public async Task<UsersLoginDto> Handle(LoginQuery query, CancellationToken cancellationToken)
         {
-            var user = await _repository.FindAsync(x => x.Email == query.user.Email && x.NgayXoa == null, cancellationToken);
+            var user = await _repository.FindAsync(x => x.Email == query.user.Email && x.DeletedAt == null, cancellationToken);
             if (user == null)
             {
                 throw new NotFoundException($"Không tìm thấy tài khoản nào với email - {query.user.Email}");
             }
             if(user != null)
             {
-                var role = await _roleRepository.FindAsync(x => x.ID == user.RoleID && x.NgayXoa == null, cancellationToken);
+                var role = await _roleRepository.FindAsync(x => x.ID == user.RoleID && x.DeletedAt == null, cancellationToken);
                 if (role == null)
                 {
                     throw new NotFoundException($"Không tìm thấy tài khoản với role - {query.user.Email}");

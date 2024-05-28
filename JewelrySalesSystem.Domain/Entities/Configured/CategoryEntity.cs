@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Domain.Entities.Configured
 {
-    [Table("PhanLoai")]
-    public class PhanLoaiEntity : ConfiguredEntity
+    [Table("Category")]
+    public class CategoryEntity : ConfiguredEntity
     {
-        public virtual ICollection<KhuyenMaiEntity> KhuyenMais { get; set; }
-        public virtual ICollection<SanPhamEntity> SanPhams { get; set;}
+        public virtual ICollection<PromotionEntity> Promotions { get; set; }
+        public virtual ICollection<ProductEntity> Products { get; set;}
     }
 }
