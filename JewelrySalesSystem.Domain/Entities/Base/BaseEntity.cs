@@ -13,21 +13,21 @@ namespace JewelrySalesSystem.Domain.Entities.Base
         protected BaseEntity() 
         {
             ID = Guid.NewGuid().ToString("N");
-            NgayTao = NgayCapNhatCuoi = DateTime.Now;
+            CreatedAt = LastestUpdateAt = DateTime.Now;
         }
 
         [Key]
         public string ID { get; set; }
 
 
-        public string? NguoiTaoID { get; set; }
-        public DateTime? NgayTao { get; set; }
+        public string? CreatorID { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
-        public string? NguoiCapNhatID { get; set; }
-        public DateTime? NgayCapNhatCuoi { get; set; }
+        public string? UpdaterID { get; set; }
+        public DateTime? LastestUpdateAt { get; set; }
 
-        public string? NguoiXoaID { get; set; }
-        public DateTime? NgayXoa { get; set; }
+        public string? DeleterID { get; set; }
+        public DateTime? DeletedAt { get; set; }
 
 
         [NotMapped]

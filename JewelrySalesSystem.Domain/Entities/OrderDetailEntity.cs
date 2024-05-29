@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Domain.Entities
 {
+    [Table("OrderDetail")]
     public class OrderDetailEntity : BaseEntity
     {
         public required Guid OrderID { get; set; }
@@ -15,6 +16,6 @@ namespace JewelrySalesSystem.Domain.Entities
         public virtual OrderEntity Order {  get; set; }
         public required Guid SanPhamID { get; set; }
         [ForeignKey(nameof(SanPhamID))]
-        public virtual SanPhamEntity SanPham { get; set; }
+        public virtual ProductEntity SanPham { get; set; }
     }
 }
