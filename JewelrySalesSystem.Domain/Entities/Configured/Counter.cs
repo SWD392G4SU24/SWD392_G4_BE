@@ -11,5 +11,8 @@ namespace JewelrySalesSystem.Domain.Entities.Configured
     [Table("Counter")]
     public class Counter : ConfiguredEntity
     {
+        public required int CategoryID {  get; set; }
+        [ForeignKey(nameof(CategoryID))]
+        public virtual CategoryEntity Category { get; set; }
     }
 }

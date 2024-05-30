@@ -17,5 +17,7 @@ namespace JewelrySalesSystem.Domain.Entities
         public required Guid SanPhamID { get; set; }
         [ForeignKey(nameof(SanPhamID))]
         public virtual ProductEntity SanPham { get; set; }
+        public required int Quantity {  get; set; }
+        public required decimal ProductCost {  get; set; }
     }
 }
