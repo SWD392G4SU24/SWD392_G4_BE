@@ -12,13 +12,14 @@ namespace JewelrySalesSystem.Domain.Entities
     [Table("Promotion")]
     public class PromotionEntity : BaseEntity
     {
+        public string? Description {  get; set; }
         public required decimal ConditionsOfUse {  get; set; }
         public required float ReducedPercent {  get; set; }
         public required decimal MaximumReduce {  get; set; }
         public required int ExchangePoint {  get; set; }
         public required DateTime ExpiresTime {  get; set; }
-        public virtual ICollection<CategoryEntity> Categories { get; set;}
-        public virtual ICollection<OrderEntity> Orders { get; set;}
-        public virtual ICollection<UsersEntity> Users { get; set;}
+        public string? UserID {  get; set; }
+        [ForeignKey(nameof(UserID))]
+        public virtual UserEntity User { get; set; }
     }
 }

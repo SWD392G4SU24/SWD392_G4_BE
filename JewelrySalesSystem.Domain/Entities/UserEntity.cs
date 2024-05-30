@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace JewelrySalesSystem.Domain.Entities
 {
     [Table("Users")]
-    public class UsersEntity : BaseEntity
+    public class UserEntity : BaseEntity
     {
         public required string Username { get; set; }
         public required string PasswordHash { get; set; }
@@ -25,5 +25,6 @@ namespace JewelrySalesSystem.Domain.Entities
         [ForeignKey(nameof(RoleID))]
         public virtual RoleEntity Role {  get; set; }
         public virtual ICollection<PromotionEntity> Promotions { get; set; }
+        public virtual ICollection<OrderEntity> Orders { get; set; }
     }
 }

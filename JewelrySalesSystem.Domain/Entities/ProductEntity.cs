@@ -1,6 +1,7 @@
 ﻿using JewelrySalesSystem.Domain.Entities.Base;
 using JewelrySalesSystem.Domain.Entities.Configured;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
