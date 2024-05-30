@@ -14,6 +14,8 @@ namespace JewelrySalesSystem.Domain.Entities
         public required Guid OrderID { get; set; }
         [ForeignKey(nameof(OrderID))]
         public virtual OrderEntity Order {  get; set; }
+        public required int Quantity {  get; set; }
+        public required decimal ProductCost {  get; set; }
         public required Guid ProductID { get; set; }
         [ForeignKey(nameof(ProductID))]
         public virtual ProductEntity Product { get; set; }
