@@ -11,5 +11,6 @@ namespace JewelrySalesSystem.Domain.Entities.Configured
     [Table("Counter")]
     public class Counter : ConfiguredEntity
     {
+        public virtual ICollection<OrderEntity> Orders { get; set; }
     }
 }

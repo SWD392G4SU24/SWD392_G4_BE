@@ -18,6 +18,7 @@ namespace JewelrySalesSystem.Domain.Entities
         public required int ExchangePoint {  get; set; }
         public required DateTime ExpiresTime {  get; set; }
         public virtual ICollection<CategoryEntity> Categories { get; set;}
+        public virtual ICollection<OrderEntity> Orders { get; set;}
         public virtual ICollection<UsersEntity> Users { get; set;}
     }
 }
