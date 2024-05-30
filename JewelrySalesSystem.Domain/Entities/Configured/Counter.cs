@@ -14,5 +14,6 @@ namespace JewelrySalesSystem.Domain.Entities.Configured
         public required int CategoryID {  get; set; }
         [ForeignKey(nameof(CategoryID))]
         public virtual CategoryEntity Category { get; set; }
+        public virtual ICollection<OrderEntity> Orders { get; set; }
     }
 }

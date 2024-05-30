@@ -1,6 +1,7 @@
 ﻿using JewelrySalesSystem.Domain.Entities.Base;
 using JewelrySalesSystem.Domain.Entities.Configured;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -19,5 +20,6 @@ namespace JewelrySalesSystem.Domain.Entities
         public required int CategoryID {  get; set; }
         [ForeignKey(nameof(CategoryID))]
         public virtual CategoryEntity Category {  get; set; }
+        public virtual ICollection<OrderDetailEntity> OrderDetails { get; set; }
     }
 }

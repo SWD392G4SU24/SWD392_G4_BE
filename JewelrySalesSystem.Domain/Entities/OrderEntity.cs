@@ -21,6 +21,9 @@ namespace JewelrySalesSystem.Domain.Entities
         public int? CounterID { get; set; }
         [ForeignKey(nameof(CounterID))]
         public virtual Counter Counter { get; set; }
+        public required string UserID { get; set; }
+        [ForeignKey(nameof(UserID))]
+        public virtual UserEntity User { get; set; }
         public virtual ICollection<OrderDetailEntity> OrderDetails { get; set; }
     }
 }

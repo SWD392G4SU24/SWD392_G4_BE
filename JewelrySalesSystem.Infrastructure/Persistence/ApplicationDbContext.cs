@@ -18,14 +18,14 @@ namespace JewelrySalesSystem.Infrastructure.Persistence
             
         }
         //khai báo dbSet ở đây
-        public DbSet<UsersEntity> Users { get; set; }
+        public DbSet<UserEntity> Users { get; set; }
         public DbSet<RoleEntity> Roles { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
             // apply Config ở đây
-            modelBuilder.ApplyConfiguration(new UsersConfiguration());
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
             ConfigureModel(modelBuilder);
         }
         private void ConfigureModel(ModelBuilder modelBuilder)
