@@ -13,6 +13,7 @@ namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<UsersEntity> builder)
         {
+
             builder.HasIndex(x => x.Email)
                 .IsUnique();
         }
