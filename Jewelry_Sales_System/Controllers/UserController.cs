@@ -10,11 +10,11 @@ namespace Jewelry_Sales_System.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class UserController : ControllerBase
     {
         private readonly IMediator _mediator;
         private readonly IJwtService _jwtService;
-        public UsersController(IMediator mediator, IJwtService jwtService)
+        public UserController(IMediator mediator, IJwtService jwtService)
         {
             _mediator = mediator;
             _jwtService = jwtService;
@@ -22,7 +22,7 @@ namespace Jewelry_Sales_System.API.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        [Route("users/login")]
+        [Route("user/login")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

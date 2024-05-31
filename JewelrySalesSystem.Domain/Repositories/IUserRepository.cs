@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Domain.Repositories
 {
-    public interface IUsersRepository : IEFRepository<UsersEntity, UsersEntity>
+    public interface IUserRepository : IEFRepository<UserEntity, UserEntity>
     {
         string HashPassword(string password);
         bool VerifyPassword(string password, string passwordHash);
