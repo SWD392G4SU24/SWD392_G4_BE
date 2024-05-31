@@ -32,7 +32,7 @@ namespace JewelrySalesSystem.Infrastructure
             });
             services.AddScoped<IUnitOfWork>(provider => provider.GetRequiredService<ApplicationDbContext>());
             //inject repo ở đây
-            services.AddTransient<IUsersRepository, UsersRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IRoleRepository, RoleRepository>();
             return services;
         }

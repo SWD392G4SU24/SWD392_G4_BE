@@ -11,7 +11,6 @@ namespace JewelrySalesSystem.Domain.Entities.Configured
     [Table("Category")]
     public class CategoryEntity : ConfiguredEntity
     {
-        public virtual ICollection<PromotionEntity> Promotions { get; set; }
         public virtual ICollection<ProductEntity> Products { get; set;}
     }
 }

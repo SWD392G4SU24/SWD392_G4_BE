@@ -11,18 +11,18 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Application.Users.Login
 {
-    public class LoginQueryHandler : IRequestHandler<LoginQuery, UsersLoginDto>
+    public class LoginQueryHandler : IRequestHandler<LoginQuery, UserLoginDto>
     {
         private readonly IMapper _mapper;
-        private readonly IUsersRepository _repository;
+        private readonly IUserRepository _repository;
         private readonly IRoleRepository _roleRepository;
-        public LoginQueryHandler(IMapper mapper, IUsersRepository usersRepository, IRoleRepository roleRepository)
+        public LoginQueryHandler(IMapper mapper, IUserRepository usersRepository, IRoleRepository roleRepository)
         {
             _roleRepository = roleRepository;
             _repository = usersRepository;
             _mapper = mapper;
         }
-        public async Task<UsersLoginDto> Handle(LoginQuery query, CancellationToken cancellationToken)
+        public async Task<UserLoginDto> Handle(LoginQuery query, CancellationToken cancellationToken)
         {
             var user = await _repository.FindAsync(x => x.Email == query.user.Email && x.DeletedAt == null, cancellationToken);
             if (user == null)
@@ -40,7 +40,7 @@ namespace JewelrySalesSystem.Application.Users.Login
                 var checkPassword = _repository.VerifyPassword(query.user.Password, user.PasswordHash);
                 if (checkPassword)
                 {
-                    return UsersLoginDto.Create(user.Email, user.ID, role.Name);
+                    return UserLoginDto.Create(user.Email, user.ID, role.Name);
                 }
             }
             throw new NotFoundException("Tài khoản hoặc mật khẩu không đúng.");
