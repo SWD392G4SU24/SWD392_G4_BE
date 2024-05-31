@@ -14,6 +14,8 @@ namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations
         public void Configure(EntityTypeBuilder<OrderDetailEntity> builder)
         {
             builder.HasKey(k => k.ID);
+            builder.Property(p => p.Quantity).IsRequired();
+            builder.Property(p => p.ProductCost).IsRequired();
             // Foreign key for Order
             builder.HasOne(o => o.Order).WithMany(o => o.OrderDetails).HasForeignKey(o => o.OrderID).OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();

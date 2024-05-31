@@ -12,7 +12,7 @@ namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations
     public class OrderConfiguration : IEntityTypeConfiguration<OrderEntity>
     {
         public void Configure(EntityTypeBuilder<OrderEntity> builder)
-        {   
+        {
             builder.HasKey(k => k.ID);
 
             builder.Property(p => p.Note).HasMaxLength(50)
@@ -25,10 +25,8 @@ namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations
 
             // Foreign key fof Counter
             builder.HasOne(po => po.Counter).WithMany(od => od.Orders)
-                .HasForeignKey(o => o.CounterID).OnDelete(DeleteBehavior.Restrict)
+                .HasForeignKey(o => o.PromotionID).OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
-
-
         }
     }
 }
