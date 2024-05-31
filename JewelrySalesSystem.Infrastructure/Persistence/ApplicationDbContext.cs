@@ -28,7 +28,7 @@ namespace JewelrySalesSystem.Infrastructure.Persistence
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<UsersEntity>(entity =>
+            modelBuilder.Entity<UserEntity>(entity =>
             {
                 entity.HasKey(x => x.ID);
 

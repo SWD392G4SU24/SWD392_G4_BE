@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace JewelrySalesSystem.Domain.Entities.Configured
 {
     [Table("Counter")]
-    public class Counter : ConfiguredEntity
+    public class CounterEntity : ConfiguredEntity
     {
         public required int CategoryID {  get; set; }
         [ForeignKey(nameof(CategoryID))]
