@@ -28,6 +28,13 @@ namespace JewelrySalesSystem.Infrastructure.Persistence
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<UsersEntity>(entity =>
+            {
+                entity.HasKey(x => x.ID);
+
+                entity.Property(x => x.Username).HasColumnType("nvarchar(50)").HasMaxLength(50);
+            });
+
             // apply Config ở đây
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             ConfigureModel(modelBuilder);

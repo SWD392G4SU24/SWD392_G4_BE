@@ -13,9 +13,12 @@ namespace JewelrySalesSystem.Domain.Entities
     [Table("Users")]
     public class UserEntity : BaseEntity
     {
+        
         public required string Username { get; set; }
         public required string PasswordHash { get; set; }
         public required string FullName { get; set; }
+        [DataType(DataType.EmailAddress)]
+        [Range(1, 50, ErrorMessage = "Email Address cannot be over 50 characters!")]
         public required string Email { get; set; }
         [MaxLength(11)]
         public required string PhoneNumber { get; set; }

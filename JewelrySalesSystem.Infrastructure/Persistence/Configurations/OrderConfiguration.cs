@@ -35,8 +35,6 @@ namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations
             builder.HasOne(us => us.User).WithMany(od => od.Orders).HasForeignKey(us => us.UserID)
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
-
-
         }
     }
 }
