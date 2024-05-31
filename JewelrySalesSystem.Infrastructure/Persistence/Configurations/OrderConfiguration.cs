@@ -12,20 +12,28 @@ namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations
     public class OrderConfiguration : IEntityTypeConfiguration<OrderEntity>
     {
         public void Configure(EntityTypeBuilder<OrderEntity> builder)
-        {   
+        {
+            builder.ToTable("Order");
+
             builder.HasKey(k => k.ID);
 
             builder.Property(p => p.Note).HasMaxLength(50)
                 .IsRequired();
 
-            // Foreign key fof Promotion
-            builder.HasOne(po => po.Promotion).WithMany(od => od.Orders)
-                .HasForeignKey(o => o.PromotionID).OnDelete(DeleteBehavior.Restrict)
+            // Foreign key for Promotion
+            builder.HasOne(po => po.Promotion).WithMany(o => o.Orders).HasForeignKey(po => po.PromotionID)
+                .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
 
-            // Foreign key fof Counter
-            builder.HasOne(po => po.Counter).WithMany(od => od.Orders)
-                .HasForeignKey(o => o.CounterID).OnDelete(DeleteBehavior.Restrict)
+
+            // Foreign key for Counter
+            builder.HasOne(co => co.Counter).WithMany(od => od.Orders).HasForeignKey(co => co.CounterID)
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired();
+
+            // Foreign key for User
+            builder.HasOne(us => us.User).WithMany(od => od.Orders).HasForeignKey(us => us.UserID)
+                .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
 
 

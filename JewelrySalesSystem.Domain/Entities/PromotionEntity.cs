@@ -21,5 +21,6 @@ namespace JewelrySalesSystem.Domain.Entities
         public string? UserID {  get; set; }
         [ForeignKey(nameof(UserID))]
         public virtual UserEntity User { get; set; }
+        public virtual ICollection<OrderEntity> Orders { get; set; }
     }
 }
