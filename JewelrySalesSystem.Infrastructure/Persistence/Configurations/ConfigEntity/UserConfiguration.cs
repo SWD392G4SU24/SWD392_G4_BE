@@ -8,7 +8,8 @@ namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<UserEntity> builder)
         {
-
+            builder.HasIndex(x => x.PhoneNumber)
+                .IsUnique();
             builder.HasIndex(x => x.Email)
                 .IsUnique();
         }

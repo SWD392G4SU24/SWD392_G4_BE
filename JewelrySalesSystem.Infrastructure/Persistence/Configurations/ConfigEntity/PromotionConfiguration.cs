@@ -2,11 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations
+namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations.ConfigEntity
 {
     public class PromotionConfiguration : IEntityTypeConfiguration<PromotionEntity>
     {
-       public void Configure(EntityTypeBuilder<PromotionEntity> builder)
+        public void Configure(EntityTypeBuilder<PromotionEntity> builder)
         {
             builder.ToTable("Promotion");
 
