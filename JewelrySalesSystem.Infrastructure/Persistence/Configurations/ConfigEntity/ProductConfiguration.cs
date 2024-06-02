@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations
+namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations.ConfigEntity
 {
     public class ProductConfiguration : IEntityTypeConfiguration<ProductEntity>
     {
@@ -28,7 +28,7 @@ namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations
             // Foreign Key for Catergory
             builder.HasOne(p => p.Category).WithMany(p => p.Products).HasForeignKey(p => p.CategoryID)
                 .OnDelete(DeleteBehavior.Restrict)
-                .IsRequired(); 
+                .IsRequired();
         }
     }
 }
