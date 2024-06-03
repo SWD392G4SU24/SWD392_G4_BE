@@ -24,6 +24,7 @@ namespace JewelrySalesSystem.Infrastructure.Persistence
         public DbSet<PromotionEntity> Promotes { get; set; }
         public DbSet<OrderEntity> Orders { get; set; }
         public DbSet<OrderDetailEntity> OrderDetails  { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

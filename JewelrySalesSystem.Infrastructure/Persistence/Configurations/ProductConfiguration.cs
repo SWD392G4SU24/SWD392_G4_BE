@@ -13,16 +13,9 @@ namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<ProductEntity> builder)
         {
-
             builder.Property(po => po.ID).HasColumnName("ProductID");
-
-            builder.Property(p => p.Cost).HasColumnType("decimal(18, 2)")
-                .IsRequired();
-
-            builder.Property(p => p.Description)
-                .HasMaxLength(255)
-                .IsRequired(false);
-
+            builder.Property(po => po.Cost).HasColumnType("decimal(18, 2)").IsRequired();
+            builder.Property(po => po.Description).HasMaxLength(255).IsRequired(false);
         }
     }
 }

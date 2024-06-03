@@ -13,15 +13,9 @@ namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations
     {
        public void Configure(EntityTypeBuilder<PromotionEntity> builder)
         {
-
-            builder.Property(k => k.ID).HasColumnName("VoucherCode");
-
-            builder.Property(p => p.ConditionsOfUse).HasColumnType("decimal(18, 2)")
-                .IsRequired();
-
-            builder.Property(p => p.MaximumReduce).HasColumnType("decimal(18, 2)")
-                .IsRequired();
-
+            builder.Property(po => po.ID).HasColumnName("VoucherCode");
+            builder.Property(po => po.ConditionsOfUse).HasColumnType("decimal(18, 2)").IsRequired();
+            builder.Property(po => po.MaximumReduce).HasColumnType("decimal(18, 2").IsRequired();  
         }
     }
 }

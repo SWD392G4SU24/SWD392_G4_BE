@@ -13,11 +13,7 @@ namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<OrderDetailEntity> builder)
         {
-            builder.ToTable("OrderDetail");
-
-            builder.Property(od => od.ID).HasColumnName("DetailID");
-
-
+            builder.Property(x => x.ID).HasColumnName("DetailID");
         }
     }
 }

@@ -13,10 +13,7 @@ namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<OrderEntity> builder)
         {
- 
-           builder.Property(p => p.Note).HasMaxLength(255)
-                .IsRequired();
-
+            builder.Property(p => p.Note).HasMaxLength(255).IsRequired();
         }
     }
 }
