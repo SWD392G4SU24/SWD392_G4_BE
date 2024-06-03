@@ -11,6 +11,6 @@ namespace JewelrySalesSystem.Domain.Entities.Configured
     [Table("Role")]
     public class RoleEntity : ConfiguredEntity
     {
-
+        public virtual ICollection<UserEntity> Users { get; set; }
     }
 }

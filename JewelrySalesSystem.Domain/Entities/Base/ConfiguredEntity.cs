@@ -15,13 +15,13 @@ namespace JewelrySalesSystem.Domain.Entities.Base
         public int ID { get; set; }
         public required string Name { get; set; }
 
-        public string? NguoiTaoID { get; set; }
-        public DateTime? NgayTao { get; set; }
+        public string? CreatorID { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
-        public string? NguoiCapNhatID { get; set; }
-        public DateTime? NgayCapNhat { get; set; }
+        public string? UpdaterID { get; set; }
+        public DateTime? LastestUpdateAt { get; set; }
 
-        public string? NguoiXoaID { get; set; }
-        public DateTime? NgayXoa { get; set; }
+        public string? DeleterID { get; set; }
+        public DateTime? DeletedAt { get; set; }
     }
 }

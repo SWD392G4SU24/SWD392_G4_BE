@@ -9,18 +9,18 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Application.Users
 {
-    public class UsersLoginDto : IMapFrom<UsersEntity>
+    public class UserLoginDto : IMapFrom<UserEntity>
     {
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<UsersEntity, UsersLoginDto>();
+            profile.CreateMap<UserEntity, UserLoginDto>();
         }
         public string Username { get; set; }
         public string ID { get; set; }
         public string Role { get; set; }
-        public static UsersLoginDto Create(string username, string id, string role)
+        public static UserLoginDto Create(string username, string id, string role)
         {
-            return new UsersLoginDto
+            return new UserLoginDto
             {
                 Username = username,
                 ID = id,
