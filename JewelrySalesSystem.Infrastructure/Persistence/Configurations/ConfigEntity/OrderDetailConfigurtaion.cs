@@ -8,24 +8,25 @@ namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations.ConfigEnt
     {
         public void Configure(EntityTypeBuilder<OrderDetailEntity> builder)
         {
-            builder.ToTable("OrderDetail");
 
-            builder.HasKey(k => k.ID);
-
-            builder.Property(p => p.Quantity)
+            builder.Property(po => po.ID).HasColumnName("ODetailID");
+            builder.Property(po => po.OrderID)
                 .IsRequired();
-
-            builder.Property(p => p.ProductCost)
+            builder.Property(po => po.ProductCost).HasColumnType("decimal(18, 2)")
                 .IsRequired();
-
-            // Foreign key for Order
-            builder.HasOne(o => o.Order).WithMany(od => od.OrderDetails).HasForeignKey(o => o.OrderID)
-                .OnDelete(DeleteBehavior.Restrict)
+            builder.Property(po => po.ProductID)
                 .IsRequired();
-            // Foreign key for Product
-            builder.HasOne(o => o.Product).WithMany(od => od.OrderDetails).HasForeignKey(o => o.ProductID)
-                .OnDelete(DeleteBehavior.Restrict)
-               .IsRequired();
+            builder.Property(po => po.Quantity)
+                .IsRequired();
+            builder.HasIndex(ct => ct.CreatorID)
+                .IsUnique();
+            builder.HasIndex(ct => ct.CreatedAt)
+                .IsUnique();
+            builder.Property(po => po.DeleterID);
+            builder.Property(po => po.DeletedAt);
+            builder.Property(po => po.LastestUpdateAt);
+            builder.Property(po => po.UpdaterID);
+
         }
     }
 }

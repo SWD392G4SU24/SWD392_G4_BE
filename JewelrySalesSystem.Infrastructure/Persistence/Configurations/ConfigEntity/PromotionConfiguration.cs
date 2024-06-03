@@ -8,32 +8,29 @@ namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations.ConfigEnt
     {
         public void Configure(EntityTypeBuilder<PromotionEntity> builder)
         {
-            builder.ToTable("Promotion");
 
-            builder.HasKey(k => k.ID);
-
-            builder.Property(p => p.ConditionsOfUse)
+            builder.Property(po => po.ID).HasColumnName("VoucherCode");
+            builder.Property(po => po.ConditionsOfUse).HasColumnType("decimal(18, 2)")
                 .IsRequired();
-
-            builder.Property(p => p.Description)
-                .IsRequired(false);
-
-            builder.Property(p => p.ReducedPercent)
+            builder.Property(po => po.MaximumReduce).HasColumnType("decimal(18, 2)")
                 .IsRequired();
-
-            builder.Property(p => p.ExpiresTime)
-            .IsRequired();
-
-            builder.Property(p => p.ExchangePoint)
+            builder.Property(po => po.Description).HasMaxLength(255);
+            builder.Property(po => po.ReducedPercent)
                 .IsRequired();
-
-            builder.Property(p => p.MaximumReduce)
+            builder.Property(po => po.ExpiresTime)
                 .IsRequired();
-
-            // Foreign key for User
-            builder.HasOne(us => us.User).WithMany(po => po.Promotions).HasForeignKey(us => us.UserID)
-                .OnDelete(DeleteBehavior.Restrict)
+            builder.Property(po => po.ExchangePoint)
                 .IsRequired();
+            builder.Property(po => po.UserID);
+            builder.HasIndex(po => po.CreatorID)
+                .IsUnique();
+            builder.HasIndex(po => po.CreatedAt)
+                .IsUnique();
+            builder.Property(po => po.DeleterID);
+            builder.Property(po => po.DeletedAt);
+            builder.Property(po => po.LastestUpdateAt);
+            builder.Property(po => po.UpdaterID);
+
 
         }
     }

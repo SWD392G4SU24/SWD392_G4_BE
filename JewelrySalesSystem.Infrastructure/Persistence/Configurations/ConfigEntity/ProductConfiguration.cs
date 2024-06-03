@@ -8,27 +8,26 @@ namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations.ConfigEnt
     {
         public void Configure(EntityTypeBuilder<ProductEntity> builder)
         {
-            builder.ToTable("Product");
 
-            builder.HasKey(k => k.ID);
-
-            builder.Property(p => p.Cost)
+            builder.Property(po => po.Cost).HasColumnType("decimal(18, 2)")
                 .IsRequired();
-
-            builder.Property(p => p.Weight)
+            builder.Property(po => po.Weight)
                 .IsRequired();
-
-            builder.Property(p => p.Quantity)
+            builder.Property(po => po.Quantity)
                 .IsRequired();
-
-            builder.Property(p => p.Description)
-                .HasMaxLength(30)
+            builder.Property(po => po.Description)
                 .IsRequired(false);
-
-            // Foreign Key for Catergory
-            builder.HasOne(p => p.Category).WithMany(p => p.Products).HasForeignKey(p => p.CategoryID)
-                .OnDelete(DeleteBehavior.Restrict)
+            builder.Property(po => po.CategoryID)
                 .IsRequired();
+            builder.HasIndex(po => po.CreatorID)
+                .IsUnique();
+            builder.HasIndex(po => po.CreatedAt)
+                .IsUnique();
+            builder.Property(po => po.DeleterID);
+            builder.Property(po => po.DeletedAt);
+            builder.Property(po => po.LastestUpdateAt);
+            builder.Property(po => po.UpdaterID);
+
         }
     }
 }

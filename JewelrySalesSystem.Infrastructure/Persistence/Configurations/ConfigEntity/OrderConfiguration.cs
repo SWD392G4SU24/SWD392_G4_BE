@@ -8,28 +8,24 @@ namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations.ConfigEnt
     {
         public void Configure(EntityTypeBuilder<OrderEntity> builder)
         {
-            builder.ToTable("Order");
 
-            builder.HasKey(k => k.ID);
-
-            builder.Property(p => p.Note).HasMaxLength(50)
+            builder.Property(po => po.Note).HasMaxLength(255)
                 .IsRequired();
-
-            // Foreign key for Promotion
-            builder.HasOne(po => po.Promotion).WithMany(o => o.Orders).HasForeignKey(po => po.PromotionID)
-                .OnDelete(DeleteBehavior.Restrict)
+            builder.Property(po => po.PromotionID).HasColumnName("VoucherCode")
                 .IsRequired();
-
-
-            // Foreign key for Counter
-            builder.HasOne(co => co.Counter).WithMany(od => od.Orders).HasForeignKey(co => co.CounterID)
-                .OnDelete(DeleteBehavior.Restrict)
+            builder.Property(po => po.CounterID);
+            builder.Property(po => po.UserID)
                 .IsRequired();
+            builder.HasIndex(ct => ct.CreatorID)
+                .IsUnique();
+            builder.HasIndex(ct => ct.CreatedAt)
+                .IsUnique();
+            builder.Property(po => po.DeleterID);
+            builder.Property(po => po.DeletedAt);
+            builder.Property(po => po.LastestUpdateAt);
+            builder.Property(po => po.UpdaterID);
+            
 
-            // Foreign key for User
-            builder.HasOne(us => us.User).WithMany(od => od.Orders).HasForeignKey(us => us.UserID)
-                .OnDelete(DeleteBehavior.Restrict)
-                .IsRequired();
         }
     }
 }
