@@ -5,7 +5,6 @@ using Org.BouncyCastle.Math.EC.Rfc7748;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Tept;
 using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations
@@ -14,19 +13,16 @@ namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<ProductEntity> builder)
         {
-            builder.HasKey(k => k.ID);
-            builder.Property(p => p.Cost).HasColumnType("float")
+
+            builder.Property(po => po.ID).HasColumnName("ProductID");
+
+            builder.Property(p => p.Cost).HasColumnType("decimal(18, 2)")
                 .IsRequired();
-            builder.Property(p => p.Weight).HasColumnType("float")
-                .IsRequired();
-            builder.Property(p => p.Quantity).HasColumnType("int")
-                .IsRequired();
-            builder.Property(p => p.Description).HasColumnType("string")
-                .HasMaxLength(30).IsRequired();
-            // Foreign Key for Catergory
-            builder.HasOne(p => p.Category).WithMany(p => p.Products)
-                .HasForeignKey(p => p.CategoryID).OnDelete(DeleteBehavior.Restrict)
-                .IsRequired(); 
+
+            builder.Property(p => p.Description)
+                .HasMaxLength(255)
+                .IsRequired(false);
+
         }
     }
 }

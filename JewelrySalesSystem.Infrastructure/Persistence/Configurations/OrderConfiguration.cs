@@ -13,17 +13,10 @@ namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<OrderEntity> builder)
         {
-            builder.HasKey(k => k.ID);
-
-            builder.Property(p => p.Note).HasMaxLength(50)
-                .IsRequired(false);
-
-            // Foreign key for Promotion
-
-            // Foreign key for Counter
-            builder.HasOne(po => po.Counter).WithMany(od => od.Orders)
-                .HasForeignKey(o => o.PromotionID).OnDelete(DeleteBehavior.Restrict)
+ 
+           builder.Property(p => p.Note).HasMaxLength(255)
                 .IsRequired();
+
         }
     }
 }

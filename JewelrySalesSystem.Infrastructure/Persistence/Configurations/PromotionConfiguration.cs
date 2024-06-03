@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Tept;
+//using System.Tept;
 using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations
@@ -13,16 +13,13 @@ namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations
     {
        public void Configure(EntityTypeBuilder<PromotionEntity> builder)
         {
-            builder.HasKey(k => k.ID);
-            builder.Property(p => p.ConditionsOfUse)
+
+            builder.Property(k => k.ID).HasColumnName("VoucherCode");
+
+            builder.Property(p => p.ConditionsOfUse).HasColumnType("decimal(18, 2)")
                 .IsRequired();
-            builder.Property(p => p.ReducedPercent)
-                .IsRequired();
-            builder.Property(p => p.ExpiresTime)
-            .IsRequired();
-            builder.Property(p => p.ExchangePoint)
-                .IsRequired();
-            builder.Property(p => p.MaximumReduce)
+
+            builder.Property(p => p.MaximumReduce).HasColumnType("decimal(18, 2)")
                 .IsRequired();
 
         }
