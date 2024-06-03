@@ -9,8 +9,24 @@ namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations.ConfigEnt
         public void Configure(EntityTypeBuilder<ProductEntity> builder)
         {
 
-            builder.Property(po => po.ID).HasColumnName("ProductID");
-            builder.Property(po => po.Cost).HasColumnType("decimal(18, 2)");
+            builder.Property(po => po.Cost).HasColumnType("decimal(18, 2)")
+                .IsRequired();
+            builder.Property(po => po.Weight)
+                .IsRequired();
+            builder.Property(po => po.Quantity)
+                .IsRequired();
+            builder.Property(po => po.Description)
+                .IsRequired(false);
+            builder.Property(po => po.CategoryID)
+                .IsRequired();
+            builder.HasIndex(po => po.CreatorID)
+                .IsUnique();
+            builder.HasIndex(po => po.CreatedAt)
+                .IsUnique();
+            builder.Property(po => po.DeleterID);
+            builder.Property(po => po.DeletedAt);
+            builder.Property(po => po.LastestUpdateAt);
+            builder.Property(po => po.UpdaterID);
 
         }
     }
