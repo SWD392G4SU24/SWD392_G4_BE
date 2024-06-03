@@ -31,6 +31,7 @@ namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations.ConfigEnt
             builder.Property(po => po.LastestUpdateAt);
             builder.Property(po => po.UpdaterID);
 
+
         }
     }
 }

@@ -8,6 +8,7 @@ namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations.ConfigEnt
     {
         public void Configure(EntityTypeBuilder<OrderDetailEntity> builder)
         {
+
             builder.Property(po => po.ID).HasColumnName("ODetailID");
             builder.Property(po => po.OrderID)
                 .IsRequired();
@@ -25,7 +26,6 @@ namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations.ConfigEnt
             builder.Property(po => po.DeletedAt);
             builder.Property(po => po.LastestUpdateAt);
             builder.Property(po => po.UpdaterID);
-            
 
         }
     }
