@@ -16,14 +16,11 @@ namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations
             builder.HasKey(k => k.ID);
 
             builder.Property(p => p.Note).HasMaxLength(50)
-                .IsRequired();
+                .IsRequired(false);
 
-            // Foreign key fof Promotion
-            builder.HasOne(po => po.Promotion).WithMany(od => od.Orders)
-                .HasForeignKey(o => o.PromotionID).OnDelete(DeleteBehavior.Restrict)
-                .IsRequired();
+            // Foreign key for Promotion
 
-            // Foreign key fof Counter
+            // Foreign key for Counter
             builder.HasOne(po => po.Counter).WithMany(od => od.Orders)
                 .HasForeignKey(o => o.PromotionID).OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
