@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Infrastructure.Repositories
 {
-    public class UsersRepository : RepositoryBase<UsersEntity, UsersEntity, ApplicationDbContext>, IUsersRepository
+    public class UserRepository : RepositoryBase<UserEntity, UserEntity, ApplicationDbContext>, IUserRepository
     {
-        public UsersRepository(ApplicationDbContext dbContext, IMapper mapper) : base(dbContext,mapper)
+        public UserRepository(ApplicationDbContext dbContext, IMapper mapper) : base(dbContext,mapper)
         {
             
         }

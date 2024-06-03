@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Application.Users.Login
 {
-    public class LoginQuery : IRequest<UsersLoginDto>, IQuery
+    public class LoginQuery : IRequest<UserLoginDto>, IQuery
     {
         public LoginQuery()
         {
