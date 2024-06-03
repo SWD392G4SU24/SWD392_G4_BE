@@ -8,24 +8,10 @@ namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<OrderDetailEntity> builder)
         {
-            builder.ToTable("OrderDetail");
 
-            builder.HasKey(k => k.ID);
+            builder.Property(po => po.ID).HasColumnName("DetailID");
+            builder.Property(po => po.ProductCost).HasColumnType("decimal(18, 2)");
 
-            builder.Property(p => p.Quantity)
-                .IsRequired();
-
-            builder.Property(p => p.ProductCost)
-                .IsRequired();
-
-            // Foreign key for Order
-            builder.HasOne(o => o.Order).WithMany(od => od.OrderDetails).HasForeignKey(o => o.OrderID)
-                .OnDelete(DeleteBehavior.Restrict)
-                .IsRequired();
-            // Foreign key for Product
-            builder.HasOne(o => o.Product).WithMany(od => od.OrderDetails).HasForeignKey(o => o.ProductID)
-                .OnDelete(DeleteBehavior.Restrict)
-               .IsRequired();
         }
     }
 }
