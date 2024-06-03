@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations
+namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations.ConfigEntity
 {
     public class ProductConfiguration : IEntityTypeConfiguration<ProductEntity>
     {
@@ -11,7 +11,7 @@ namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations
 
             builder.Property(po => po.ID).HasColumnName("ProductID");
             builder.Property(po => po.Cost).HasColumnType("decimal(18, 2)");
-       
+
         }
     }
 }

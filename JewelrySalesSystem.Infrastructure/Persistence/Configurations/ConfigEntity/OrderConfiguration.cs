@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations
+namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations.ConfigEntity
 {
     public class OrderConfiguration : IEntityTypeConfiguration<OrderEntity>
     {
@@ -10,7 +10,7 @@ namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations
         {
 
             builder.Property(po => po.Note).HasMaxLength(255).IsRequired();
-        
+
         }
     }
 }
