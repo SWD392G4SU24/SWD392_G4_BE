@@ -12,8 +12,7 @@ namespace JewelrySalesSystem.Domain.Entities
 {
     [Table("Users")]
     public class UserEntity : BaseEntity
-    {
-        
+    {   
         public required string Username { get; set; }
         public required string PasswordHash { get; set; }
         public required string FullName { get; set; }

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations.ConfigEntity
+namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations
 {
     public class OrderConfiguration : IEntityTypeConfiguration<OrderEntity>
     {
@@ -24,7 +24,7 @@ namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations.ConfigEnt
             builder.Property(po => po.DeletedAt);
             builder.Property(po => po.LastestUpdateAt);
             builder.Property(po => po.UpdaterID);
-            
+
 
         }
     }

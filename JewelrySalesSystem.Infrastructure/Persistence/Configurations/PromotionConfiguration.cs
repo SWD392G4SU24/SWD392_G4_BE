@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations.ConfigEntity
+namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations
 {
     public class PromotionConfiguration : IEntityTypeConfiguration<PromotionEntity>
     {
