@@ -18,7 +18,7 @@ namespace JewelrySalesSystem.Domain.Entities
         public virtual PromotionEntity Promotion { get; set; }
         public int? CounterID { get; set; }
         [ForeignKey(nameof(CounterID))]
-        public virtual Counter Counter { get; set; }
+        public virtual CounterEntity Counter { get; set; }
         public required string UserID { get; set; }
         [ForeignKey(nameof(UserID))]
         public virtual UserEntity User { get; set; }
