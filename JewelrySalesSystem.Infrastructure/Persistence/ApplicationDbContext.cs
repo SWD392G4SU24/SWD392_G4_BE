@@ -47,6 +47,10 @@ namespace JewelrySalesSystem.Infrastructure.Persistence
             ConfigureModel(modelBuilder);
             modelBuilder.ApplyConfiguration(new OrderDetailConfigurtaion());
             ConfigureModel(modelBuilder);
+            modelBuilder.ApplyConfiguration(new CounterConfiguration());
+            ConfigureModel(modelBuilder);
+            modelBuilder.ApplyConfiguration(new RoleConfiguration());
+            ConfigureModel(modelBuilder);
         }
         private void ConfigureModel(ModelBuilder modelBuilder)
         {
