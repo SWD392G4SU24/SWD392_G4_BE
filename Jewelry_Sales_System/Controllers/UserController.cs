@@ -1,4 +1,5 @@
 ﻿using JewelrySalesSystem.Application.Common.Interfaces;
+using JewelrySalesSystem.Application.Users.CreateNewUser;
 using JewelrySalesSystem.Application.Users.Login;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -34,6 +35,20 @@ namespace Jewelry_Sales_System.API.Controllers
             var result = await _mediator.Send(query, cancellationToken);
             var token = _jwtService.CreateToken(result.ID, result.Role);
             return Ok(new JsonResponse<string>(token));
+        }
+
+        [HttpPost]
+        [Route("user/register")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<string>>> CreateNewUser(
+            [FromBody] RegisterCommand command,
+            CancellationToken cancellationToken = default)
+        {
+            var result = await _mediator.Send(command, cancellationToken);
+            return Ok(new JsonResponse<string>(result));
         }
     }
 }
