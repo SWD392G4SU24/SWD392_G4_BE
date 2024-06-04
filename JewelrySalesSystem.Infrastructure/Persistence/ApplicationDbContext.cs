@@ -22,9 +22,11 @@ namespace JewelrySalesSystem.Infrastructure.Persistence
         public DbSet<UserEntity> Users { get; set; }
         public DbSet<RoleEntity> Roles { get; set; }
         public DbSet<ProductEntity> Products { get; set; }
-        public DbSet<PromotionEntity> Promotes { get; set; }
+        public DbSet<PromotionEntity> Promotions { get; set; }
         public DbSet<OrderEntity> Orders { get; set; }
         public DbSet<OrderDetailEntity> OrderDetails  { get; set; }
+        public DbSet<CounterEntity> Counters { get; set; }
+        public DbSet<CategoryEntity> Categories { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
