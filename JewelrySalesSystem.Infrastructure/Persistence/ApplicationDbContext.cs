@@ -2,6 +2,7 @@
 using JewelrySalesSystem.Domain.Entities;
 using JewelrySalesSystem.Domain.Entities.Configured;
 using JewelrySalesSystem.Infrastructure.Persistence.Configurations;
+using JewelrySalesSystem.Infrastructure.Persistence.Configurations.ConfigEntity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
