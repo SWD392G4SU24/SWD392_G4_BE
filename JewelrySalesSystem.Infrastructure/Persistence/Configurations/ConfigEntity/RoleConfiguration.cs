@@ -14,16 +14,6 @@ namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations.ConfigEnt
         public void Configure(EntityTypeBuilder<RoleEntity> builder)
         {
             builder.HasKey(k => k.ID).HasName("RoleID");
-
-            builder.Property(p => p.Name)
-                .IsRequired();
-
-            builder.Property(p => p.CreatorID);
-            builder.Property(p => p.CreatedAt);
-            builder.Property(p => p.UpdaterID);
-            builder.Property(p => p.LastestUpdateAt);
-            builder.Property(p => p.DeleterID);
-            builder.Property(p => p.DeletedAt);
         }
     }
 }
