@@ -21,10 +21,10 @@ namespace JewelrySalesSystem.Domain.Entities
         public int? CounterID { get; set; }
         [ForeignKey(nameof(CounterID))]
         public virtual CounterEntity Counter { get; set; }
-        public required string UserID { get; set; }
-        [ForeignKey(nameof(UserID))]
-        public virtual UserEntity User { get; set; }
-        public required string PaymentMethodID { get; set; }
+        //public required string UserID { get; set; }
+        //[ForeignKey(nameof(UserID))]
+        //public virtual UserEntity User { get; set; }   thay = creator
+        public required int PaymentMethodID { get; set; }
         [ForeignKey(nameof(PaymentMethodID))]
         public virtual PaymentMethodEntity PaymentMethod { get; set; }
         public virtual ICollection<OrderDetailEntity> OrderDetails { get; set; }

@@ -27,6 +27,7 @@ namespace JewelrySalesSystem.Infrastructure.Persistence
         public DbSet<OrderDetailEntity> OrderDetails  { get; set; }
         public DbSet<CounterEntity> Counters { get; set; }
         public DbSet<CategoryEntity> Categories { get; set; }
+        public DbSet<PaymentMethodEntity> PaymentMethods { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
