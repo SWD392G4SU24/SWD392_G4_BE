@@ -13,10 +13,6 @@ namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations
             builder.Property(po => po.Note).HasMaxLength(255)
                 .IsRequired();
             builder.Property(po => po.PromotionID).HasColumnName("VoucherCode");
-            builder.HasOne(o => o.User)
-                   .WithMany(u => u.Orders)
-                   .HasForeignKey(o => o.UserID)
-                   .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
