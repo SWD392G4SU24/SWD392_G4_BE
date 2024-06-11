@@ -16,10 +16,8 @@ namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations.ConfigEnt
             builder.Property(po => po.CounterID);
             builder.Property(po => po.UserID)
                 .IsRequired();
-            builder.HasIndex(ct => ct.CreatorID)
-                .IsUnique();
-            builder.HasIndex(ct => ct.CreatedAt)
-                .IsUnique();
+            builder.HasIndex(ct => ct.CreatorID);
+            builder.HasIndex(ct => ct.CreatedAt);
             builder.Property(po => po.DeleterID);
             builder.Property(po => po.DeletedAt);
             builder.Property(po => po.LastestUpdateAt);
