@@ -27,17 +27,10 @@ namespace JewelrySalesSystem.Infrastructure.Persistence
         public DbSet<OrderDetailEntity> OrderDetails  { get; set; }
         public DbSet<CounterEntity> Counters { get; set; }
         public DbSet<CategoryEntity> Categories { get; set; }
+        public DbSet<PaymentMethodEntity> PaymentMethods { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<UserEntity>(entity =>
-            {
-                entity.HasKey(x => x.ID);
-
-                entity.Property(x => x.Username).HasColumnType("nvarchar(50)").HasMaxLength(50);
-            });
-
             // apply Config ở đây
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             ConfigureModel(modelBuilder);

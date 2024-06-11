@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Application.Users.CreateNewUser
 {
-    public class CreateNewUserCommand : IRequest<string>, ICommand
+    public class RegisterCommand : IRequest<string>, ICommand
     {
-        public CreateNewUserCommand(string username, string password, string fullName, string email, string phoneNumber, string address, int roleID)
+        public RegisterCommand(string username, string password, string fullName, string email, string phoneNumber, string address, int roleID)
         {
             Username = username;
             Password = password;
