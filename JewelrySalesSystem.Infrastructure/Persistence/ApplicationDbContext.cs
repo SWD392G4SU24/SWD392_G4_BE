@@ -1,6 +1,8 @@
 ﻿using JewelrySalesSystem.Domain.Commons.Interfaces;
 using JewelrySalesSystem.Domain.Entities;
+using JewelrySalesSystem.Domain.Entities.Configured;
 using JewelrySalesSystem.Infrastructure.Persistence.Configurations;
+using JewelrySalesSystem.Infrastructure.Persistence.Configurations.ConfigEntity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,16 +16,35 @@ namespace JewelrySalesSystem.Infrastructure.Persistence
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
-            
+
         }
         //khai báo dbSet ở đây
-        public DbSet<UsersEntity> Users { get; set; }
+        public DbSet<UserEntity> Users { get; set; }
+        public DbSet<RoleEntity> Roles { get; set; }
+        public DbSet<ProductEntity> Products { get; set; }
+        public DbSet<PromotionEntity> Promotions { get; set; }
+        public DbSet<OrderEntity> Orders { get; set; }
+        public DbSet<OrderDetailEntity> OrderDetails  { get; set; }
+        public DbSet<CounterEntity> Counters { get; set; }
+        public DbSet<CategoryEntity> Categories { get; set; }
+        public DbSet<PaymentMethodEntity> PaymentMethods { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
             // apply Config ở đây
-            modelBuilder.ApplyConfiguration(new UsersConfiguration());
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
+            ConfigureModel(modelBuilder);
+            modelBuilder.ApplyConfiguration(new ProductConfiguration());
+            ConfigureModel(modelBuilder);
+            modelBuilder.ApplyConfiguration(new PromotionConfiguration());
+            ConfigureModel(modelBuilder);
+            modelBuilder.ApplyConfiguration(new OrderConfiguration());
+            ConfigureModel(modelBuilder);
+            modelBuilder.ApplyConfiguration(new OrderDetailConfigurtaion());
+            ConfigureModel(modelBuilder);
+            modelBuilder.ApplyConfiguration(new CounterConfiguration());
+            ConfigureModel(modelBuilder);
+            modelBuilder.ApplyConfiguration(new RoleConfiguration());
             ConfigureModel(modelBuilder);
         }
         private void ConfigureModel(ModelBuilder modelBuilder)

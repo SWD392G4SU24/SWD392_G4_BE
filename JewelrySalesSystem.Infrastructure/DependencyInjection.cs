@@ -1,5 +1,9 @@
 ﻿using JewelrySalesSystem.Domain.Commons.Interfaces;
+using JewelrySalesSystem.Domain.Repositories;
+using JewelrySalesSystem.Domain.Repositories.ConfiguredEntity;
 using JewelrySalesSystem.Infrastructure.Persistence;
+using JewelrySalesSystem.Infrastructure.Repositories;
+using JewelrySalesSystem.Infrastructure.Repositories.ConfiguredEntity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,7 +21,7 @@ namespace JewelrySalesSystem.Infrastructure
         {
             services.AddDbContext<ApplicationDbContext>((sp, options) =>
             {
-                options.UseSqlServer(
+                options.UseNpgsql(
                     configuration.GetConnectionString("Server"),
                     b =>
                     {
@@ -28,6 +32,8 @@ namespace JewelrySalesSystem.Infrastructure
             });
             services.AddScoped<IUnitOfWork>(provider => provider.GetRequiredService<ApplicationDbContext>());
             //inject repo ở đây
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IRoleRepository, RoleRepository>();
             return services;
         }
     }

@@ -8,9 +8,14 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Domain.Entities.Configured
 {
-    [Table("Role")]
-    public class RoleEntity : ConfiguredEntity
+    [Table("Counter")]
+    public class CounterEntity : ConfiguredEntity
     {
+        public required int CategoryID {  get; set; }
+        [ForeignKey(nameof(CategoryID))]
+        public virtual CategoryEntity Category { get; set; }
+        public virtual ICollection<OrderEntity> Orders { get; set; }
         public virtual ICollection<UserEntity> Users { get; set; }
+
     }
 }

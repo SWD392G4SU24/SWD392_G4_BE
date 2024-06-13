@@ -11,19 +11,25 @@ using System.Threading.Tasks;
 namespace JewelrySalesSystem.Domain.Entities
 {
     [Table("Users")]
-    public class UsersEntity : BaseEntity
-    {
+    public class UserEntity : BaseEntity
+    {   
         public required string Username { get; set; }
         public required string PasswordHash { get; set; }
-        public required string HoVaTen { get; set; }
+        public required string FullName { get; set; }
+        [DataType(DataType.EmailAddress)]
+        [Range(1, 50, ErrorMessage = "Email Address cannot be over 50 characters!")]
         public required string Email { get; set; }
         [MaxLength(11)]
-        public required string SoDienThoai { get; set; }
-        public required string DiaChi {  get; set; }
-        public required int DiemThuong { get; set; } = 0;
+        public required string PhoneNumber { get; set; }
+        public required string Address {  get; set; }
+        public required int Point { get; set; } = 0;
         public required int RoleID {  get; set; }
         [ForeignKey(nameof(RoleID))]
         public virtual RoleEntity Role {  get; set; }
-        public virtual ICollection<KhuyenMaiEntity> KhuyenMais { get; set; }
+        public int? CounterID { get; set; }
+        [ForeignKey(nameof(CounterID))]
+        public virtual CounterEntity Counter { get; set; }
+        public virtual ICollection<PromotionEntity> Promotions { get; set; }
+        public virtual ICollection<OrderEntity> Orders { get; set; }
     }
 }

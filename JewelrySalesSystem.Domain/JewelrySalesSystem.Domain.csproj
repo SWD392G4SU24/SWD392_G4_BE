@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Folder Include="Functions\" />
-    <Folder Include="Repositories\" />
   </ItemGroup>
 
 </Project>
