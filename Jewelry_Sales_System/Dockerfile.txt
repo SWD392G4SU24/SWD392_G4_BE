@@ -1,0 +1,20 @@
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+WORKDIR /app
+EXPOSE 80
+EXPOSE 443
+
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+WORKDIR /src
+COPY ["Jewelry_Sales_System/Jewelry_Sales_System.API.csproj", "Jewelry_Sales_System/"]
+RUN dotnet restore "Jewelry_Sales_System/Jewelry_Sales_System.API.csproj"
+COPY . .
+WORKDIR "/src/Jewelry_Sales_System"
+RUN dotnet build "Jewelry_Sales_System.API.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "Jewelry_Sales_System.API.csproj" -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "MyAppProject.dll"]
