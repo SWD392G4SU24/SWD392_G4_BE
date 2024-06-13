@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34701.34
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jewelry_Sales_System.API", "Jewelry_Sales_System\Jewelry_Sales_System.API.csproj", "{8C380629-9E47-46B0-ADA2-0C86163F8CDD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jewelry_Sales_System.API", "Jewelry_Sales_System.API.csproj", "{8C380629-9E47-46B0-ADA2-0C86163F8CDD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. API", "1. API", "{5DDF0F70-3E7C-4AB8-B70B-E0D5BB2420F6}"
 EndProject
