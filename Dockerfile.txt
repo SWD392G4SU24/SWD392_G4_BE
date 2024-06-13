@@ -1,0 +1,21 @@
+# Đặt tên cho giai đoạn build
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+
+# Thiết lập thư mục làm việc
+WORKDIR /app
+
+# Sao chép tệp dự án và khôi phục các gói phụ thuộc
+COPY *.csproj ./
+RUN dotnet restore
+
+# Sao chép tất cả các tệp còn lại và build ứng dụng
+COPY . ./
+RUN dotnet publish -c Release -o out
+
+# Giai đoạn runtime
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS runtime
+WORKDIR /app
+COPY --from=build /app/out .
+
+# Cấu hình để chạy ứng dụng
+ENTRYPOINT ["dotnet", "JewelrySalesSystem.Application.dll"]
