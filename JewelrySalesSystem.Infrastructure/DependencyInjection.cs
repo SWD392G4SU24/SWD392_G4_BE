@@ -21,8 +21,8 @@ namespace JewelrySalesSystem.Infrastructure
         {
             services.AddDbContext<ApplicationDbContext>((sp, options) =>
             {
-                options.UseSqlServer(
-                    configuration.GetConnectionString("local"),
+                options.UseNpgsql(
+                    configuration.GetConnectionString("Server"),
                     b =>
                     {
                         b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName);
