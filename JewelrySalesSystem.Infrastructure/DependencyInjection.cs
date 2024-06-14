@@ -21,8 +21,8 @@ namespace JewelrySalesSystem.Infrastructure
         {
             services.AddDbContext<ApplicationDbContext>((sp, options) =>
             {
-                options.UseNpgsql(
-                    configuration.GetConnectionString("Server"),
+                options.UseSqlServer(
+                    configuration.GetConnectionString("ServerDocker"),
                     b =>
                     {
                         b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName);
