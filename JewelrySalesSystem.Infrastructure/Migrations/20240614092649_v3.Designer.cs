@@ -3,17 +3,17 @@ using System;
 using JewelrySalesSystem.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace JewelrySalesSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240613093920_v2")]
-    partial class v2
+    [Migration("20240614092649_v3")]
+    partial class v3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,39 +24,39 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                 .HasAnnotation("Proxies:ChangeTracking", false)
                 .HasAnnotation("Proxies:CheckEquality", false)
                 .HasAnnotation("Proxies:LazyLoading", true)
-                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.Configured.CategoryEntity", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("CreatorID")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("DeleterID")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("LastestUpdateAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UpdaterID")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
 
@@ -67,34 +67,34 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
                     b.Property<int>("CategoryID")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("CreatorID")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("DeleterID")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("LastestUpdateAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UpdaterID")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID")
                         .HasName("CounterID");
@@ -104,35 +104,99 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     b.ToTable("Counter");
                 });
 
+            modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.Configured.DiamonEntity", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<decimal>("BuyCost")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Date");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("DiamonType");
+
+                    b.Property<decimal>("SellCost")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("ID")
+                        .HasName("DiamonID");
+
+                    b.ToTable("Diamon");
+                });
+
+            modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.Configured.GoldEntity", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<decimal>("BuyCost")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Date");
+
+                    b.Property<float>("GoldContent")
+                        .HasColumnType("real");
+
+                    b.Property<float>("KaraContent")
+                        .HasColumnType("real");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("GoldType");
+
+                    b.Property<decimal>("SellCost")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("ID")
+                        .HasName("GoldID");
+
+                    b.ToTable("Gold");
+                });
+
             modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.Configured.PaymentMethodEntity", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("CreatorID")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("DeleterID")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("LastestUpdateAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UpdaterID")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
 
@@ -143,31 +207,31 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("CreatorID")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("DeleterID")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("LastestUpdateAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UpdaterID")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID")
                         .HasName("RoleID");
@@ -178,49 +242,49 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
             modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.OrderDetailEntity", b =>
                 {
                     b.Property<string>("ID")
-                        .HasColumnType("text")
+                        .HasColumnType("nvarchar(450)")
                         .HasColumnName("DetailID");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("CreatorID")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("DeleterID")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal?>("DiamondSellCost")
-                        .HasColumnType("numeric");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal?>("GoldBuyCost")
-                        .HasColumnType("numeric");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal?>("GoldSellCost")
-                        .HasColumnType("numeric");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime?>("LastestUpdateAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("OrderID")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("ProductCost")
                         .HasColumnType("decimal(18, 2)");
 
                     b.Property<string>("ProductID")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Quantity")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<string>("UpdaterID")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
 
@@ -234,54 +298,55 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
             modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.OrderEntity", b =>
                 {
                     b.Property<string>("ID")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("BuyerID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int?>("CounterID")
-                        .IsRequired()
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("CreatorID")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("DeleterID")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("LastestUpdateAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Note")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<int>("PaymentMethodID")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<string>("PromotionID")
-                        .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("nvarchar(450)")
                         .HasColumnName("VoucherCode");
 
                     b.Property<decimal>("TotalCost")
-                        .HasColumnType("numeric");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UpdaterID")
-                        .HasColumnType("text");
-
-                    b.Property<string>("UserEntityID")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("BuyerID");
 
                     b.HasIndex("CounterID");
 
@@ -289,61 +354,63 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
 
                     b.HasIndex("PromotionID");
 
-                    b.HasIndex("UserEntityID");
-
                     b.ToTable("Order");
                 });
 
             modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.ProductEntity", b =>
                 {
                     b.Property<string>("ID")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("CategoryID")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("CreatorID")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("DeleterID")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("DiamonType")
-                        .HasColumnType("text");
+                    b.Property<int?>("DiamonType")
+                        .HasColumnType("int");
 
-                    b.Property<string>("GoldType")
-                        .HasColumnType("text");
+                    b.Property<int?>("GoldType")
+                        .HasColumnType("int");
 
                     b.Property<float?>("GoldWeight")
                         .HasColumnType("real");
 
                     b.Property<string>("ImageURL")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("LastestUpdateAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("Quantity")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<string>("UpdaterID")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("WageCost")
-                        .HasColumnType("numeric");
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("ID");
 
                     b.HasIndex("CategoryID");
+
+                    b.HasIndex("DiamonType");
+
+                    b.HasIndex("GoldType");
 
                     b.ToTable("Product");
                 });
@@ -351,36 +418,36 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
             modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.PromotionEntity", b =>
                 {
                     b.Property<string>("ID")
-                        .HasColumnType("text")
+                        .HasColumnType("nvarchar(450)")
                         .HasColumnName("VoucherCode");
 
                     b.Property<decimal>("ConditionsOfUse")
                         .HasColumnType("decimal(18, 2)");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("CreatorID")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("DeleterID")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
                         .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<int>("ExchangePoint")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("ExpiresTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("LastestUpdateAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<decimal>("MaximumReduce")
                         .HasColumnType("decimal(18, 2)");
@@ -389,10 +456,10 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                         .HasColumnType("real");
 
                     b.Property<string>("UpdaterID")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserID")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ID");
 
@@ -404,60 +471,59 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
             modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.UserEntity", b =>
                 {
                     b.Property<string>("ID")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Address")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("CounterID")
-                        .IsRequired()
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("CreatorID")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("DeleterID")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("FullName")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("LastestUpdateAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasMaxLength(11)
-                        .HasColumnType("character varying(11)");
+                        .HasColumnType("nvarchar(11)");
 
                     b.Property<int>("Point")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<int>("RoleID")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<string>("UpdaterID")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
 
@@ -506,11 +572,15 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
 
             modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.OrderEntity", b =>
                 {
-                    b.HasOne("JewelrySalesSystem.Domain.Entities.Configured.CounterEntity", "Counter")
+                    b.HasOne("JewelrySalesSystem.Domain.Entities.UserEntity", "User")
                         .WithMany("Orders")
-                        .HasForeignKey("CounterID")
+                        .HasForeignKey("BuyerID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("JewelrySalesSystem.Domain.Entities.Configured.CounterEntity", "Counter")
+                        .WithMany("Orders")
+                        .HasForeignKey("CounterID");
 
                     b.HasOne("JewelrySalesSystem.Domain.Entities.Configured.PaymentMethodEntity", "PaymentMethod")
                         .WithMany("Orders")
@@ -520,19 +590,15 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
 
                     b.HasOne("JewelrySalesSystem.Domain.Entities.PromotionEntity", "Promotion")
                         .WithMany("Orders")
-                        .HasForeignKey("PromotionID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("JewelrySalesSystem.Domain.Entities.UserEntity", null)
-                        .WithMany("Orders")
-                        .HasForeignKey("UserEntityID");
+                        .HasForeignKey("PromotionID");
 
                     b.Navigation("Counter");
 
                     b.Navigation("PaymentMethod");
 
                     b.Navigation("Promotion");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.ProductEntity", b =>
@@ -543,7 +609,19 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("JewelrySalesSystem.Domain.Entities.Configured.DiamonEntity", "Diamon")
+                        .WithMany("Products")
+                        .HasForeignKey("DiamonType");
+
+                    b.HasOne("JewelrySalesSystem.Domain.Entities.Configured.GoldEntity", "Gold")
+                        .WithMany("Products")
+                        .HasForeignKey("GoldType");
+
                     b.Navigation("Category");
+
+                    b.Navigation("Diamon");
+
+                    b.Navigation("Gold");
                 });
 
             modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.PromotionEntity", b =>
@@ -559,9 +637,7 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                 {
                     b.HasOne("JewelrySalesSystem.Domain.Entities.Configured.CounterEntity", "Counter")
                         .WithMany("Users")
-                        .HasForeignKey("CounterID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CounterID");
 
                     b.HasOne("JewelrySalesSystem.Domain.Entities.Configured.RoleEntity", "Role")
                         .WithMany("Users")
@@ -584,6 +660,16 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     b.Navigation("Orders");
 
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.Configured.DiamonEntity", b =>
+                {
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.Configured.GoldEntity", b =>
+                {
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.Configured.PaymentMethodEntity", b =>

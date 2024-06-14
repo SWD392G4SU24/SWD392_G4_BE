@@ -9,8 +9,8 @@ using System.Net.Mime;
 
 namespace Jewelry_Sales_System.API.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -23,7 +23,7 @@ namespace Jewelry_Sales_System.API.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        [Route("user/login")]
+        [Route("login")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -37,8 +37,9 @@ namespace Jewelry_Sales_System.API.Controllers
             return Ok(new JsonResponse<string>(token));
         }
 
+        [AllowAnonymous]
         [HttpPost]
-        [Route("user/register")]
+        [Route("register")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
