@@ -17,13 +17,13 @@ namespace JewelrySalesSystem.Domain.Entities
         public required decimal TotalCost {  get; set; }
         public string? PromotionID { get; set; }
         [ForeignKey(nameof(PromotionID))]
-        public virtual PromotionEntity Promotion { get; set; }
+        public virtual PromotionEntity? Promotion { get; set; }
         public int? CounterID { get; set; }
         [ForeignKey(nameof(CounterID))]
-        public virtual CounterEntity Counter { get; set; }
-        //public required string UserID { get; set; }
-        //[ForeignKey(nameof(UserID))]
-        //public virtual UserEntity User { get; set; }   thay = creator
+        public virtual CounterEntity? Counter { get; set; }
+        public required string BuyerID { get; set; }
+        [ForeignKey(nameof(BuyerID))]
+        public virtual UserEntity User { get; set; }
         public required int PaymentMethodID { get; set; }
         [ForeignKey(nameof(PaymentMethodID))]
         public virtual PaymentMethodEntity PaymentMethod { get; set; }
