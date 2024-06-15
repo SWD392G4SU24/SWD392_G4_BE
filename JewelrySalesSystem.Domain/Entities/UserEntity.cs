@@ -26,6 +26,9 @@ namespace JewelrySalesSystem.Domain.Entities
         public required int RoleID {  get; set; }
         [ForeignKey(nameof(RoleID))]
         public virtual RoleEntity Role {  get; set; }
+        public int? CounterID { get; set; }
+        [ForeignKey(nameof(CounterID))]
+        public virtual CounterEntity? Counter { get; set; }
         public virtual ICollection<PromotionEntity> Promotions { get; set; }
         public virtual ICollection<OrderEntity> Orders { get; set; }
     }

@@ -101,6 +101,105 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     b.ToTable("Counter");
                 });
 
+            modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.Configured.DiamonEntity", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<decimal>("BuyCost")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Date");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("DiamonType");
+
+                    b.Property<decimal>("SellCost")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("ID")
+                        .HasName("DiamonID");
+
+                    b.ToTable("Diamon");
+                });
+
+            modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.Configured.GoldEntity", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<decimal>("BuyCost")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Date");
+
+                    b.Property<float>("GoldContent")
+                        .HasColumnType("real");
+
+                    b.Property<float>("KaraContent")
+                        .HasColumnType("real");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("GoldType");
+
+                    b.Property<decimal>("SellCost")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("ID")
+                        .HasName("GoldID");
+
+                    b.ToTable("Gold");
+                });
+
+            modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.Configured.PaymentMethodEntity", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatorID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeleterID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastestUpdateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UpdaterID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("PaymentMethod");
+                });
+
             modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.Configured.RoleEntity", b =>
                 {
                     b.Property<int>("ID")
@@ -155,6 +254,15 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     b.Property<string>("DeleterID")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal?>("DiamondSellCost")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("GoldBuyCost")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("GoldSellCost")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<DateTime?>("LastestUpdateAt")
                         .HasColumnType("datetime2");
 
@@ -189,8 +297,11 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     b.Property<string>("ID")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("CounterID")
+                    b.Property<string>("BuyerID")
                         .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("CounterID")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("CreatedAt")
@@ -213,25 +324,32 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<int>("PaymentMethodID")
+                        .HasColumnType("int");
+
                     b.Property<string>("PromotionID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)")
                         .HasColumnName("VoucherCode");
+
+                    b.Property<decimal>("TotalCost")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UpdaterID")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("ID");
+
+                    b.HasIndex("BuyerID");
 
                     b.HasIndex("CounterID");
 
-                    b.HasIndex("PromotionID");
+                    b.HasIndex("PaymentMethodID");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("PromotionID");
 
                     b.ToTable("Order");
                 });
@@ -243,9 +361,6 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
 
                     b.Property<int>("CategoryID")
                         .HasColumnType("int");
-
-                    b.Property<decimal>("Cost")
-                        .HasColumnType("decimal(18, 2)");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -262,6 +377,18 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("DiamonType")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("GoldType")
+                        .HasColumnType("int");
+
+                    b.Property<float?>("GoldWeight")
+                        .HasColumnType("real");
+
+                    b.Property<string>("ImageURL")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("LastestUpdateAt")
                         .HasColumnType("datetime2");
 
@@ -271,12 +398,16 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     b.Property<string>("UpdaterID")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<float>("Weight")
-                        .HasColumnType("real");
+                    b.Property<decimal>("WageCost")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("ID");
 
                     b.HasIndex("CategoryID");
+
+                    b.HasIndex("DiamonType");
+
+                    b.HasIndex("GoldType");
 
                     b.ToTable("Product");
                 });
@@ -325,7 +456,6 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ID");
@@ -343,6 +473,9 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     b.Property<string>("Address")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("CounterID")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -387,10 +520,11 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("CounterID");
 
                     b.HasIndex("Email")
                         .IsUnique();
@@ -435,25 +569,29 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
 
             modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.OrderEntity", b =>
                 {
+                    b.HasOne("JewelrySalesSystem.Domain.Entities.UserEntity", "User")
+                        .WithMany("Orders")
+                        .HasForeignKey("BuyerID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("JewelrySalesSystem.Domain.Entities.Configured.CounterEntity", "Counter")
                         .WithMany("Orders")
-                        .HasForeignKey("CounterID")
+                        .HasForeignKey("CounterID");
+
+                    b.HasOne("JewelrySalesSystem.Domain.Entities.Configured.PaymentMethodEntity", "PaymentMethod")
+                        .WithMany("Orders")
+                        .HasForeignKey("PaymentMethodID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("JewelrySalesSystem.Domain.Entities.PromotionEntity", "Promotion")
                         .WithMany("Orders")
-                        .HasForeignKey("PromotionID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("JewelrySalesSystem.Domain.Entities.UserEntity", "User")
-                        .WithMany("Orders")
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("PromotionID");
 
                     b.Navigation("Counter");
+
+                    b.Navigation("PaymentMethod");
 
                     b.Navigation("Promotion");
 
@@ -468,27 +606,43 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("JewelrySalesSystem.Domain.Entities.Configured.DiamonEntity", "Diamon")
+                        .WithMany("Products")
+                        .HasForeignKey("DiamonType");
+
+                    b.HasOne("JewelrySalesSystem.Domain.Entities.Configured.GoldEntity", "Gold")
+                        .WithMany("Products")
+                        .HasForeignKey("GoldType");
+
                     b.Navigation("Category");
+
+                    b.Navigation("Diamon");
+
+                    b.Navigation("Gold");
                 });
 
             modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.PromotionEntity", b =>
                 {
                     b.HasOne("JewelrySalesSystem.Domain.Entities.UserEntity", "User")
                         .WithMany("Promotions")
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserID");
 
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.UserEntity", b =>
                 {
+                    b.HasOne("JewelrySalesSystem.Domain.Entities.Configured.CounterEntity", "Counter")
+                        .WithMany("Users")
+                        .HasForeignKey("CounterID");
+
                     b.HasOne("JewelrySalesSystem.Domain.Entities.Configured.RoleEntity", "Role")
                         .WithMany("Users")
                         .HasForeignKey("RoleID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Counter");
 
                     b.Navigation("Role");
                 });
@@ -499,6 +653,23 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                 });
 
             modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.Configured.CounterEntity", b =>
+                {
+                    b.Navigation("Orders");
+
+                    b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.Configured.DiamonEntity", b =>
+                {
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.Configured.GoldEntity", b =>
+                {
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.Configured.PaymentMethodEntity", b =>
                 {
                     b.Navigation("Orders");
                 });

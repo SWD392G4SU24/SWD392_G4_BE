@@ -9,8 +9,6 @@ namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations
         public void Configure(EntityTypeBuilder<ProductEntity> builder)
         {
 
-            builder.Property(po => po.Cost).HasColumnType("decimal(18, 2)")
-                .IsRequired();
         }
     }
 }

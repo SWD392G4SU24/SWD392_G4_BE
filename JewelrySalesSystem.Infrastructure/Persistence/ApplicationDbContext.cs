@@ -27,31 +27,22 @@ namespace JewelrySalesSystem.Infrastructure.Persistence
         public DbSet<OrderDetailEntity> OrderDetails  { get; set; }
         public DbSet<CounterEntity> Counters { get; set; }
         public DbSet<CategoryEntity> Categories { get; set; }
+        public DbSet<PaymentMethodEntity> PaymentMethods { get; set; }
+        public DbSet<GoldEntity> Golds { get; set; }
+        public DbSet<DiamonEntity> Diamons { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<UserEntity>(entity =>
-            {
-                entity.HasKey(x => x.ID);
-
-                entity.Property(x => x.Username).HasColumnType("nvarchar(50)").HasMaxLength(50);
-            });
-
             // apply Config ở đây
             modelBuilder.ApplyConfiguration(new UserConfiguration());
-            ConfigureModel(modelBuilder);
             modelBuilder.ApplyConfiguration(new ProductConfiguration());
-            ConfigureModel(modelBuilder);
             modelBuilder.ApplyConfiguration(new PromotionConfiguration());
-            ConfigureModel(modelBuilder);
             modelBuilder.ApplyConfiguration(new OrderConfiguration());
-            ConfigureModel(modelBuilder);
             modelBuilder.ApplyConfiguration(new OrderDetailConfigurtaion());
-            ConfigureModel(modelBuilder);
             modelBuilder.ApplyConfiguration(new CounterConfiguration());
-            ConfigureModel(modelBuilder);
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
+            modelBuilder.ApplyConfiguration(new DiamonConfiguration());
+            modelBuilder.ApplyConfiguration(new GoldConfiguration());
             ConfigureModel(modelBuilder);
         }
         private void ConfigureModel(ModelBuilder modelBuilder)
