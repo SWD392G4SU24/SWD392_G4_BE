@@ -34,6 +34,8 @@ namespace JewelrySalesSystem.Infrastructure
             //inject repo ở đây
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IRoleRepository, RoleRepository>();
+            services.AddTransient<IPromotionRepository, PromotionRepository>();
+
             return services;
         }
     }
