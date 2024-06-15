@@ -25,9 +25,9 @@ namespace JewelrySalesSystem.Infrastructure.Repositories
             return await _context.Promotions.ToListAsync(cancellationToken).ConfigureAwait(false);  
         }
 
-        public Task<PromotionEntity> GetPromotionByIdAsnyc(Guid id, CancellationToken cancellationToken)
+        public async Task<PromotionEntity> GetPromotionByIdAsnyc(Guid id, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return await _context.Promotions.FindAsync(id, cancellationToken).ConfigureAwait(false);
         }
     }
 }

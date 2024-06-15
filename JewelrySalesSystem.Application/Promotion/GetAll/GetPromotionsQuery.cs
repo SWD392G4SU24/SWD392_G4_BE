@@ -11,6 +11,5 @@ namespace JewelrySalesSystem.Application.Promotion.GetPromotion
     public class GetPromotionsQuery : IRequest<IEnumerable<PromotionDto>>, IQuery
     {
         public string Category { get; set; }
-        public DateTime ExpiresTime { get; set; }
     }
 }

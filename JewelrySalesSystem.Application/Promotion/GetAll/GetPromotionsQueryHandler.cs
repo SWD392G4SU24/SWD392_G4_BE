@@ -1,4 +1,5 @@
-﻿using JewelrySalesSystem.Domain.Repositories;
+﻿using JewelrySalesSystem.Application.Promotion.GetAll;
+using JewelrySalesSystem.Domain.Repositories;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -8,15 +9,15 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Application.Promotion.GetPromotion
 {
-    public class GetPromotionsQueryHandler : IRequestHandler<GetPromotionsQuery, IEnumerable<PromotionDto>>
+    public class GetAllPromotionsQueryHandler : IRequestHandler<GetAllPromotionsQuery, IEnumerable<PromotionDto>>
 
     {
         private readonly IPromotionRepository _promotionRepository;
-        public GetPromotionsQueryHandler(IPromotionRepository promotionRepository)
+        public GetAllPromotionsQueryHandler(IPromotionRepository promotionRepository)
         {
             _promotionRepository = promotionRepository;
         }
-        public async Task<IEnumerable<PromotionDto>> Handle(GetPromotionsQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<PromotionDto>> Handle(GetAllPromotionsQuery request, CancellationToken cancellationToken)
         {
             // Logic to retrieve promotions base on query parameters(if any)
             var promotions = await _promotionRepository.GetAllPromotionsAsync(cancellationToken);
@@ -31,5 +32,7 @@ namespace JewelrySalesSystem.Application.Promotion.GetPromotion
                 UserID = s.UserID
             }).ToList();
         }
+
+       
     }
 }
