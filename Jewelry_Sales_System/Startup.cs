@@ -2,6 +2,8 @@
 using Jewelry_Sales_System.Configuration;
 using JewelrySalesSystem.Application;
 using JewelrySalesSystem.Infrastructure;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using Serilog;
 
 namespace Jewelry_Sales_System.API
@@ -37,6 +39,28 @@ namespace Jewelry_Sales_System.API
                 );
             });
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+            services.AddControllersWithViews();
+
+            // Add Session
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+            })
+            .AddCookie()
+            .AddGoogle(options =>
+            {
+                
+                options.CallbackPath = "/api/user/signin-google-callback";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,9 +78,12 @@ namespace Jewelry_Sales_System.API
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+
+            // Use Session
+            app.UseSession();
+
             app.UseEndpoints(endpoints =>
             {
-                //endpoints.MapDefaultHealthChecks();
                 endpoints.MapControllers();
             });
             app.UseSwashbuckle(Configuration);
