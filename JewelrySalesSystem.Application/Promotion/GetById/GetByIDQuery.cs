@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Application.Promotion.GetById
 {
-    public class GetByIDQuery : IRequest<IEnumerable<PromotionDto>>, IQuery
+    public class GetByIDQuery : IRequest<PromotionDto>, IQuery
     {
         public required Guid Id { get; set; }
     }

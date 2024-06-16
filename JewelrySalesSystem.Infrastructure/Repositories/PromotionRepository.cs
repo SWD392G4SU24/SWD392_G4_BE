@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Infrastructure.Repositories
 {
-    internal class PromotionRepository : RepositoryBase<PromotionEntity, PromotionEntity, ApplicationDbContext>, IPromotionRepository
+    public class PromotionRepository : RepositoryBase<PromotionEntity, PromotionEntity, ApplicationDbContext>, IPromotionRepository
     {
         private readonly ApplicationDbContext _context;
         public PromotionRepository(ApplicationDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
@@ -25,9 +25,16 @@ namespace JewelrySalesSystem.Infrastructure.Repositories
             return await _context.Promotions.ToListAsync(cancellationToken).ConfigureAwait(false);  
         }
 
+
         public async Task<PromotionEntity> GetPromotionByIdAsnyc(Guid id, CancellationToken cancellationToken)
         {
-            return await _context.Promotions.FindAsync(id, cancellationToken).ConfigureAwait(false);
+            return await _context.Promotions.FindAsync(id.ToString(), cancellationToken);
+        }
+
+        public async Task UpdateAsnyc(PromotionEntity entity, CancellationToken cancellationToken)
+        {
+            _context.Promotions.Update(entity);
+            await _context.SaveChangesAsync(cancellationToken);
         }
     }
 }
