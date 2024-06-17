@@ -26,6 +26,16 @@
 
   <ItemGroup>
     <Folder Include="Common\Pagination\" />
+    <Folder Include="Diamon\Create\" />
+    <Folder Include="Diamon\Delete\" />
+    <Folder Include="Diamon\GetAll\" />
+    <Folder Include="Diamon\GetByID\" />
+    <Folder Include="Diamon\Update\" />
+    <Folder Include="Gold\Create\" />
+    <Folder Include="Gold\Delete\" />
+    <Folder Include="Gold\GetAll\" />
+    <Folder Include="Gold\GetByID\" />
+    <Folder Include="Gold\Update\" />
   </ItemGroup>
 
   <ItemGroup>

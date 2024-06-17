@@ -6,10 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JewelrySalesSystem.Application.Promotion.GetById
+namespace JewelrySalesSystem.Application.Product.GetByID
 {
-    public class GetByIDQuery : IRequest<PromotionDto>, IQuery
+    public class GetByIDQuery : IRequest<ProductDto>, IQuery
     {
-        public required string Id { get; set; }
+        public required string ID { get; set; }
     }
 }

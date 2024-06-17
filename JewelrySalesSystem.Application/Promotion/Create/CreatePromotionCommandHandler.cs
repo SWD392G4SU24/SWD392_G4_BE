@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace JewelrySalesSystem.Application.Promotion.CreatePromotion
 {
    
-    public class CreatePromotionCommandHandler : IRequestHandler<CreatePromotionCommand, string>
+    public class CreatePromotionCommandHandler : IRequestHandler<CreatePromtionCommand, string>
     {
         private readonly IPromotionRepository _promotionRepository;
         private readonly ICurrentUserService _currentUserService;
@@ -22,7 +22,9 @@ namespace JewelrySalesSystem.Application.Promotion.CreatePromotion
             _promotionRepository = promotionRepository;
             _currentUserService = currentUserService;
         }
-        public async Task<string> Handle(CreatePromotionCommand request, CancellationToken cancellationToken)
+ 
+
+        public async Task<string> Handle(CreatePromtionCommand request, CancellationToken cancellationToken)
         {
             var promotion = new PromotionEntity
             {
@@ -38,6 +40,5 @@ namespace JewelrySalesSystem.Application.Promotion.CreatePromotion
             await _promotionRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
             return promotion.ID;
         }
-
     }
 }

@@ -1,51 +1,52 @@
-﻿
-using JewelrySalesSystem.Application.Promotion;
-using JewelrySalesSystem.Application.Promotion.CreatePromotion;
-using JewelrySalesSystem.Application.Promotion.DeletePromotion;
-using JewelrySalesSystem.Application.Promotion.GetAll;
-using JewelrySalesSystem.Application.Promotion.GetById;
-using JewelrySalesSystem.Application.Promotion.UpdatePromotion;
+﻿using JewelrySalesSystem.Application.Common.Security;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
+using JewelrySalesSystem.Application.Product;
+using JewelrySalesSystem.Application.Product.GetProduct;
+using JewelrySalesSystem.Application.Product.Create;
+using Microsoft.AspNetCore.Authorization;
 using AuthorizeAttribute = JewelrySalesSystem.Application.Common.Security.AuthorizeAttribute;
+using JewelrySalesSystem.Application.Product.Update;
+using JewelrySalesSystem.Application.Product.Delete;
+using JewelrySalesSystem.Application.Product.GetByID;
+
 
 namespace Jewelry_Sales_System.API.Controllers
 {
     [ApiController]
     [Authorize]
-    public class PromtionController : ControllerBase
+    public class ProductController : ControllerBase
     {
         private readonly IMediator _mediator;
-        public PromtionController(IMediator mediator)
+
+        public ProductController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
         [HttpGet]
-        [Route("GetAllPromotions")]
+        [Route("GetAllProduct")]
         [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(IEnumerable<PromotionDto>), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(IEnumerable<ProductDto>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<PromotionDto>>> GetAllPromotions(
-            CancellationToken cancellationToken)
+        public async Task<ActionResult<IEnumerable<ProductDto>>> GetAllPrducts(
+           CancellationToken cancellationToken)
         {
-            var result = await _mediator.Send(new GetPromotionsQuery(), cancellationToken);
+            var result = await _mediator.Send(new GetProductQuery(), cancellationToken);
             return Ok(result);
         }
 
-
         [HttpGet]
-        [Route("GetPromotionById")]
+        [Route("GetProductByID")]
         [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(IEnumerable<PromotionDto>), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ProductDto), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<PromotionDto>>> GetPromotionById(
+        public async Task<ActionResult<ProductDto>> GetProductByID(
             [FromQuery] GetByIDQuery query,
-            CancellationToken cancellationToken)
+           CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(query, cancellationToken);
             return Ok(result);
@@ -53,14 +54,14 @@ namespace Jewelry_Sales_System.API.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        [Route("CreatePromtion")]
+        [Route("CreateProduct")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<JsonResponse<string>>> CreateNewPromotion(
-           [FromBody] CreatePromtionCommand command,
-           CancellationToken cancellationToken = default)
+        public async Task<ActionResult<JsonResponse<string>>> CreateNewProduct(
+            [FromBody] CreateProductCommand command,
+           CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(command, cancellationToken);
             return Ok(new JsonResponse<string>(result));
@@ -68,14 +69,14 @@ namespace Jewelry_Sales_System.API.Controllers
 
         [AllowAnonymous]
         [HttpPut]
-        [Route("UpdatePromotion")]
+        [Route("UpdateProduct")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<JsonResponse<string>>> UpdatePromotion(
-               [FromBody] UpdatePromotionCommand command,
-               CancellationToken cancellationToken = default)
+        public async Task<ActionResult<JsonResponse<string>>> UpdateProduct(
+            [FromBody] UpdateProductCommand command,
+           CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(command, cancellationToken);
             return Ok(new JsonResponse<string>(result));
@@ -83,18 +84,18 @@ namespace Jewelry_Sales_System.API.Controllers
 
         [AllowAnonymous]
         [HttpDelete]
-        [Route("DeletePromotion")]
+        [Route("DeleteProduct")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<JsonResponse<string>>> DeletePromotion(
-               [FromQuery] DeletePromotionQuery query,
-               CancellationToken cancellationToken = default)
+        public async Task<ActionResult<JsonResponse<string>>> DeleteProduct(
+            [FromQuery] DeleteProductQuery query,
+           CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(query, cancellationToken);
             return Ok(new JsonResponse<string>(result));
         }
-    }
 
+    }
 }

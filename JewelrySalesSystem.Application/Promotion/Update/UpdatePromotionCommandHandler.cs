@@ -1,7 +1,9 @@
-﻿using JewelrySalesSystem.Domain.Commons.Exceptions;
+﻿using JewelrySalesSystem.Application.Common.Interfaces;
+using JewelrySalesSystem.Domain.Commons.Exceptions;
 using JewelrySalesSystem.Domain.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,9 +15,18 @@ namespace JewelrySalesSystem.Application.Promotion.UpdatePromotion
     public class UpdatePromotionCommandHandler : IRequestHandler<UpdatePromotionCommand, string>
     {
         private readonly IPromotionRepository _promotionRepository;
+        private readonly ICurrentUserService _currentUserService;
+
+        public UpdatePromotionCommandHandler(IPromotionRepository promotionRepository, ICurrentUserService currentUserService)
+        {
+            _promotionRepository = promotionRepository;
+            _currentUserService = currentUserService;   
+        }
+
         public async Task<string> Handle(UpdatePromotionCommand request, CancellationToken cancellationToken)
         {
-            var promotion = await _promotionRepository.GetPromotionByIdAsnyc(request.ID, cancellationToken) ?? throw new NotFoundException("VoucherCode is not exist");
+            var promotion = await _promotionRepository.GetPromotionByIdAsnyc(request.ID, cancellationToken);
+            if (promotion is null) throw new NotFoundException("The VoucherCode:" + request.ID + " is not found");
             // Update specific fields based on request properties
             promotion.ConditionsOfUse = request.ConditionsOfUse;
             promotion.Description = request.Description ?? request.Description;
@@ -23,9 +34,11 @@ namespace JewelrySalesSystem.Application.Promotion.UpdatePromotion
             promotion.ExpiresTime = request.ExpiresTime;
             promotion.ExchangePoint = request.ExchangePoint;
             promotion.MaximumReduce = request.MaximumReduce;
+            promotion.UpdaterID = _currentUserService.UserId;
+            promotion.LastestUpdateAt = DateTime.Now;
             _promotionRepository.Update(promotion);
-            return await _promotionRepository.UnitOfWork.SaveChangesAsync(cancellationToken) == 1 ? "Update Successfully" : "Update Failed";
-
+            await _promotionRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
+            return "Promotion Updated Successfully";
         }
 
  

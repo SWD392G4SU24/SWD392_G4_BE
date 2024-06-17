@@ -6,13 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JewelrySalesSystem.Application.Promotion.GetAll
+namespace JewelrySalesSystem.Application.Order.GetAll
 {
-    public class GetAllPromotionsQuery : IRequest<IEnumerable<PromotionDto>>, IQuery
+    public class GetOrderQuery : IRequest<IEnumerable<OrderDto>>, IQuery
     {
-        public GetAllPromotionsQuery()
+        public GetOrderQuery()
         {
-            
         }
     }
 }

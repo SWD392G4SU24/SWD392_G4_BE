@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Application.Promotion.GetPromotion
 {
-    public class GetAllPromotionsQueryHandler : IRequestHandler<GetAllPromotionsQuery, IEnumerable<PromotionDto>>
+    public class GetAllPromotionsQueryHandler : IRequestHandler<GetPromotionsQuery, IEnumerable<PromotionDto>>
 
     {
         private readonly IPromotionRepository _promotionRepository;
@@ -17,7 +17,7 @@ namespace JewelrySalesSystem.Application.Promotion.GetPromotion
         {
             _promotionRepository = promotionRepository;
         }
-        public async Task<IEnumerable<PromotionDto>> Handle(GetAllPromotionsQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<PromotionDto>> Handle(GetPromotionsQuery request, CancellationToken cancellationToken)
         {
             // Logic to retrieve promotions base on query parameters(if any)
             var promotions = await _promotionRepository.GetAllPromotionsAsync(cancellationToken);

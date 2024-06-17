@@ -17,7 +17,7 @@ namespace JewelrySalesSystem.Infrastructure.Repositories
         private readonly ApplicationDbContext _context;
         public PromotionRepository(ApplicationDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
         {
-            _context =dbContext;
+            _context = dbContext;
         }
 
         public async Task<IEnumerable<PromotionEntity>> GetAllPromotionsAsync(CancellationToken cancellationToken)
@@ -26,15 +26,10 @@ namespace JewelrySalesSystem.Infrastructure.Repositories
         }
 
 
-        public async Task<PromotionEntity> GetPromotionByIdAsnyc(Guid id, CancellationToken cancellationToken)
+        public async Task<PromotionEntity> GetPromotionByIdAsnyc(string id, CancellationToken cancellationToken)
         {
-            return await _context.Promotions.FindAsync(id.ToString(), cancellationToken);
+            return await _context.Promotions.FirstOrDefaultAsync(p => p.ID == id, cancellationToken);
         }
 
-        public async Task UpdateAsnyc(PromotionEntity entity, CancellationToken cancellationToken)
-        {
-            _context.Promotions.Update(entity);
-            await _context.SaveChangesAsync(cancellationToken);
-        }
     }
 }

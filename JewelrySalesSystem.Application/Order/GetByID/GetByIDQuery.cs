@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JewelrySalesSystem.Application.Promotion.GetById
+namespace JewelrySalesSystem.Application.Order.GetByID
 {
-    public class GetByIDQuery : IRequest<PromotionDto>, IQuery
+    public class GetByIDQuery  : IRequest<OrderDto>, IQuery
     {
         public required string Id { get; set; }
     }

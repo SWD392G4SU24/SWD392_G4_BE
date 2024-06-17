@@ -3,9 +3,9 @@ using JewelrySalesSystem.Application.Common.Interfaces;
 using MediatR;
 namespace JewelrySalesSystem.Application.Promotion.CreatePromotion
 {
-    public class CreatePromotionCommand : IRequest<string>, ICommand
+    public class CreatePromtionCommand : IRequest<string>, ICommand
     {
-        public CreatePromotionCommand(decimal conditionsOfUse, float reducedPercent, decimal maximumReduce, int exchangePoint, DateTime expiresTime)
+        public CreatePromtionCommand(decimal conditionsOfUse, float reducedPercent, decimal maximumReduce, int exchangePoint, DateTime expiresTime)
         {
             ConditionsOfUse = conditionsOfUse;
             ReducedPercent = reducedPercent;

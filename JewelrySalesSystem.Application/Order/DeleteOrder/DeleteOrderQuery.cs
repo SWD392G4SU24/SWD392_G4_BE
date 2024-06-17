@@ -6,10 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JewelrySalesSystem.Application.Promotion.GetById
+namespace JewelrySalesSystem.Application.Order.DeleteOrder
 {
-    public class GetByIDQuery : IRequest<PromotionDto>, IQuery
+    public class DeleteOrderQuery : IRequest<string>, IQuery
     {
-        public required string Id { get; set; }
+        public required string Id {  get; set; }
+    
     }
 }

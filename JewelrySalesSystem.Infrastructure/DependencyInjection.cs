@@ -35,6 +35,12 @@ namespace JewelrySalesSystem.Infrastructure
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IRoleRepository, RoleRepository>();
             services.AddTransient<IPromotionRepository, PromotionRepository>();
+            services.AddTransient<IProductRepository, ProductRepository>();
+            services.AddTransient<IOrderRepository, OrderRepository>();
+            services.AddTransient<IOrderDetailRepository, OrderDetailRepository>();
+            services.AddTransient<IDiamonRepository, DiamonRepository>();
+            services.AddTransient<IOrderDetailRepository, OrderDetailRepository>();
+
 
             return services;
         }

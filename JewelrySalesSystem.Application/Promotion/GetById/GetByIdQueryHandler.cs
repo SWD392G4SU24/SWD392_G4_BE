@@ -25,7 +25,7 @@ namespace JewelrySalesSystem.Application.Promotion.GetById
             if (promotions is null) throw new NotFoundException("VoucherCode is not exist");
             return new PromotionDto {
                 ConditionsOfUse = promotions.ConditionsOfUse,
-                Id =promotions.ID,
+                Id = promotions.ID,
                 ExchangePoint = promotions.ExchangePoint,
                 ExpiresTime = promotions.ExpiresTime,
                 MaximumReduce = promotions.MaximumReduce,
