@@ -24,7 +24,7 @@ namespace JewelrySalesSystem.Application.Order.GetByID
         {
             // Logic to retrieve orders base on query parameters(if any)
             var order = await _orderRepository.GetOrderByIdAsnyc(request.Id, cancellationToken);
-            if (order is null) throw new NotFoundException("OrderID is not exist");
+            if (order is null) throw new NotFoundException("Order is not exist");
             return new OrderDto
             {
                BuyerID = order.BuyerID,
