@@ -20,6 +20,7 @@ namespace Jewelry_Sales_System.API.Controllers
 
         [HttpPost]
         [Route("create")]
+        [Authorize(Roles = "Admin")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

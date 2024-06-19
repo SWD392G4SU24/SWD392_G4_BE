@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace JewelrySalesSystem.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class v3 : Migration
+    public partial class sv_v1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -1,6 +1,7 @@
 ﻿using JewelrySalesSystem.Domain.Commons.Interfaces;
 using JewelrySalesSystem.Domain.Repositories;
 using JewelrySalesSystem.Domain.Repositories.ConfiguredEntity;
+using JewelrySalesSystem.Infrastructure.ExternalService.VnPay;
 using JewelrySalesSystem.Infrastructure.Persistence;
 using JewelrySalesSystem.Infrastructure.Repositories;
 using JewelrySalesSystem.Infrastructure.Repositories.ConfiguredEntity;
@@ -22,7 +23,7 @@ namespace JewelrySalesSystem.Infrastructure
             services.AddDbContext<ApplicationDbContext>((sp, options) =>
             {
                 options.UseSqlServer(
-                    configuration.GetConnectionString("local"),
+                    configuration.GetConnectionString("ServerDocker"),
                     b =>
                     {
                         b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName);
@@ -31,6 +32,7 @@ namespace JewelrySalesSystem.Infrastructure
                 options.UseLazyLoadingProxies();
             });
             services.AddScoped<IUnitOfWork>(provider => provider.GetRequiredService<ApplicationDbContext>());
+            services.AddScoped<IVnPayService, VnPayService>();
             //inject repo ở đây
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IRoleRepository, RoleRepository>();
