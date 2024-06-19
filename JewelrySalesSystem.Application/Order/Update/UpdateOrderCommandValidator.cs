@@ -13,7 +13,6 @@ namespace JewelrySalesSystem.Application.Order.UpdateOrder
         {
             OnValidate();
         }
-
         private void OnValidate()
         {
             RuleFor(x => x.Note).NotEmpty().MaximumLength(255);

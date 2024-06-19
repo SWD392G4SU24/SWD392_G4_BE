@@ -10,20 +10,20 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Application.Order.DeleteOrder
 {
-    public class DeleteOrderQueryHandler : IRequestHandler<DeleteOrderQuery, string>
+    public class DeleteOrdercommandHandler : IRequestHandler<DeleteOrdercommand, string>
     {
         private readonly IOrderRepository _orderRepository;
         private readonly ICurrentUserService _currentUserService;
 
-        public DeleteOrderQueryHandler(IOrderRepository orderRepository, ICurrentUserService currentUserService)
+        public DeleteOrdercommandHandler(IOrderRepository orderRepository, ICurrentUserService currentUserService)
         {
             _orderRepository = orderRepository;
             _currentUserService = currentUserService;
         }
-        public async Task<string> Handle(DeleteOrderQuery request, CancellationToken cancellationToken)
+        public async Task<string> Handle(DeleteOrdercommand request, CancellationToken cancellationToken)
         {
-            var order = await _orderRepository.GetOrderByIdAsnyc(request.Id, cancellationToken);
-            if (order == null) throw new NotFoundException("OrderID :" + request.Id + "is not found");
+            var order = await _orderRepository.FindAsync(s => s.ID == request.Id, cancellationToken);
+            if (order is null) throw new NotFoundException("Order is not exist");
             order.DeletedAt = DateTime.UtcNow;
             order.DeleterID = _currentUserService.UserId;
             _orderRepository.Update(order);

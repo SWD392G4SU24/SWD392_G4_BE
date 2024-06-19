@@ -15,7 +15,9 @@ namespace JewelrySalesSystem.Application.Order
     {
         public void Mapping(Profile profile)
         {
+
             profile.CreateMap<OrderDto, OrderDto>();
+
         }
         public required string ID {  get; set; }
         public required string Note { get; set; }

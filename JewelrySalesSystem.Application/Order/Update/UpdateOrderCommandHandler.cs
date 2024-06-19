@@ -24,8 +24,8 @@ namespace JewelrySalesSystem.Application.Order.UpdateOrder
         }
         public async Task<string> Handle(UpdateOrderCommand request, CancellationToken cancellationToken)
         {
-            var order = await _orderRepository.GetOrderByIdAsnyc(request.ID, cancellationToken);
-            if (order == null) throw new NotFoundException("OrderID : " + request.ID + "is not found");
+            var order = await _orderRepository.FindAsync(s => s.ID == request.Id, cancellationToken);
+            if (order is null) throw new NotFoundException("Order is not exist");
             //Update Order
             order.BuyerID = request.BuyerID;
             order.Note = request.Note;

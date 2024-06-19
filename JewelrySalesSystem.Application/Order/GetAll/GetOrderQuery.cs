@@ -12,6 +12,7 @@ namespace JewelrySalesSystem.Application.Order.GetAll
     {
         public GetOrderQuery()
         {
+
         }
     }
 }

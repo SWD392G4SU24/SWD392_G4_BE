@@ -21,7 +21,7 @@ namespace JewelrySalesSystem.Application.Order.GetAll
 
         public async Task<IEnumerable<OrderDto>> Handle(GetOrderQuery request, CancellationToken cancellationToken)
         {
-            // Logic to retrieve promotions base on query parameters(if any)
+            // Logic to retrieve orders base on query parameters(if any)
             var orders = await _orderRepository.GetAllOrdersAsync(cancellationToken);
             return orders.Select(s => new OrderDto
             {

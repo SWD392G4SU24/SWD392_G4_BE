@@ -23,8 +23,8 @@ namespace JewelrySalesSystem.Application.Order.GetByID
         public async Task<OrderDto> Handle(GetByIDQuery request, CancellationToken cancellationToken)
         {
             // Logic to retrieve orders base on query parameters(if any)
-            var order = await _orderRepository.GetOrderByIdAsnyc(request.Id, cancellationToken);
-            if (order is null) throw new NotFoundException("Order is not exist");
+            var order = await _orderRepository.FindAsync(s => s.ID == request.Id, cancellationToken);
+              if(order is null) throw new NotFoundException("Order is not exist");
             return new OrderDto
             {
                BuyerID = order.BuyerID,

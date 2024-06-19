@@ -10,9 +10,9 @@ namespace JewelrySalesSystem.Application.Order.UpdateOrder
 {
     public class UpdateOrderCommand : IRequest<string>, ICommand
     {
-        public UpdateOrderCommand(string iD, string note, string type, decimal totalCost, string? promotionID, int? counterID, string buyerID, int paymentMethodID)
+        public UpdateOrderCommand(string id, string note, string type, decimal totalCost, string? promotionID, int? counterID, string buyerID, int paymentMethodID)
         {
-            ID = iD;
+            Id = id;
             Note = note;
             Type = type;
             TotalCost = totalCost;
@@ -21,8 +21,7 @@ namespace JewelrySalesSystem.Application.Order.UpdateOrder
             BuyerID = buyerID;
             PaymentMethodID = paymentMethodID;
         }
-
-        public required string ID { get; set; }
+        public string Id { get; set; }
         public required string Note { get; set; }
         public required string Type { get; set; }
         public required decimal TotalCost { get; set; }
