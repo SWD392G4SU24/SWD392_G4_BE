@@ -9,7 +9,5 @@ namespace JewelrySalesSystem.Domain.Repositories
 {
     public interface IOrderRepository : IEFRepository<OrderEntity, OrderEntity>
     {
-        Task<IEnumerable<OrderEntity>> GetAllOrdersAsync(CancellationToken cancellationToken);
-        Task<OrderEntity> GetOrderByIdAsnyc(string id, CancellationToken cancellationToken);
     }
 }

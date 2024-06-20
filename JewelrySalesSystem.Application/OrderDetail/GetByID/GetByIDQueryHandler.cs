@@ -1,5 +1,7 @@
 ﻿using JewelrySalesSystem.Application.OrderDetail.GetAll;
+using JewelrySalesSystem.Domain.Commons.Exceptions;
 using JewelrySalesSystem.Domain.Repositories;
+using JewelrySalesSystem.Infrastructure.Repositories;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -20,7 +22,8 @@ namespace JewelrySalesSystem.Application.OrderDetail.GetByID
 
         public async Task<OrderDetailDto> Handle(GetByIDQuery request, CancellationToken cancellationToken)
         {
-            var orderDetail = await _orderDetailRepository.GetOrderDetailByIdAsnyc(request.Id, cancellationToken);
+            var orderDetail = await _orderDetailRepository.FindAsync(s => s.ID == request.Id, cancellationToken);
+            if (orderDetail is null) throw new NotFoundException("Order is not exist");
             return new OrderDetailDto
             {
                 ID = orderDetail.ID,

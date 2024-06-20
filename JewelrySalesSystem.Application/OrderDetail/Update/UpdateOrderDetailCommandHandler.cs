@@ -3,6 +3,7 @@ using JewelrySalesSystem.Application.OrderDetail.Create;
 using JewelrySalesSystem.Domain.Commons.Exceptions;
 using JewelrySalesSystem.Domain.Entities;
 using JewelrySalesSystem.Domain.Repositories;
+using JewelrySalesSystem.Infrastructure.Repositories;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -25,8 +26,8 @@ namespace JewelrySalesSystem.Application.OrderDetail.Update
 
         public async Task<string> Handle(UpdateOrderDetailCommand request, CancellationToken cancellationToken)
         {
-            var orderDetail = await _orderDetailRepository.GetOrderDetailByIdAsnyc(request.Id, cancellationToken);
-            if (orderDetail == null) throw new NotFoundException("OrderDetailID : " + request.Id + "is not found");
+            var orderDetail = await _orderDetailRepository.FindAsync(s => s.ID == request.Id, cancellationToken);
+            if (orderDetail is null) throw new NotFoundException("OrderDetail is not exist");
             // Updated Ordetail field
             orderDetail.OrderID = request.OrderID;
             orderDetail.ProductCost = request.ProductCost;

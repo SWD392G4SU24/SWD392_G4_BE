@@ -19,7 +19,7 @@ namespace JewelrySalesSystem.Application.OrderDetail.GetAll
 
         public async Task<IEnumerable<OrderDetailDto>> Handle(GetOrderDetailQuery request, CancellationToken cancellationToken)
         {
-            var orderDetails = await _orderDetailRepository.GetAllOrderDetailsAsync(cancellationToken);
+            var orderDetails = await _orderDetailRepository.FindAllAsync(cancellationToken);
             return orderDetails.Select(s => new OrderDetailDto
             {
                 ID = s.ID,
