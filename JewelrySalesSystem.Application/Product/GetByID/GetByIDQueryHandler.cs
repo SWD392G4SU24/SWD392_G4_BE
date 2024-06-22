@@ -1,6 +1,7 @@
 ﻿using JewelrySalesSystem.Application.Promotion;
 using JewelrySalesSystem.Domain.Commons.Exceptions;
 using JewelrySalesSystem.Domain.Repositories;
+using JewelrySalesSystem.Infrastructure.Repositories;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -21,8 +22,8 @@ namespace JewelrySalesSystem.Application.Product.GetByID
 
         public async Task<ProductDto> Handle(GetByIDQuery request, CancellationToken cancellationToken)
         {
-            var product = await _productRepository.GetProductByIdAsnyc(request.ID, cancellationToken);
-            if (product is null) throw new NotFoundException("ID is not exist");
+            var product = await _productRepository.FindAsync(s => s.ID == request.ID, cancellationToken);
+            if (product is null) throw new NotFoundException("Product is not exist");
             return new ProductDto
             {
                 Id = product.ID,

@@ -20,7 +20,7 @@ namespace JewelrySalesSystem.Application.Product.GetProduct
 
         public async Task<IEnumerable<ProductDto>> Handle(GetProductQuery request, CancellationToken cancellationToken)
         {
-            var product = await _productRepository.GetAllProductsAsync(cancellationToken);
+            var product = await _productRepository.FindAllAsync(cancellationToken);
             return product.Select(s => new ProductDto
             {
                 Id = s.ID,

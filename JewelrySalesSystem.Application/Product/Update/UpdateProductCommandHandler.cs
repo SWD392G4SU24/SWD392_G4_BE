@@ -23,8 +23,8 @@ namespace JewelrySalesSystem.Application.Product.Update
 
         public async Task<string> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
-            var product = await _productRepository.GetProductByIdAsnyc(request.ID, cancellationToken);
-            if (product is null) throw new NotFoundException ("The ProductID: " + request.ID + "is not found");
+            var product = await _productRepository.FindAsync(s => s.ID == request.ID, cancellationToken);
+            if (product is null) throw new NotFoundException("Product is not exist");
             product.CategoryID = request.CategoryID;
             product.WageCost = request.WageCost;
             product.Quantity = request.Quantity;

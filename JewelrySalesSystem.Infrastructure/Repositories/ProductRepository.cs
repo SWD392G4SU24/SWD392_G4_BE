@@ -19,15 +19,6 @@ namespace JewelrySalesSystem.Infrastructure.Repositories
             _context = dbContext;
         }
 
-        public async Task<IEnumerable<ProductEntity>> GetAllProductsAsync(CancellationToken cancellationToken)
-        {
-            return await _context.Products.ToListAsync(cancellationToken).ConfigureAwait(false);
-        }
-
-        public async Task<ProductEntity> GetProductByIdAsnyc(string id, CancellationToken cancellationToken)
-        {
-            return await _context.Products.FirstOrDefaultAsync(p => p.ID == id, cancellationToken).ConfigureAwait(false);
-        }
 
         
     }

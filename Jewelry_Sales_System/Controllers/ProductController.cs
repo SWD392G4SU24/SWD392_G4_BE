@@ -26,7 +26,7 @@ namespace Jewelry_Sales_System.API.Controllers
         }
 
         [HttpGet]
-        [Route("GetAllProduct")]
+        [Route("[controller]")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(IEnumerable<ProductDto>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -39,22 +39,23 @@ namespace Jewelry_Sales_System.API.Controllers
         }
 
         [HttpGet]
-        [Route("GetProductByID")]
+        [Route("[controller]/{id}")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ProductDto), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<ProductDto>> GetProductByID(
-            [FromQuery] GetByIDQuery query,
+            string id,
            CancellationToken cancellationToken)
         {
+            var query = new GetByIDQuery { ID = id }; 
             var result = await _mediator.Send(query, cancellationToken);
             return Ok(result);
         }
 
         [AllowAnonymous]
         [HttpPost]
-        [Route("CreateProduct")]
+        [Route("[controller]")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -69,31 +70,33 @@ namespace Jewelry_Sales_System.API.Controllers
 
         [AllowAnonymous]
         [HttpPut]
-        [Route("UpdateProduct")]
+        [Route("[controller]/{id}")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<JsonResponse<string>>> UpdateProduct(
+        public async Task<ActionResult<JsonResponse<string>>> UpdateProduct(string id,
             [FromBody] UpdateProductCommand command,
            CancellationToken cancellationToken)
         {
+            if (id != command.ID) return BadRequest("The product ID in the request body must match the route parameter.");
             var result = await _mediator.Send(command, cancellationToken);
             return Ok(new JsonResponse<string>(result));
         }
 
         [AllowAnonymous]
         [HttpDelete]
-        [Route("DeleteProduct")]
+        [Route("[controller]/{id}")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<JsonResponse<string>>> DeleteProduct(
-            [FromQuery] DeleteProductQuery query,
+            string id,
            CancellationToken cancellationToken)
         {
-            var result = await _mediator.Send(query, cancellationToken);
+            var command = new DeleteProductCommand {  ID = id };
+            var result = await _mediator.Send(command, cancellationToken);
             return Ok(new JsonResponse<string>(result));
         }
 

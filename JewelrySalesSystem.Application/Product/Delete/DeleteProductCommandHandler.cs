@@ -11,21 +11,21 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Application.Product.Delete
 {
-    public class DeleteProductQueryHandler : IRequestHandler<DeleteProductQuery, string>
+    public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand, string>
     {
         private readonly IProductRepository _productRepository;
         private readonly ICurrentUserService _currentUserService;
 
-        public DeleteProductQueryHandler(IProductRepository productRepository, ICurrentUserService currentUserService)
+        public DeleteProductCommandHandler(IProductRepository productRepository, ICurrentUserService currentUserService)
         {
             _productRepository = productRepository;
             _currentUserService = currentUserService;
         }
 
-        public async Task<string> Handle(DeleteProductQuery request, CancellationToken cancellationToken)
+        public async Task<string> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
         {
-            var product = await _productRepository.GetProductByIdAsnyc(request.ID, cancellationToken);
-            if (product == null) throw new NotFoundException("The ProductID :" + request.ID + "is not found");
+            var product = await _productRepository.FindAsync(s => s.ID == request.ID, cancellationToken);
+            if (product is null) throw new NotFoundException("Product is not exist");
             product.DeleterID = _currentUserService.UserId;
             product.DeletedAt = DateTime.Now;
             _productRepository.Update(product);
