@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Domain.Entities.Configured
 {
-    [Table("Diamon")]
-    public class DiamonEntity : ConfiguredEntity
+    [Table("Diamond")]
+    public class DiamondEntity : ConfiguredEntity
     {
         public required decimal BuyCost {  get; set; }
         public required decimal SellCost { get; set; }

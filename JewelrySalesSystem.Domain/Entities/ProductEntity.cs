@@ -21,7 +21,7 @@ namespace JewelrySalesSystem.Domain.Entities
         public virtual GoldEntity? Gold { get; set; }
         public int? DiamonType { get; set; }
         [ForeignKey(nameof(DiamonType))]
-        public virtual DiamonEntity? Diamon { get; set; }
+        public virtual DiamondEntity? Diamond { get; set; }
         public string? ImageURL { get; set; }
         public required int Quantity { get; set; }
         public string? Description {  get; set; }       
