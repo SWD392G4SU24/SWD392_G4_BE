@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace JewelrySalesSystem.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class sv_v1 : Migration
+    public partial class v3_update : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -31,19 +31,19 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Diamon",
+                name: "Diamond",
                 columns: table => new
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     BuyCost = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     SellCost = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    DiamonType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DiamondType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("DiamonID", x => x.ID);
+                    table.PrimaryKey("DiamondID", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -158,9 +158,9 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Product_Diamon_DiamonType",
+                        name: "FK_Product_Diamond_DiamonType",
                         column: x => x.DiamonType,
-                        principalTable: "Diamon",
+                        principalTable: "Diamond",
                         principalColumn: "ID");
                     table.ForeignKey(
                         name: "FK_Product_Gold_GoldType",
@@ -414,7 +414,7 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                 name: "Promotion");
 
             migrationBuilder.DropTable(
-                name: "Diamon");
+                name: "Diamond");
 
             migrationBuilder.DropTable(
                 name: "Gold");
