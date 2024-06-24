@@ -53,38 +53,5 @@ namespace Jewelry_Sales_System.API.Controllers
             var result = await _mediator.Send(command, cancellationToken);
             return Ok(new JsonResponse<string>(result));
         }
-
-        [AllowAnonymous]
-        [HttpGet("signin-google")]
-        public IActionResult SignInGoogle(string returnUrl = "/")
-        {
-            var properties = new AuthenticationProperties { RedirectUri = Url.Action("SigninGoogleCallback", new { returnUrl }) };
-            return Challenge(properties, GoogleDefaults.AuthenticationScheme);
-        }
-
-        [AllowAnonymous]
-        [HttpGet("signin-google-callback")]
-        public async Task<IActionResult> SigninGoogleCallback(string returnUrl = "/")
-        {
-            var authenticateResult = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            if (!authenticateResult.Succeeded)
-                return BadRequest();
-
-            // Xử lý thông tin người dùng từ authenticateResult.Principal và tạo JWT nếu cần thiết.
-            var claims = authenticateResult.Principal.Identities.First().Claims;
-            var idClaim = claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier);
-            var emailClaim = claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Email);
-
-            if (idClaim != null && emailClaim != null)
-            {
-                var userId = idClaim.Value;
-                var email = emailClaim.Value;
-                // Tạo JWT hoặc xử lý logic đăng nhập tại đây.
-                var token = _jwtService.CreateToken(userId, "UserRole"); // Chỉnh sửa "UserRole" theo vai trò của bạn
-                return Redirect(returnUrl + "?token=" + token);
-            }
-
-            return Redirect("/login-failed"); // Chuyển hướng đến trang đăng nhập thất bại nếu cần
-        }
     }
 }

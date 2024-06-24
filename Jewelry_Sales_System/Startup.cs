@@ -55,11 +55,13 @@ namespace Jewelry_Sales_System.API
                 options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
             })
-            .AddCookie()
+            .AddCookie(options =>
+            {
+                options.Cookie.SameSite = SameSiteMode.None;
+            })
             .AddGoogle(options =>
             {
-                
-                options.CallbackPath = "/api/user/signin-google-callback";
+                options.CallbackPath = "/api/GoogleLogin/signin-google-callback";
             });
         }
 

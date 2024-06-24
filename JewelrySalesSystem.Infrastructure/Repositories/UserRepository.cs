@@ -2,6 +2,7 @@
 using JewelrySalesSystem.Domain.Entities;
 using JewelrySalesSystem.Domain.Repositories;
 using JewelrySalesSystem.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 using Org.BouncyCastle.Crypto.Generators;
 using System;
 using System.Collections.Generic;
@@ -13,9 +14,11 @@ namespace JewelrySalesSystem.Infrastructure.Repositories
 {
     public class UserRepository : RepositoryBase<UserEntity, UserEntity, ApplicationDbContext>, IUserRepository
     {
+        private readonly ApplicationDbContext _context;
+
         public UserRepository(ApplicationDbContext dbContext, IMapper mapper) : base(dbContext,mapper)
         {
-            
+            _context = dbContext;
         }
 
         public string GeneratePassword()
@@ -49,6 +52,12 @@ namespace JewelrySalesSystem.Infrastructure.Repositories
         public bool VerifyPassword(string password, string passwordHash)
         {
             return BCrypt.Net.BCrypt.Verify(password, passwordHash);
+        }
+
+        public async Task AddAsync(UserEntity user, CancellationToken cancellationToken)
+        {
+            await _context.Users.AddAsync(user, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
         }
     }
 }
