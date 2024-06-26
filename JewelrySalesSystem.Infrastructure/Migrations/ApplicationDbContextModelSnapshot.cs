@@ -236,6 +236,48 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     b.ToTable("Role");
                 });
 
+            modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.FormEntity", b =>
+                {
+                    b.Property<string>("ID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("AppoinmentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatorID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeleterID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastestUpdateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UpdaterID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Forms");
+                });
+
             modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.OrderDetailEntity", b =>
                 {
                     b.Property<string>("ID")
@@ -330,6 +372,10 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     b.Property<string>("PromotionID")
                         .HasColumnType("nvarchar(450)")
                         .HasColumnName("VoucherCode");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("TotalCost")
                         .HasColumnType("decimal(18,2)");
@@ -452,6 +498,10 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     b.Property<float>("ReducedPercent")
                         .HasColumnType("real");
 
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("UpdaterID")
                         .HasColumnType("nvarchar(max)");
 
@@ -514,6 +564,10 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
 
                     b.Property<int>("RoleID")
                         .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UpdaterID")
                         .HasColumnType("nvarchar(max)");

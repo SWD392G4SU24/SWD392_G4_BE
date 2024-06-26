@@ -1,4 +1,7 @@
-﻿using System;
+﻿using AutoMapper;
+using JewelrySalesSystem.Application.Common.Mappings;
+using JewelrySalesSystem.Domain.Entities.Configured;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +9,18 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Application.Role
 {
-    public class RoleDto
+    public class RoleDto : IMapFrom<RoleEntity>
     {
+        public RoleDto()
+        {
+            
+        }
+        public int ID {  get; set; }
+        public string Name { get; set; }
+        public DateTime? CreatedAt {  get; set; }
+        public void Mapping(Profile profile)
+        {
+            profile.CreateMap<RoleEntity, RoleDto>();
+        }
     }
 }
