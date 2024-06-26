@@ -101,7 +101,7 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     b.ToTable("Counter");
                 });
 
-            modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.Configured.DiamonEntity", b =>
+            modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.Configured.DiamondEntity", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -119,15 +119,15 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
-                        .HasColumnName("DiamonType");
+                        .HasColumnName("DiamondType");
 
                     b.Property<decimal>("SellCost")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("ID")
-                        .HasName("DiamonID");
+                        .HasName("DiamondID");
 
-                    b.ToTable("Diamon");
+                    b.ToTable("Diamond");
                 });
 
             modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.Configured.GoldEntity", b =>
@@ -606,7 +606,7 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("JewelrySalesSystem.Domain.Entities.Configured.DiamonEntity", "Diamon")
+                    b.HasOne("JewelrySalesSystem.Domain.Entities.Configured.DiamondEntity", "Diamond")
                         .WithMany("Products")
                         .HasForeignKey("DiamonType");
 
@@ -616,7 +616,7 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
 
                     b.Navigation("Category");
 
-                    b.Navigation("Diamon");
+                    b.Navigation("Diamond");
 
                     b.Navigation("Gold");
                 });
@@ -659,7 +659,7 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.Configured.DiamonEntity", b =>
+            modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.Configured.DiamondEntity", b =>
                 {
                     b.Navigation("Products");
                 });

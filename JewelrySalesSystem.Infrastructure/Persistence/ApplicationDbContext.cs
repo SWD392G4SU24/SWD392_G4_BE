@@ -29,7 +29,7 @@ namespace JewelrySalesSystem.Infrastructure.Persistence
         public DbSet<CategoryEntity> Categories { get; set; }
         public DbSet<PaymentMethodEntity> PaymentMethods { get; set; }
         public DbSet<GoldEntity> Golds { get; set; }
-        public DbSet<DiamonEntity> Diamons { get; set; }
+        public DbSet<DiamondEntity> Diamonds { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -41,7 +41,7 @@ namespace JewelrySalesSystem.Infrastructure.Persistence
             modelBuilder.ApplyConfiguration(new OrderDetailConfigurtaion());
             modelBuilder.ApplyConfiguration(new CounterConfiguration());
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
-            modelBuilder.ApplyConfiguration(new DiamonConfiguration());
+            modelBuilder.ApplyConfiguration(new DiamondConfiguration());
             modelBuilder.ApplyConfiguration(new GoldConfiguration());
             ConfigureModel(modelBuilder);
         }

@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations.ConfigEntity
 {
-    public class DiamonConfiguration : IEntityTypeConfiguration<DiamonEntity>
+    public class DiamondConfiguration : IEntityTypeConfiguration<DiamondEntity>
     {
-        public void Configure(EntityTypeBuilder<DiamonEntity> builder)
+        public void Configure(EntityTypeBuilder<DiamondEntity> builder)
         {
-            builder.HasKey(k => k.ID).HasName("DiamonID");
-            builder.Property(k => k.Name).HasColumnName("DiamonType");
+            builder.HasKey(k => k.ID).HasName("DiamondID");
+            builder.Property(k => k.Name).HasColumnName("DiamondType");
             builder.Property(k => k.CreatedAt).HasColumnName("Date");
 
             builder.Ignore(k => k.CreatorID);
