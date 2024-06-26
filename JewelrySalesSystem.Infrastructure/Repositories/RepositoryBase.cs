@@ -72,7 +72,37 @@ namespace JewelrySalesSystem.Infrastructure.Repositories
         {
             return await QueryInternal(x => true).ToListAsync<TDomain>(cancellationToken);
         }
-
+        public virtual async Task<List<TDomain>> FindAllAsync(
+           Expression<Func<TPersistence, bool>> filterExpression,
+           CancellationToken cancellationToken = default)
+        {
+            return await QueryInternal(filterExpression).ToListAsync<TDomain>(cancellationToken);
+        }
+        public virtual async Task<IPagedResult<TDomain>> FindAllAsync(
+            int pageNo,
+            int pageSize,
+            CancellationToken cancellationToken = default)
+        {
+            var query = QueryInternal(x => true);
+            return await PagedList<TDomain>.CreateAsync(
+                query,
+                pageNo,
+                pageSize,
+                cancellationToken);
+        }
+        public virtual async Task<IPagedResult<TDomain>> FindAllAsync(
+            Expression<Func<TPersistence, bool>> filterExpression,
+            int pageNo,
+            int pageSize,
+            CancellationToken cancellationToken = default)
+        {
+            var query = QueryInternal(filterExpression);
+            return await PagedList<TDomain>.CreateAsync(
+                query,
+                pageNo,
+                pageSize,
+                cancellationToken);
+        }
         public virtual async Task<TDomain?> FindAsync(Expression<Func<TPersistence, bool>> filterExpression
             , CancellationToken cancellationToken = default)
         {

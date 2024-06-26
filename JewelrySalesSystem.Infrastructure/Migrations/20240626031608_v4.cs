@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace JewelrySalesSystem.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class v3_update : Migration
+    public partial class v4 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -44,6 +44,27 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("DiamondID", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Forms",
+                columns: table => new
+                {
+                    ID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AppoinmentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatorID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdaterID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastestUpdateAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeleterID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Forms", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -176,6 +197,7 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     ID = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
@@ -212,6 +234,7 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                 {
                     VoucherCode = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ConditionsOfUse = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ReducedPercent = table.Column<float>(type: "real", nullable: false),
                     MaximumReduce = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
@@ -242,6 +265,7 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     ID = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Note = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TotalCost = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     VoucherCode = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CounterID = table.Column<int>(type: "int", nullable: true),
@@ -398,6 +422,9 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Forms");
+
             migrationBuilder.DropTable(
                 name: "OrderDetail");
 

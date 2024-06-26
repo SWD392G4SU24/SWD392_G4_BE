@@ -1,24 +1,25 @@
 ﻿using JewelrySalesSystem.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Reflection.Emit;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using static JewelrySalesSystem.Domain.Commons.Enums.Enums;
 
 namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations
 {
-    public class OrderConfiguration : IEntityTypeConfiguration<OrderEntity>
+    public class FormConfiguration : IEntityTypeConfiguration<FormEntity>
     {
-        public void Configure(EntityTypeBuilder<OrderEntity> builder)
+        public void Configure(EntityTypeBuilder<FormEntity> builder)
         {
-            
-            builder.Property(po => po.Note).HasMaxLength(255);
-            builder.Property(po => po.PromotionID).HasColumnName("VoucherCode");
             builder.Property(e => e.Status)
                 .HasConversion(v => v.ToString()
-                ,v => (OrderStatus)Enum.Parse(typeof(OrderStatus), v));
+                , v => (FormStatus)Enum.Parse(typeof(FormStatus), v));
             builder.Property(e => e.Type)
                 .HasConversion(v => v.ToString()
-                , v => (OrderType)Enum.Parse(typeof(OrderType), v));
+                , v => (FormType)Enum.Parse(typeof(FormType), v));
         }
     }
 }
