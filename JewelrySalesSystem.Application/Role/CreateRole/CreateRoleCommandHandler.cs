@@ -34,7 +34,7 @@ namespace JewelrySalesSystem.Application.Role.CreateRole
                CreatorID = _currentUserService.UserId
            };
             _roleRepository.Add(role);
-            return await _roleRepository.UnitOfWork.SaveChangesAsync(cancellationToken) == 1 ? "Tạo thành công" : "Tạo thất bại";
+            return await _roleRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? "Tạo thành công" : "Tạo thất bại";
         }
     }
 }

@@ -8,17 +8,17 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Application.Role.CreateRole
 {
-    public class CreateRoleCommandValidation : AbstractValidator<CreateRoleCommand>
+    public class CreateRoleCommandValidator : AbstractValidator<CreateRoleCommand>
     {
-        public CreateRoleCommandValidation() 
+        public CreateRoleCommandValidator() 
         {
-            OnValidate();
+            ConfigureValidationRule();
         }
 
-        private void OnValidate()
+        private void ConfigureValidationRule()
         {
             RuleFor(x => x.Name)
-                .NotEmpty();
+                .NotEmpty().WithMessage("Name không được để trống");
         }
     }
 }
