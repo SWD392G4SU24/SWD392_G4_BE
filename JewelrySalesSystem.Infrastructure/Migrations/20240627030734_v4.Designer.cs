@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JewelrySalesSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240626031608_v4")]
+    [Migration("20240627030734_v4")]
     partial class v4
     {
         /// <inheritdoc />
@@ -151,8 +151,9 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     b.Property<float>("GoldContent")
                         .HasColumnType("real");
 
-                    b.Property<float>("KaraContent")
-                        .HasColumnType("real");
+                    b.Property<string>("KaraContent")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
