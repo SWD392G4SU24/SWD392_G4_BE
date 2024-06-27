@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JewelrySalesSystem.Application.Gold.Create
+namespace JewelrySalesSystem.Application.Category
 {
-    internal class CreateGoldCommandValidator
+    internal class CategoryDto
     {
     }
 }

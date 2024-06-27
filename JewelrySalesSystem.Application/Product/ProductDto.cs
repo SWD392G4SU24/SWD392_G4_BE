@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using JewelrySalesSystem.Application.Common.Mappings;
 using JewelrySalesSystem.Application.Promotion;
+using JewelrySalesSystem.Domain.Entities;
 using JewelrySalesSystem.Domain.Entities.Configured;
 using MediatR;
 using System;
@@ -12,11 +13,11 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Application.Product
 {
-    public class ProductDto : IMapFrom<ProductDto>
+    public class ProductDto : IMapFrom<ProductEntity>
     {
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<ProductDto, ProductDto>();
+            profile.CreateMap<ProductEntity, ProductDto>();
         }
         public required string Id { get; set; }
         public required decimal WageCost { get; set; }

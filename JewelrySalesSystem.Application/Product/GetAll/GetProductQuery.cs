@@ -9,11 +9,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace JewelrySalesSystem.Application.Product.GetProduct
 {
-    public class GetProductQuery : IRequest<IEnumerable<ProductDto>>, IQuery
+    public class GetProductQuery : IRequest<List<ProductDto>>, IQuery
     {
-        public GetProductQuery()
-        {
-
-        }
+    
     }
 }

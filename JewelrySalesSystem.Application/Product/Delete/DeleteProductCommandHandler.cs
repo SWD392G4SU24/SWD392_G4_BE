@@ -1,5 +1,6 @@
 ﻿using JewelrySalesSystem.Application.Common.Interfaces;
 using JewelrySalesSystem.Domain.Commons.Exceptions;
+using JewelrySalesSystem.Domain.Commons.Interfaces;
 using JewelrySalesSystem.Domain.Repositories;
 using MediatR;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -24,13 +25,12 @@ namespace JewelrySalesSystem.Application.Product.Delete
 
         public async Task<string> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
         {
-            var product = await _productRepository.FindAsync(s => s.ID == request.ID, cancellationToken);
+            var product = await _productRepository.FindAsync(s => s.ID == request.ID && s.DeletedAt == null, cancellationToken);
             if (product is null) throw new NotFoundException("Product is not exist");
             product.DeleterID = _currentUserService.UserId;
             product.DeletedAt = DateTime.Now;
             _productRepository.Update(product);
-            await _productRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
-            return "Deleted Product Successfully" ;
+            return await _productRepository.UnitOfWork.SaveChangesAsync(cancellationToken) == 1 ? "Deleted Product Successfully" : "Delete Product Failed" ;
         }
     }
 }

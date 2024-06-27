@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JewelrySalesSystem.Application.Gold.GetAll
+namespace JewelrySalesSystem.Application.Category
 {
-    internal class GetGoldQuery
+    internal class CategoryMappingExtenstion
     {
     }
 }

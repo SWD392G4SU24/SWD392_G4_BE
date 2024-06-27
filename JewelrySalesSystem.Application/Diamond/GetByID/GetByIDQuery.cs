@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Application.Diamon.GetByID
 {
-    public class GetByIDQuery : IRequest<DiamonDto>, IQuery
+    public class GetByIDQuery : IRequest<DiamondDto>, IQuery
     {
         public required int ID { get; set; }
     }

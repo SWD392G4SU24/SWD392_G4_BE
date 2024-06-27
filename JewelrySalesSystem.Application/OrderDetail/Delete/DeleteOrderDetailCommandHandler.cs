@@ -1,5 +1,4 @@
 ﻿using JewelrySalesSystem.Application.Common.Interfaces;
-using JewelrySalesSystem.Application.OrderDetail.Update;
 using JewelrySalesSystem.Domain.Commons.Exceptions;
 using JewelrySalesSystem.Domain.Repositories;
 using MediatR;

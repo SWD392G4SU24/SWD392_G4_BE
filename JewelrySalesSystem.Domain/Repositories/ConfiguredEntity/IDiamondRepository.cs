@@ -1,4 +1,5 @@
-﻿using JewelrySalesSystem.Domain.Entities.Configured;
+﻿using JewelrySalesSystem.Domain.Entities;
+using JewelrySalesSystem.Domain.Entities.Configured;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Domain.Repositories.ConfiguredEntity
 {
-    public interface IGoldRopository : IEFRepository<GoldEntity, GoldEntity>
+    public interface IDiamondRepository : IEFRepository<DiamondEntity, DiamondEntity>
     {
+
     }
 }

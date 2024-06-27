@@ -6,11 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JewelrySalesSystem.Application.Diamon.Delete
+namespace JewelrySalesSystem.Application.Diamon.GetAll
 {
-    public class DeleteDiamonQuery : IRequest<string>, IQuery
+    public class GetDiamondQuery : IRequest<IEnumerable<DiamondDto>>, IQuery
     {
-        public required int ID { get; set; }
-    
+        public GetDiamondQuery() { }
     }
 }

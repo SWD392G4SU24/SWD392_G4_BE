@@ -1,24 +1,21 @@
 ﻿using AutoMapper;
 using JewelrySalesSystem.Application.Common.Mappings;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JewelrySalesSystem.Application.Gold
+namespace JewelrySalesSystem.Application.Diamon
 {
-    public class GoldDto : IMapFrom<GoldDto>
+    public class DiamondDto : IMapFrom<DiamondDto>
     {
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<GoldDto, GoldDto>();
+            profile.CreateMap<DiamondDto, DiamondDto>();
         }
-        public required int ID { get; set; }
+        public required int Id { get; set; }
         public required string Name { get; set; }
-        public required float KaraContent { get; set; }
-        public required float GoldContent { get; set; }
         public required decimal BuyCost { get; set; }
         public required decimal SellCost { get; set; }
     }

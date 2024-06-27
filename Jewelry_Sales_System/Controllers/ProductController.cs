@@ -28,10 +28,10 @@ namespace Jewelry_Sales_System.API.Controllers
         [HttpGet]
         [Route("[controller]")]
         [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(IEnumerable<ProductDto>), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(List<ProductDto>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<ProductDto>>> GetAllPrducts(
+        public async Task<ActionResult<List<ProductDto>>> GetAllPrducts(
            CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(new GetProductQuery(), cancellationToken);

@@ -23,7 +23,7 @@ namespace JewelrySalesSystem.Application.Product.Update
 
         public async Task<string> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
-            var product = await _productRepository.FindAsync(s => s.ID == request.ID, cancellationToken);
+            var product = await _productRepository.FindAsync(s => s.ID == request.ID && s.DeletedAt == null, cancellationToken);
             if (product is null) throw new NotFoundException("Product is not exist");
             // Update specific fields based on request properties
             product.CategoryID = request.CategoryID;
@@ -37,8 +37,7 @@ namespace JewelrySalesSystem.Application.Product.Update
             product.UpdaterID = _currentUserService.UserId;
             product.LastestUpdateAt = DateTime.Now;
             _productRepository.Update(product);
-            await _productRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
-            return "Updated Product Successfully";
+            return await _productRepository.UnitOfWork.SaveChangesAsync(cancellationToken) == 1 ? "Updated Product Successfully" : "Update Product failed";
         }
 
       

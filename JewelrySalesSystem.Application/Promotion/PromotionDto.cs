@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Application.Promotion
 {
-    public class PromotionDto : IMapFrom<PromotionDto>
+    public class PromotionDto : IMapFrom<ProductEntity>
     {
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<PromotionDto, PromotionDto>();
+            profile.CreateMap<ProductEntity, PromotionDto>();
         }
         public required string Id { get; set; }
         public required decimal ConditionsOfUse { get; set; }

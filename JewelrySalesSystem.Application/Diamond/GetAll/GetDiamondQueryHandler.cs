@@ -8,19 +8,19 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Application.Diamon.GetAll
 {
-    public class GetDiamonQueryHandler : IRequestHandler<GetDiamonQuery, IEnumerable<DiamonDto>>
+    public class GetDiamondQueryHandler : IRequestHandler<GetDiamondQuery, IEnumerable<DiamondDto>>
     {
-        private readonly IDiamonRepository _diamonRepository;
+        private readonly IDiamondRepository _diamonRepository;
 
-        public GetDiamonQueryHandler(IDiamonRepository diamonRepository)
+        public GetDiamondQueryHandler(IDiamondRepository diamonRepository)
         {
             _diamonRepository = diamonRepository;
         }
 
-        public async Task<IEnumerable<DiamonDto>> Handle(GetDiamonQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<DiamondDto>> Handle(GetDiamondQuery request, CancellationToken cancellationToken)
         {
             var diamon = await _diamonRepository.FindAllAsync(cancellationToken);
-            return diamon.Select(s => new DiamonDto
+            return diamon.Select(s => new DiamondDto
             {
                 Name = s.Name,
                 BuyCost = s.BuyCost,

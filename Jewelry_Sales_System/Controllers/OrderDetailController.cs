@@ -1,10 +1,8 @@
 ﻿
 using JewelrySalesSystem.Application.OrderDetail;
-using JewelrySalesSystem.Application.OrderDetail.Create;
 using JewelrySalesSystem.Application.OrderDetail.Delete;
 using JewelrySalesSystem.Application.OrderDetail.GetAll;
 using JewelrySalesSystem.Application.OrderDetail.GetByID;
-using JewelrySalesSystem.Application.OrderDetail.Update;
 using MediatR;
 using AuthorizeAttribute = JewelrySalesSystem.Application.Common.Security.AuthorizeAttribute;
 using Microsoft.AspNetCore.Http;
@@ -52,37 +50,6 @@ namespace Jewelry_Sales_System.API.Controllers
             var query = new GetByIDQuery { Id = id };
             var result = await _mediator.Send(query, cancellationToken);
             return Ok(result);
-        }
-
-        [AllowAnonymous]
-        [HttpPost]
-        [Route("[controller]")]
-        [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<JsonResponse<string>>> CreateOrderDetail(
-            [FromBody] CreateOrderDetailCommand command,
-           CancellationToken cancellationToken)
-        {
-            var result = await _mediator.Send(command, cancellationToken);
-            return Ok(new JsonResponse<string>(result));
-        }
-
-        [AllowAnonymous]
-        [HttpPut]
-        [Route("[controller]/{id}")]
-        [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<JsonResponse<string>>> UpdateOrderDetail(string id,
-            [FromBody] UpdateOrderDetailCommand command,
-           CancellationToken cancellationToken)
-        {
-            if (id != command.Id) return BadRequest("The product ID in the request body must match the route parameter.");
-            var result = await _mediator.Send(command, cancellationToken);
-            return Ok(new JsonResponse<string>(result));
         }
 
         [AllowAnonymous]

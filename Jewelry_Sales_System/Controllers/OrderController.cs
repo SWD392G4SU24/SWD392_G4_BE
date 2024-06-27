@@ -6,8 +6,6 @@ using System.Net.Mime;
 using JewelrySalesSystem.Application.Order;
 using AuthorizeAttribute = JewelrySalesSystem.Application.Common.Security.AuthorizeAttribute;
 using JewelrySalesSystem.Application.Order.GetAll;
-using JewelrySalesSystem.Application.Order.CreateOrder;
-using JewelrySalesSystem.Application.Order.UpdateOrder;
 using JewelrySalesSystem.Application.Order.DeleteOrder;
 using JewelrySalesSystem.Application.Order.GetByID;
 
@@ -53,35 +51,6 @@ namespace Jewelry_Sales_System.API.Controllers
         }
 
 
-        //[HttpPost]
-        //[Route("[controller]")]
-        //[Produces(MediaTypeNames.Application.Json)]
-        //[ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status201Created)]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        //public async Task<ActionResult<JsonResponse<string>>> CreateNewOrder(
-        //    [FromBody] CreateOrderCommand command,
-        //   CancellationToken cancellationToken)
-        //{
-        //    var result = await _mediator.Send(command, cancellationToken);
-        //    return Ok(new JsonResponse<string>(result));
-        //}
-
-        [AllowAnonymous]
-        [HttpPut]
-        [Route("[controller]/{id}")]
-        [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<JsonResponse<string>>> UpdateOrder( string id,
-            [FromBody] UpdateOrderCommand command,
-           CancellationToken cancellationToken)
-        {
-            if(id != command.Id) return BadRequest("The product ID in the request body must match the route parameter.");
-            var result = await _mediator.Send(command, cancellationToken);
-            return Ok(new JsonResponse<string>(result));
-        }
 
         [AllowAnonymous]
         [HttpDelete]

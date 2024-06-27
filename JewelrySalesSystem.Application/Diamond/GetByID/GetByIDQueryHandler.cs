@@ -9,19 +9,19 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Application.Diamon.GetByID
 {
-    public class GetByIDQueryHandler : IRequestHandler<GetByIDQuery, DiamonDto>
+    public class GetByIDQueryHandler : IRequestHandler<GetByIDQuery, DiamondDto>
     {
-        private readonly IDiamonRepository _diamonRepository;
+        private readonly IDiamondRepository _diamonRepository;
 
-        public GetByIDQueryHandler(IDiamonRepository diamonRepository)
+        public GetByIDQueryHandler(IDiamondRepository diamonRepository)
         {
             _diamonRepository = diamonRepository;
         }
-        public async Task<DiamonDto> Handle(GetByIDQuery request, CancellationToken cancellationToken)
+        public async Task<DiamondDto> Handle(GetByIDQuery request, CancellationToken cancellationToken)
         {
             var diamon = await _diamonRepository.FindAsync(s => s.ID == request.ID, cancellationToken);
             if (diamon is null) throw new NotFoundException("Diamon is not exist");
-            return new DiamonDto 
+            return new DiamondDto 
             {
                 Name = diamon.Name,
                 BuyCost = diamon.BuyCost, 

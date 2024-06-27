@@ -10,18 +10,18 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Application.Diamon.Delete
 {
-    public class DeleteDiamonQueryHalder : IRequestHandler<DeleteDiamonQuery, string>
+    public class DeleteDiamondQueryHalder : IRequestHandler<DeleteDiamondQuery, string>
     {
-        private readonly IDiamonRepository _diamonRepository;   
+        private readonly IDiamondRepository _diamonRepository;   
         private readonly ICurrentUserService _userService;
 
-        public DeleteDiamonQueryHalder(IDiamonRepository diamonRepository, ICurrentUserService userService)
+        public DeleteDiamondQueryHalder(IDiamondRepository diamonRepository, ICurrentUserService userService)
         {
             _diamonRepository = diamonRepository;
             _userService = userService;
         }
 
-        public async Task<string> Handle(DeleteDiamonQuery request, CancellationToken cancellationToken)
+        public async Task<string> Handle(DeleteDiamondQuery request, CancellationToken cancellationToken)
         {
             var diamon = await _diamonRepository.FindAsync(s => s.ID == request.ID, cancellationToken);
             if (diamon is null) throw new NotFoundException("Diamon is not exist");
