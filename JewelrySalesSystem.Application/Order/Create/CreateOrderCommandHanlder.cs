@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using static JewelrySalesSystem.Domain.Commons.Enums.Enums;
 
 namespace JewelrySalesSystem.Application.Order.CreateOrder
 {
@@ -35,7 +36,8 @@ namespace JewelrySalesSystem.Application.Order.CreateOrder
                 PromotionID = request.PromotionID,
                 CounterID = request.CounterID,
                 CreatorID = _currentUserService.UserId,
-                CreatedAt = DateTime.Now
+                CreatedAt = DateTime.Now,
+                Status = OrderStatus.PENDING
             };
              _orderRepository.Add(order);
             await _orderRepository.UnitOfWork.SaveChangesAsync(cancellationToken);

@@ -19,7 +19,7 @@ namespace JewelrySalesSystem.Application.Diamon.GetByID
         }
         public async Task<DiamonDto> Handle(GetByIDQuery request, CancellationToken cancellationToken)
         {
-            var diamon = await _diamonRepository.GetDiamonByIdAsnyc(request.ID, cancellationToken);
+            var diamon = await _diamonRepository.FindAsync(s => s.ID == request.ID, cancellationToken);
             if (diamon is null) throw new NotFoundException("Diamon is not exist");
             return new DiamonDto 
             {

@@ -25,7 +25,7 @@ namespace JewelrySalesSystem.Application.Diamon.Update
 
         public async Task<string> Handle(UpdateDiamonCommand request, CancellationToken cancellationToken)
         {
-            var diamon = await _diamonRepository.GetDiamonByIdAsnyc(request.ID, cancellationToken);
+            var diamon = await _diamonRepository.FindAsync(s => s.ID == request.ID, cancellationToken);
             if (diamon is null) throw new NotFoundException("Diamon is not exist");
             // Update dimon field
             diamon.BuyCost = request.BuyCost;

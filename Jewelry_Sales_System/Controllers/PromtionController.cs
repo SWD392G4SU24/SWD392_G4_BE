@@ -24,7 +24,7 @@ namespace Jewelry_Sales_System.API.Controllers
         }
 
         [HttpGet]
-        [Route("GetAllPromotions")]
+        [Route("[controller]")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(IEnumerable<PromotionDto>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -38,22 +38,23 @@ namespace Jewelry_Sales_System.API.Controllers
 
 
         [HttpGet]
-        [Route("GetPromotionById")]
+        [Route("[controller]/{id}")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(IEnumerable<PromotionDto>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<IEnumerable<PromotionDto>>> GetPromotionById(
-            [FromQuery] GetByIDQuery query,
+            string id,
             CancellationToken cancellationToken)
         {
+            var query = new GetByIDQuery { Id = id };
             var result = await _mediator.Send(query, cancellationToken);
             return Ok(result);
         }
 
         [AllowAnonymous]
         [HttpPost]
-        [Route("CreatePromtion")]
+        [Route("[controller]")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -68,31 +69,32 @@ namespace Jewelry_Sales_System.API.Controllers
 
         [AllowAnonymous]
         [HttpPut]
-        [Route("UpdatePromotion")]
+        [Route("[controller]/{id}")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<JsonResponse<string>>> UpdatePromotion(
+        public async Task<ActionResult<JsonResponse<string>>> UpdatePromotion(string id,
                [FromBody] UpdatePromotionCommand command,
                CancellationToken cancellationToken = default)
         {
+            if (id != command.ID) return BadRequest("The promotion in the request body must match the route parameter.");
             var result = await _mediator.Send(command, cancellationToken);
             return Ok(new JsonResponse<string>(result));
         }
 
         [AllowAnonymous]
         [HttpDelete]
-        [Route("DeletePromotion")]
+        [Route("[controller]/{id}")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<JsonResponse<string>>> DeletePromotion(
-               [FromQuery] DeletePromotionQuery query,
+        public async Task<ActionResult<JsonResponse<string>>> DeletePromotion(string id,
                CancellationToken cancellationToken = default)
         {
-            var result = await _mediator.Send(query, cancellationToken);
+            var command = new DeletePromotionCommand { ID = id };
+            var result = await _mediator.Send(command, cancellationToken);
             return Ok(new JsonResponse<string>(result));
         }
     }

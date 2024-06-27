@@ -1,4 +1,5 @@
 ﻿using JewelrySalesSystem.Application.Common.Interfaces;
+using JewelrySalesSystem.Domain.Commons.Exceptions;
 using JewelrySalesSystem.Domain.Entities;
 using JewelrySalesSystem.Domain.Repositories;
 using MediatR;
@@ -23,6 +24,18 @@ namespace JewelrySalesSystem.Application.Product.Create
 
         public async Task<string> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
+            var isExist = await _productRepository.FindAsync(s => s.CategoryID == request.CategoryID, cancellationToken);
+            if (isExist == null)
+                throw new NotFoundException ("The Category is not exist");
+
+                isExist= await _productRepository.FindAsync(s => s.DiamonType == request.DiamonType, cancellationToken);
+            if (isExist == null)
+                throw new NotFoundException("The DiamonType is not exist");
+
+                isExist= await _productRepository.FindAsync(s => s.GoldType == request.GoldType, cancellationToken);
+            if (isExist == null)
+                throw new NotFoundException("The GoldType is not exist");
+
             var product = new ProductEntity
             {
                 CategoryID = request.CategoryID,

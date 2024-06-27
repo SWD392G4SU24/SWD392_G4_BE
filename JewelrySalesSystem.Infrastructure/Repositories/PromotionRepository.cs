@@ -20,16 +20,7 @@ namespace JewelrySalesSystem.Infrastructure.Repositories
             _context = dbContext;
         }
 
-        public async Task<IEnumerable<PromotionEntity>> GetAllPromotionsAsync(CancellationToken cancellationToken)
-        {
-            return await _context.Promotions.ToListAsync(cancellationToken).ConfigureAwait(false);  
-        }
-
-
-        public async Task<PromotionEntity> GetPromotionByIdAsnyc(string id, CancellationToken cancellationToken)
-        {
-            return await _context.Promotions.FirstOrDefaultAsync(p => p.ID == id, cancellationToken);
-        }
+     
 
     }
 }

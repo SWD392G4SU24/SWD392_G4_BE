@@ -79,7 +79,7 @@ namespace Jewelry_Sales_System.API.Controllers
             [FromBody] UpdateProductCommand command,
            CancellationToken cancellationToken)
         {
-            if (id != command.ID) return BadRequest("The product ID in the request body must match the route parameter.");
+            if (id != command.ID) return BadRequest("The product in the request body must match the route parameter.");
             var result = await _mediator.Send(command, cancellationToken);
             return Ok(new JsonResponse<string>(result));
         }

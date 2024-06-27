@@ -23,7 +23,7 @@ namespace JewelrySalesSystem.Application.Diamon.Create
 
         public async Task<string> Handle(CreateDiamonCommand request, CancellationToken cancellationToken)
         {
-            var diamon = new DiamonEntity
+            var diamon = new DiamondEntity
             {
                 BuyCost = request.BuyCost,
                 Name = request.Name,

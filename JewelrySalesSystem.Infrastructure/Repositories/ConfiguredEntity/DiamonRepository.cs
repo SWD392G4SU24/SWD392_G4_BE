@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Infrastructure.Repositories.ConfiguredEntity
 {
-    public class DiamonRepository : RepositoryBase<DiamonEntity, DiamonEntity, ApplicationDbContext>, IDiamonRepository
+    public class DiamonRepository : RepositoryBase<DiamondEntity, DiamondEntity, ApplicationDbContext>, IDiamonRepository
     {
         private readonly ApplicationDbContext _context;
         public DiamonRepository(ApplicationDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
@@ -19,14 +19,6 @@ namespace JewelrySalesSystem.Infrastructure.Repositories.ConfiguredEntity
             _context = dbContext;
         }
 
-        public async Task<IEnumerable<DiamonEntity>> GetAllDiamonAsync(CancellationToken cancellationToken)
-        {
-            return await _context.Diamons.ToListAsync(cancellationToken).ConfigureAwait(false);
-        }
-
-        public async Task<DiamonEntity> GetDiamonByIdAsnyc(int id, CancellationToken cancellationToken)
-        {
-            return await _context.Diamons.FirstOrDefaultAsync(x => x.ID == id, cancellationToken).ConfigureAwait(false);
-        }
+       
     }
 }

@@ -8,9 +8,8 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Domain.Repositories.ConfiguredEntity
 {
-    public interface IDiamonRepository : IEFRepository<DiamonEntity, DiamonEntity>
+    public interface IDiamonRepository : IEFRepository<DiamondEntity, DiamondEntity>
     {
-        Task<IEnumerable<DiamonEntity>> GetAllDiamonAsync(CancellationToken cancellationToken);
-        Task<DiamonEntity> GetDiamonByIdAsnyc(int id, CancellationToken cancellationToken);
+
     }
 }

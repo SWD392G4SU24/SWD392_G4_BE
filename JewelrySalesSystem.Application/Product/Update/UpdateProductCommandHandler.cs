@@ -25,6 +25,7 @@ namespace JewelrySalesSystem.Application.Product.Update
         {
             var product = await _productRepository.FindAsync(s => s.ID == request.ID, cancellationToken);
             if (product is null) throw new NotFoundException("Product is not exist");
+            // Update specific fields based on request properties
             product.CategoryID = request.CategoryID;
             product.WageCost = request.WageCost;
             product.Quantity = request.Quantity;

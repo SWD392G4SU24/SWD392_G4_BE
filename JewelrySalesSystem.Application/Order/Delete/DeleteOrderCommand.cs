@@ -8,13 +8,8 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Application.Order.DeleteOrder
 {
-    public class DeleteOrdercommand : IRequest<string>, IQuery
+    public class DeleteOrdercommand : IRequest<string>, ICommand
     {
-        public DeleteOrdercommand()
-        {
-            
-        }
-
         public  string Id {  get; set; }
     
     }

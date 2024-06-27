@@ -11,8 +11,7 @@ namespace JewelrySalesSystem.Domain.Repositories
 {
     public interface IPromotionRepository : IEFRepository<PromotionEntity, PromotionEntity>
     {
-        Task<IEnumerable<PromotionEntity>> GetAllPromotionsAsync(CancellationToken cancellationToken);
-        Task<PromotionEntity>GetPromotionByIdAsnyc(string id, CancellationToken cancellationToken);
+
         
     }
 }

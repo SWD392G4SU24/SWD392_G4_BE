@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Application.OrderDetail.Delete
 {
-    public class DeleteOrderDetailCommand : IRequest<string>, IQuery
+    public class DeleteOrderDetailCommand : IRequest<string>, ICommand
     {
         public required string Id { get; set; }
 

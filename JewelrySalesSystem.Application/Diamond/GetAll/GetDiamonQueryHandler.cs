@@ -19,7 +19,7 @@ namespace JewelrySalesSystem.Application.Diamon.GetAll
 
         public async Task<IEnumerable<DiamonDto>> Handle(GetDiamonQuery request, CancellationToken cancellationToken)
         {
-            var diamon = await _diamonRepository.GetAllDiamonAsync(cancellationToken);
+            var diamon = await _diamonRepository.FindAllAsync(cancellationToken);
             return diamon.Select(s => new DiamonDto
             {
                 Name = s.Name,

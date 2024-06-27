@@ -8,12 +8,8 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Application.Promotion.DeletePromotion
 {
-    public class DeletePromotionQuery : IRequest<string>, IQuery
+    public class DeletePromotionCommand : IRequest<string>, ICommand
     {
-        public DeletePromotionQuery(string id)
-        {
-            ID = id;
-        }
         public required string ID { get; set; }
     }
 }

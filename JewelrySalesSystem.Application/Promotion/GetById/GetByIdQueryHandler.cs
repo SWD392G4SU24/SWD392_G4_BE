@@ -2,6 +2,7 @@
 using JewelrySalesSystem.Application.Promotion.GetPromotion;
 using JewelrySalesSystem.Domain.Commons.Exceptions;
 using JewelrySalesSystem.Domain.Repositories;
+using JewelrySalesSystem.Infrastructure.Repositories;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -21,8 +22,8 @@ namespace JewelrySalesSystem.Application.Promotion.GetById
         public async Task<PromotionDto> Handle(GetByIDQuery request, CancellationToken cancellationToken)
         {
             // Logic to retrieve promotions base on query parameters(if any)
-            var promotions = await _promotionRepository.GetPromotionByIdAsnyc(request.Id, cancellationToken);
-            if (promotions is null) throw new NotFoundException("VoucherCode is not exist");
+            var promotions = await _promotionRepository.FindAsync(s => s.ID == request.Id, cancellationToken);
+            if (promotions is null) throw new NotFoundException("Prmotions is not exist");
             return new PromotionDto {
                 ConditionsOfUse = promotions.ConditionsOfUse,
                 Id = promotions.ID,

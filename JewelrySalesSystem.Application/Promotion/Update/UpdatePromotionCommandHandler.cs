@@ -1,6 +1,7 @@
 ﻿using JewelrySalesSystem.Application.Common.Interfaces;
 using JewelrySalesSystem.Domain.Commons.Exceptions;
 using JewelrySalesSystem.Domain.Repositories;
+using JewelrySalesSystem.Infrastructure.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
@@ -25,8 +26,8 @@ namespace JewelrySalesSystem.Application.Promotion.UpdatePromotion
 
         public async Task<string> Handle(UpdatePromotionCommand request, CancellationToken cancellationToken)
         {
-            var promotion = await _promotionRepository.GetPromotionByIdAsnyc(request.ID, cancellationToken);
-            if (promotion is null) throw new NotFoundException("The VoucherCode:" + request.ID + " is not found");
+            var promotion = await _promotionRepository.FindAsync(s => s.ID == request.ID, cancellationToken);
+            if (promotion is null) throw new NotFoundException("Promotion is not exist");
             // Update specific fields based on request properties
             promotion.ConditionsOfUse = request.ConditionsOfUse;
             promotion.Description = request.Description ?? request.Description;
