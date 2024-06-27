@@ -148,8 +148,9 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     b.Property<float>("GoldContent")
                         .HasColumnType("real");
 
-                    b.Property<float>("KaraContent")
-                        .HasColumnType("real");
+                    b.Property<string>("KaraContent")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()

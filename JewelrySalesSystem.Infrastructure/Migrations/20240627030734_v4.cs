@@ -73,7 +73,7 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    KaraContent = table.Column<float>(type: "real", nullable: false),
+                    KaraContent = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     GoldContent = table.Column<float>(type: "real", nullable: false),
                     BuyCost = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     SellCost = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
