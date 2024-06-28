@@ -1,15 +1,7 @@
 ﻿using AutoMapper;
 using JewelrySalesSystem.Application.Common.Mappings;
-using JewelrySalesSystem.Application.Promotion;
 using JewelrySalesSystem.Domain.Entities;
-using JewelrySalesSystem.Domain.Entities.Configured;
-using MediatR;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace JewelrySalesSystem.Application.Product
 {

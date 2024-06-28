@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Application.Diamon.GetAll
 {
-    public class GetDiamondQuery : IRequest<IEnumerable<DiamondDto>>, IQuery
+    public class GetDiamondQuery : IRequest<List<DiamondDto>>, IQuery
     {
-        public GetDiamondQuery() { }
     }
 }

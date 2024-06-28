@@ -1,4 +1,9 @@
-﻿using JewelrySalesSystem.Domain.Repositories.ConfiguredEntity;
+﻿using AutoMapper;
+using JewelrySalesSystem.Application.Diamond;
+using JewelrySalesSystem.Application.GoldBtmc;
+using JewelrySalesSystem.Domain.Commons.Interfaces;
+using JewelrySalesSystem.Domain.Repositories.ConfiguredEntity;
+using JewelrySalesSystem.Infrastructure.ExternalService.Diamond;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -8,25 +13,21 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Application.Diamon.GetAll
 {
-    public class GetDiamondQueryHandler : IRequestHandler<GetDiamondQuery, IEnumerable<DiamondDto>>
+    public class GetDiamondQueryHandler : IRequestHandler<GetDiamondQuery, List<DiamondDto>>
     {
-        private readonly IDiamondRepository _diamonRepository;
+        private readonly IDiamondService _diamondService;
+        private readonly IMapper _mapper;
 
-        public GetDiamondQueryHandler(IDiamondRepository diamonRepository)
+        public GetDiamondQueryHandler(IDiamondService diamondService, IMapper mapper)
         {
-            _diamonRepository = diamonRepository;
+            _diamondService = diamondService;
+            _mapper = mapper;
         }
 
-        public async Task<IEnumerable<DiamondDto>> Handle(GetDiamondQuery request, CancellationToken cancellationToken)
+        public async Task<List<DiamondDto>> Handle(GetDiamondQuery request, CancellationToken cancellationToken)
         {
-            var diamon = await _diamonRepository.FindAllAsync(cancellationToken);
-            return diamon.Select(s => new DiamondDto
-            {
-                Name = s.Name,
-                BuyCost = s.BuyCost,
-                Id = s.ID,
-                SellCost = s.SellCost,
-            }).ToList();
+            var listDiamond = await _diamondService.GetDiamondPricesAsync(cancellationToken);
+            return listDiamond.MapToDiamondDtoList(_mapper);
         }
     }
 }

@@ -18,18 +18,17 @@ namespace JewelrySalesSystem.Application.Product.Create
     {
         private readonly IProductRepository _productRepository;
         private readonly ICategoryRepository _categoryRepository;
-        private readonly IDiamondRepository  _diamondRepository;
         private readonly IGoldService  _goldService;
+        private readonly IDiamondService  _diamondService;
         private readonly ICurrentUserService _currentUserService;
 
-        public CreateProductCommandHandler(IProductRepository productRepository, ICategoryRepository categoryRepository, IDiamondRepository diamondRepository, IGoldService goldService, ICurrentUserService currentUserService)
+        public CreateProductCommandHandler(IProductRepository productRepository, ICategoryRepository categoryRepository, IGoldService goldService, IDiamondService diamondService, ICurrentUserService currentUserService)
         {
             _productRepository = productRepository;
             _categoryRepository = categoryRepository;
-            _diamondRepository = diamondRepository;
             _goldService = goldService;
+            _diamondService = diamondService;
             _currentUserService = currentUserService;
-  
         }
 
         public async Task<string> Handle(CreateProductCommand request, CancellationToken cancellationToken)
@@ -38,11 +37,11 @@ namespace JewelrySalesSystem.Application.Product.Create
             var category = await _categoryRepository.FindAsync(c => c.ID == request.CategoryID && c.DeletedAt == null, cancellationToken);
             if (category == null) throw new NotFoundException("Category not found");
 
-            //var diamond = await _diamondRepository.FindAsync(d => d.ID == request.DiamondType && d.DeletedAt == null, cancellationToken);
-            //if (diamond == null) throw new NotFoundException("Diamond type not found");
+            var diamond = await _diamondService.CheckIfDiamondExistAsync(request.DiamondType, cancellationToken);
+            if (!diamond) throw new NotFoundException("DiamondType not found");
 
-            var gold = await _goldService.CheckIfGoldExistAsync(request.GoldType, cancellationToken);
-            if (!gold) throw new NotFoundException("GoldType not found");
+            //var gold = await _goldService.CheckIfGoldExistAsync(request.GoldType, cancellationToken);
+            //if (!gold) throw new NotFoundException("GoldType not found");
 
             var product = new ProductEntity
             {
