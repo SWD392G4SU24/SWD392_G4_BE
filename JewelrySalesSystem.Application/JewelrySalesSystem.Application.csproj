@@ -25,10 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Common\Pagination\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\JewelrySalesSystem.Domain\JewelrySalesSystem.Domain.csproj" />
     <ProjectReference Include="..\JewelrySalesSystem.Infrastructure\JewelrySalesSystem.Infrastructure.csproj" />
   </ItemGroup>

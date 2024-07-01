@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace JewelrySalesSystem.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class sv_v1 : Migration
+    public partial class v4 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -31,19 +31,40 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Diamon",
+                name: "Diamond",
                 columns: table => new
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     BuyCost = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     SellCost = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    DiamonType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DiamondType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("DiamonID", x => x.ID);
+                    table.PrimaryKey("DiamondID", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Forms",
+                columns: table => new
+                {
+                    ID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AppoinmentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatorID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdaterID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastestUpdateAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeleterID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Forms", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -52,7 +73,7 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    KaraContent = table.Column<float>(type: "real", nullable: false),
+                    KaraContent = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     GoldContent = table.Column<float>(type: "real", nullable: false),
                     BuyCost = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     SellCost = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
@@ -158,9 +179,9 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Product_Diamon_DiamonType",
+                        name: "FK_Product_Diamond_DiamonType",
                         column: x => x.DiamonType,
-                        principalTable: "Diamon",
+                        principalTable: "Diamond",
                         principalColumn: "ID");
                     table.ForeignKey(
                         name: "FK_Product_Gold_GoldType",
@@ -176,6 +197,7 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     ID = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
@@ -212,6 +234,7 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                 {
                     VoucherCode = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ConditionsOfUse = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ReducedPercent = table.Column<float>(type: "real", nullable: false),
                     MaximumReduce = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
@@ -242,6 +265,7 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     ID = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Note = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TotalCost = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     VoucherCode = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CounterID = table.Column<int>(type: "int", nullable: true),
@@ -399,6 +423,9 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Forms");
+
+            migrationBuilder.DropTable(
                 name: "OrderDetail");
 
             migrationBuilder.DropTable(
@@ -414,7 +441,7 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                 name: "Promotion");
 
             migrationBuilder.DropTable(
-                name: "Diamon");
+                name: "Diamond");
 
             migrationBuilder.DropTable(
                 name: "Gold");

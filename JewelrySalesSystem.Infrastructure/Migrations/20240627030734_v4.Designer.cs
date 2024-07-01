@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JewelrySalesSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240614101758_sv_v1")]
-    partial class sv_v1
+    [Migration("20240627030734_v4")]
+    partial class v4
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -104,7 +104,7 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     b.ToTable("Counter");
                 });
 
-            modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.Configured.DiamonEntity", b =>
+            modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.Configured.DiamondEntity", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -122,15 +122,15 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
-                        .HasColumnName("DiamonType");
+                        .HasColumnName("DiamondType");
 
                     b.Property<decimal>("SellCost")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("ID")
-                        .HasName("DiamonID");
+                        .HasName("DiamondID");
 
-                    b.ToTable("Diamon");
+                    b.ToTable("Diamond");
                 });
 
             modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.Configured.GoldEntity", b =>
@@ -151,8 +151,9 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     b.Property<float>("GoldContent")
                         .HasColumnType("real");
 
-                    b.Property<float>("KaraContent")
-                        .HasColumnType("real");
+                    b.Property<string>("KaraContent")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -237,6 +238,48 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                         .HasName("RoleID");
 
                     b.ToTable("Role");
+                });
+
+            modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.FormEntity", b =>
+                {
+                    b.Property<string>("ID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("AppoinmentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatorID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeleterID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastestUpdateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UpdaterID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Forms");
                 });
 
             modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.OrderDetailEntity", b =>
@@ -333,6 +376,10 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     b.Property<string>("PromotionID")
                         .HasColumnType("nvarchar(450)")
                         .HasColumnName("VoucherCode");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("TotalCost")
                         .HasColumnType("decimal(18,2)");
@@ -455,6 +502,10 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     b.Property<float>("ReducedPercent")
                         .HasColumnType("real");
 
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("UpdaterID")
                         .HasColumnType("nvarchar(max)");
 
@@ -517,6 +568,10 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
 
                     b.Property<int>("RoleID")
                         .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UpdaterID")
                         .HasColumnType("nvarchar(max)");
@@ -609,7 +664,7 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("JewelrySalesSystem.Domain.Entities.Configured.DiamonEntity", "Diamon")
+                    b.HasOne("JewelrySalesSystem.Domain.Entities.Configured.DiamondEntity", "Diamond")
                         .WithMany("Products")
                         .HasForeignKey("DiamonType");
 
@@ -619,7 +674,7 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
 
                     b.Navigation("Category");
 
-                    b.Navigation("Diamon");
+                    b.Navigation("Diamond");
 
                     b.Navigation("Gold");
                 });
@@ -662,7 +717,7 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.Configured.DiamonEntity", b =>
+            modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.Configured.DiamondEntity", b =>
                 {
                     b.Navigation("Products");
                 });

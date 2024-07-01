@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static JewelrySalesSystem.Domain.Commons.Enums.Enums;
 
 namespace JewelrySalesSystem.Domain.Entities
 {
@@ -15,6 +16,7 @@ namespace JewelrySalesSystem.Domain.Entities
     {   
         public required string Username { get; set; }
         public required string PasswordHash { get; set; }
+        public required UserStatus Status { get; set; }
         public required string FullName { get; set; }
         [DataType(DataType.EmailAddress)]
         [Range(1, 50, ErrorMessage = "Email Address cannot be over 50 characters!")]
