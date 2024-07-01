@@ -44,7 +44,6 @@ namespace Jewelry_Sales_System.API.Controllers
 
         [HttpGet("role/pagination")]
         [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(JsonResponse<PagedResult<RoleDto>>), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(JsonResponse<PagedResult<RoleDto>>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
