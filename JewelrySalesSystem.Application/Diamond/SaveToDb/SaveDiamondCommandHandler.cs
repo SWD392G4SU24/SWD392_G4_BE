@@ -34,6 +34,7 @@ namespace JewelrySalesSystem.Application.Diamond.SaveToDb
                 {
                     throw new DuplicationException("Diamond đã tồn tại");
                 }
+
                 _diamondRepository.Add(new DiamondEntity
                 {
                     BuyCost = item.BuyCost,

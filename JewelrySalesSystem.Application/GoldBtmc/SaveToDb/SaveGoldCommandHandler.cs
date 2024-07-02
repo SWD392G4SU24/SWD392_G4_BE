@@ -43,7 +43,7 @@ namespace JewelrySalesSystem.Application.GoldBtmc.SaveToDb
             }
             var result = await _goldRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
         
-            return result == 0 ? "lưu Gold thất bại" : "lưu Gold thành công";
+            return result == 0 ? "Lưu Gold thất bại" : "lưu Gold thành công";
         }
     }
 }
