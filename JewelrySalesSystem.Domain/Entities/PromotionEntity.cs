@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static JewelrySalesSystem.Domain.Commons.Enums.Enums;
 
 namespace JewelrySalesSystem.Domain.Entities
 {
@@ -13,6 +14,7 @@ namespace JewelrySalesSystem.Domain.Entities
     public class PromotionEntity : BaseEntity
     {
         public string? Description {  get; set; }
+        public required PromotionStatus Status { get; set; }
         public required decimal ConditionsOfUse {  get; set; }
         public required float ReducedPercent {  get; set; }
         public required decimal MaximumReduce {  get; set; }
@@ -20,7 +22,7 @@ namespace JewelrySalesSystem.Domain.Entities
         public required DateTime ExpiresTime {  get; set; }
         public string? UserID {  get; set; }
         [ForeignKey(nameof(UserID))]
-        public virtual UserEntity User { get; set; }
+        public virtual UserEntity? User { get; set; }
         public virtual ICollection<OrderEntity> Orders { get; set; }
     }
 }

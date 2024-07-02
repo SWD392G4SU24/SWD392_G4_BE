@@ -16,8 +16,12 @@ namespace JewelrySalesSystem.Domain.Entities
         public required decimal WageCost {  get; set; }
         public float? GoldWeight {  get; set; }
         //Product: vàng thuần, kc thuần, vàng đính kc -> tùy theo đó để tính giá sản phẩm
-        public string? GoldType {  get; set; } //API BTMC
-        public string? DiamonType { get; set; } //3ly6 4ly1 4ly5 5ly4 6ly 6ly3 6ly8 7ly2 8ly1 9ly
+        public int? GoldType {  get; set; }
+        [ForeignKey(nameof(GoldType))]
+        public virtual GoldEntity? Gold { get; set; }
+        public int? DiamonType { get; set; }
+        [ForeignKey(nameof(DiamonType))]
+        public virtual DiamondEntity? Diamond { get; set; }
         public string? ImageURL { get; set; }
         public required int Quantity { get; set; }
         public string? Description {  get; set; }       

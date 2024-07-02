@@ -19,7 +19,6 @@ namespace JewelrySalesSystem.Application.Users.CreateNewUser
             PhoneNumber = phoneNumber;
             Address = address;
             RoleID = roleID;
-
         }
         public string Username { get; set; }
         public string Password { get; set; }

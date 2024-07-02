@@ -28,23 +28,23 @@ namespace JewelrySalesSystem.Infrastructure.Persistence
         public DbSet<CounterEntity> Counters { get; set; }
         public DbSet<CategoryEntity> Categories { get; set; }
         public DbSet<PaymentMethodEntity> PaymentMethods { get; set; }
+        public DbSet<GoldEntity> Golds { get; set; }
+        public DbSet<DiamondEntity> Diamonds { get; set; }
+        public DbSet<FormEntity> Forms { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             // apply Config ở đây
             modelBuilder.ApplyConfiguration(new UserConfiguration());
-            ConfigureModel(modelBuilder);
             modelBuilder.ApplyConfiguration(new ProductConfiguration());
-            ConfigureModel(modelBuilder);
             modelBuilder.ApplyConfiguration(new PromotionConfiguration());
-            ConfigureModel(modelBuilder);
             modelBuilder.ApplyConfiguration(new OrderConfiguration());
-            ConfigureModel(modelBuilder);
             modelBuilder.ApplyConfiguration(new OrderDetailConfigurtaion());
-            ConfigureModel(modelBuilder);
             modelBuilder.ApplyConfiguration(new CounterConfiguration());
-            ConfigureModel(modelBuilder);
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
+            modelBuilder.ApplyConfiguration(new DiamondConfiguration());
+            modelBuilder.ApplyConfiguration(new GoldConfiguration());
+            modelBuilder.ApplyConfiguration(new FormConfiguration());
             ConfigureModel(modelBuilder);
         }
         private void ConfigureModel(ModelBuilder modelBuilder)

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static JewelrySalesSystem.Domain.Commons.Enums.Enums;
 
 namespace JewelrySalesSystem.Application.Users.CreateNewUser
 {
@@ -48,7 +49,8 @@ namespace JewelrySalesSystem.Application.Users.CreateNewUser
                 FullName = request.FullName,
                 PasswordHash = _userRepository.HashPassword(request.Password),
                 RoleID = request.RoleID,
-                CreatedAt = DateTime.UtcNow,               
+                CreatedAt = DateTime.UtcNow,       
+                Status = UserStatus.UNVERIFIED,
                 Point = 0,
             };
             _userRepository.Add(user);
