@@ -1,4 +1,7 @@
 ﻿using JewelrySalesSystem.Application.Common.Interfaces;
+using JewelrySalesSystem.Application.Common.Pagination;
+using JewelrySalesSystem.Application.Role.GetByPagination;
+using JewelrySalesSystem.Application.Role;
 using JewelrySalesSystem.Application.Users.CreateNewUser;
 using JewelrySalesSystem.Application.Users.Login;
 using MediatR;
@@ -6,6 +9,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
+using JewelrySalesSystem.Application.Users;
+using JewelrySalesSystem.Application.Users.GetByPagination;
 
 namespace Jewelry_Sales_System.API.Controllers
 {
@@ -50,6 +55,20 @@ namespace Jewelry_Sales_System.API.Controllers
         {
             var result = await _mediator.Send(command, cancellationToken);
             return Ok(new JsonResponse<string>(result));
+        }
+
+        [HttpGet("user/pagination")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(JsonResponse<PagedResult<UserDto>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<PagedResult<UserDto>>>> GetPagination([FromQuery] GetUserByPaginationQuery query
+            , CancellationToken cancellationToken = default)
+        {
+            var result = await _mediator.Send(query, cancellationToken);
+            return Ok(result);
         }
     }
 }
