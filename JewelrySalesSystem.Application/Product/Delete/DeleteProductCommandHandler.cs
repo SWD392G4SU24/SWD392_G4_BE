@@ -30,7 +30,7 @@ namespace JewelrySalesSystem.Application.Product.Delete
             product.DeleterID = _currentUserService.UserId;
             product.DeletedAt = DateTime.Now;
             _productRepository.Update(product);
-            return await _productRepository.UnitOfWork.SaveChangesAsync(cancellationToken) == 1 ? "Xóa product thành công" : "Xóa product thất bại" ;
+            return await _productRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? "Xóa product thành công" : "Xóa product thất bại" ;
         }
     }
 }

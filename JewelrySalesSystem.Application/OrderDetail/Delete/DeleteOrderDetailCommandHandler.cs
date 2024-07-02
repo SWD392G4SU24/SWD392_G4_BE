@@ -29,7 +29,7 @@ namespace JewelrySalesSystem.Application.OrderDetail.Delete
             orderDetail.DeletedAt = DateTime.Now;
             _orderDetailRepository.Update(orderDetail);
             
-            return await _orderDetailRepository.UnitOfWork.SaveChangesAsync(cancellationToken) == 1 ? "Xóa OrderDetail thành công" : "Xóa OrderDetail thất bại";
+            return await _orderDetailRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? "Xóa OrderDetail thành công" : "Xóa OrderDetail thất bại";
         }
     }
 }

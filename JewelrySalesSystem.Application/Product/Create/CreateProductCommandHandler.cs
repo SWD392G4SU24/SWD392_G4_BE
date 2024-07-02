@@ -65,8 +65,7 @@ namespace JewelrySalesSystem.Application.Product.Create
                 CreatorID = _currentUserService.UserId
             };
             _productRepository.Add(product);
-            await _productRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
-            return product.ID;
+            return await _productRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? product.ID : "Tạo thất bại";
 
         }
     }

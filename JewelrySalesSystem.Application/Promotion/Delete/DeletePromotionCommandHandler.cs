@@ -30,7 +30,7 @@ namespace JewelrySalesSystem.Application.Promotion.DeletePromotion
             promotion.DeleterID = _currentUserService.UserId;
             promotion.DeletedAt = DateTime.Now;
             _promotionRepository.Update(promotion);
-            return await _promotionRepository.UnitOfWork.SaveChangesAsync(cancellationToken) == 1 ? "Xóa Promotion thành công" : "Xóa Promotion thất bại";
+            return await _promotionRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? "Xóa Promotion thành công" : "Xóa Promotion thất bại";
         }
     }
 }

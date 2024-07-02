@@ -46,7 +46,7 @@ namespace JewelrySalesSystem.Application.Promotion.CreateByQuantity
                     ExpiresTime = request.ExpiresTime,
                     MaximumReduce = request.MaximumReduce,
                     ReducedPercent = request.ReducedPercent,
-                    UserID = request.UserID == "NULL" ? null : request.UserID ,
+                    UserID = request.UserID == "NULL" ? null : request.UserID,
                     CreatedAt = DateTime.Now,
                     CreatorID = _currentUserService.UserId,
                     Status = PromotionStatus.UNAVAILABLE

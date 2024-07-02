@@ -29,7 +29,7 @@ namespace JewelrySalesSystem.Application.Order.DeleteOrder
             order.DeleterID = _currentUserService.UserId;
             _orderRepository.Update(order);
 
-            return await _orderRepository.UnitOfWork.SaveChangesAsync(cancellationToken) == 1 ? "Xóa order thành công" : "Xóa order thất bại";
+            return await _orderRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? "Xóa order thành công" : "Xóa order thất bại";
         }
     }
 }

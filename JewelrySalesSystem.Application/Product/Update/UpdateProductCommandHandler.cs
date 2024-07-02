@@ -61,7 +61,7 @@ namespace JewelrySalesSystem.Application.Product.Update
             product.UpdaterID = _currentUserService.UserId;
             product.LastestUpdateAt = DateTime.Now;
             _productRepository.Update(product);
-            return await _productRepository.UnitOfWork.SaveChangesAsync(cancellationToken) == 1 ? "Cập nhật product thành công" : "Cập nhật product thất bại";
+            return await _productRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? "Cập nhật product thành công" : "Cập nhật product thất bại";
         }
 
       

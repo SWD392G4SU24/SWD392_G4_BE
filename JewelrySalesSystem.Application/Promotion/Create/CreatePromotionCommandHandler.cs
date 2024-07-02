@@ -50,7 +50,7 @@ namespace JewelrySalesSystem.Application.Promotion.CreatePromotion
             };
             _promotionRepository.Add(promotion);
             await _promotionRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
-            return promotion.ID;
+            return await _promotionRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ?  promotion.ID : "tạo thất bại";
         }
     }
 }
