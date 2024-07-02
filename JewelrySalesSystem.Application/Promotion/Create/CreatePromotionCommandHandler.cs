@@ -29,26 +29,24 @@ namespace JewelrySalesSystem.Application.Promotion.CreatePromotion
 
         public async Task<string> Handle(CreatePromtionCommand request, CancellationToken cancellationToken)
         {
-            var isNull = request.UserID;
-            if (!isNull.Equals("NULL")) 
+            if (request.UserID != "NULL")
             {
-                var isExist = await _promotionRepository.FindAsync(s => s.UserID == request.UserID, cancellationToken);
-                if (isExist == null)
-                    throw new NotFoundException("The User is not exist");
+                var isExist = await _promotionRepository.FindAsync(s => s.UserID == request.UserID, cancellationToken)
+               ?? throw new NotFoundException("The User không tồn tại");
             }
-
 
             var promotion = new PromotionEntity
             {
                 ConditionsOfUse = request.ConditionsOfUse,
                 ExchangePoint = request.ExchangePoint,
-                ExpiresTime = request.ExpiresTime.AddDays(+30),
+                Description = request.Description == "NULL" ? null : "NULL",
+                ExpiresTime = request.ExpiresTime,
                 MaximumReduce = request.MaximumReduce,
                 ReducedPercent = request.ReducedPercent,
-                UserID = request.UserID ?? request.UserID,
+                UserID = request.UserID == "NULL" ? null : "NULL",
                 CreatedAt = DateTime.Now,
                 CreatorID = _currentUserService.UserId,
-                Status = PromotionStatus.AVAILABLE
+                Status = PromotionStatus.UNAVAILABLE
             };
             _promotionRepository.Add(promotion);
             await _promotionRepository.UnitOfWork.SaveChangesAsync(cancellationToken);

@@ -4,6 +4,7 @@ using JewelrySalesSystem.Application.Promotion.CreatePromotion;
 using JewelrySalesSystem.Application.Promotion.DeletePromotion;
 using JewelrySalesSystem.Application.Promotion.GetAll;
 using JewelrySalesSystem.Application.Promotion.GetById;
+using JewelrySalesSystem.Application.Promotion.NewFolder;
 using JewelrySalesSystem.Application.Promotion.UpdatePromotion;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -65,6 +66,21 @@ namespace Jewelry_Sales_System.API.Controllers
         {
             var result = await _mediator.Send(command, cancellationToken);
             return Ok(new JsonResponse<string>(result));
+        }
+        
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("[controller]/random")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(JsonResponse<List<string>>), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<List<string>>>> RandomNewPromotion(
+           [FromBody] CreatePromotionByQuantityCommand command,
+           CancellationToken cancellationToken = default)
+        {
+            var result = await _mediator.Send(command, cancellationToken);
+            return Ok(new JsonResponse<List<string>>(result));
         }
 
         [AllowAnonymous]

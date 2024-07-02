@@ -6,11 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JewelrySalesSystem.Application.Order.DeleteOrder
+namespace JewelrySalesSystem.Application.GoldBtmc.SaveToDb
 {
-    public class DeleteOrdercommand : IRequest<string>, ICommand
+    public class SaveGoldCommand :IRequest<string>, ICommand
     {
-        public required string Id {  get; set; }
-    
     }
 }

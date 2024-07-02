@@ -12,12 +12,12 @@ using static JewelrySalesSystem.Domain.Commons.Enums.Enums;
 
 namespace JewelrySalesSystem.Application.Order
 {
-    public class OrderDto : IMapFrom<OrderDto>
+    public class OrderDto : IMapFrom<OrderEntity>
     {
         public void Mapping(Profile profile)
         {
 
-            profile.CreateMap<OrderDto, OrderDto>();
+            profile.CreateMap<OrderEntity, OrderDto>();
 
         }
         public required string ID {  get; set; }

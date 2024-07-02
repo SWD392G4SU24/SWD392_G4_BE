@@ -1,4 +1,5 @@
-﻿using JewelrySalesSystem.Application.Common.Interfaces;
+﻿using AutoMapper;
+using JewelrySalesSystem.Application.Common.Interfaces;
 using JewelrySalesSystem.Application.Promotion.GetPromotion;
 using JewelrySalesSystem.Domain.Commons.Exceptions;
 using JewelrySalesSystem.Domain.Repositories;
@@ -15,23 +16,18 @@ namespace JewelrySalesSystem.Application.Promotion.GetById
     public class GetByIdQueryHandler : IRequestHandler<GetByIDQuery, PromotionDto>
     {
         private readonly IPromotionRepository _promotionRepository;
-        public GetByIdQueryHandler(IPromotionRepository promotionRepository)
+        private readonly IMapper _mapper;
+        public GetByIdQueryHandler(IPromotionRepository promotionRepository, IMapper mapper)
         {
             _promotionRepository = promotionRepository;
+            _mapper = mapper;
         }
         public async Task<PromotionDto> Handle(GetByIDQuery request, CancellationToken cancellationToken)
         {
             // Logic to retrieve promotions base on query parameters(if any)
-            var promotions = await _promotionRepository.FindAsync(s => s.ID == request.Id, cancellationToken);
-            if (promotions is null) throw new NotFoundException("Prmotions is not exist");
-            return new PromotionDto {
-                ConditionsOfUse = promotions.ConditionsOfUse,
-                Id = promotions.ID,
-                ExchangePoint = promotions.ExchangePoint,
-                ExpiresTime = promotions.ExpiresTime,
-                MaximumReduce = promotions.MaximumReduce,
-                ReducedPercent = promotions.ReducedPercent,
-            };
+            var promotion = await _promotionRepository.FindAsync(s => s.ID == request.Id, cancellationToken)
+                ?? throw new NotFoundException("Promotion không tồn tại");
+            return promotion.MapToPromotionDto(_mapper);
         }
     }
 }

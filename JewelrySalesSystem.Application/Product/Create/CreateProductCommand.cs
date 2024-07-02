@@ -10,9 +10,8 @@ namespace JewelrySalesSystem.Application.Product.Create
 {
     public class CreateProductCommand : IRequest<string>, ICommand
     {
-        public CreateProductCommand(decimal wageCost, float? goldWeight, int? goldType, int? diamondType, string? imageURL, int quantity, string? description, int categoryID)
+        public CreateProductCommand( float? goldWeight, int? goldType, int? diamondType, string? imageURL, int quantity, string? description, int categoryID)
         {
-            WageCost = wageCost;
             GoldWeight = goldWeight;
             GoldType = goldType;
             DiamondType = diamondType;
@@ -22,7 +21,6 @@ namespace JewelrySalesSystem.Application.Product.Create
             CategoryID = categoryID;
         }
 
-        public required decimal WageCost { get; set; }
         public float? GoldWeight { get; set; }
         public int? GoldType { get; set; }
         public int? DiamondType { get; set; }

@@ -24,12 +24,12 @@ namespace JewelrySalesSystem.Application.OrderDetail.Delete
         public async Task<string> Handle(DeleteOrderDetailCommand request, CancellationToken cancellationToken)
         {
             var orderDetail = await _orderDetailRepository.FindAsync(s => s.ID == request.Id, cancellationToken);
-            if (orderDetail is null) throw new NotFoundException("OrderDetail is not exist");
+            if (orderDetail is null) throw new NotFoundException("OrderDetail không tồn tại");
             orderDetail.DeleterID = _currentUserService.UserId;
             orderDetail.DeletedAt = DateTime.Now;
             _orderDetailRepository.Update(orderDetail);
-            await _orderDetailRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
-            return "Deleted OrderDetail Successfully";
+            
+            return await _orderDetailRepository.UnitOfWork.SaveChangesAsync(cancellationToken) == 1 ? "Xóa OrderDetail thành công" : "Xóa OrderDetail thất bại";
         }
     }
 }

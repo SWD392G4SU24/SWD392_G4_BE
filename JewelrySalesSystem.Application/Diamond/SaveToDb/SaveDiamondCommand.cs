@@ -6,11 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JewelrySalesSystem.Application.Diamon.Delete
+namespace JewelrySalesSystem.Application.Diamond.SaveToDb
 {
-    public class DeleteDiamondQuery : IRequest<string>, IQuery
+    public class SaveDiamondCommand : IRequest<string>, ICommand
     {
-        public required int ID { get; set; }
-    
     }
 }

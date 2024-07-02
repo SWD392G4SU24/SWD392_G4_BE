@@ -10,13 +10,10 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Infrastructure.Repositories.ConfiguredEntity
 {
-    public class DiamondRepository : RepositoryBase<DiamondEntity, DiamondEntity, ApplicationDbContext>, IDiamondRepository
+    public class GoldRepository : RepositoryBase<GoldEntity, GoldEntity, ApplicationDbContext>, IGoldRepository
     {
-        private readonly ApplicationDbContext _dbContext;
-        public DiamondRepository(ApplicationDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
+        public GoldRepository(ApplicationDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
         {
-            _dbContext = dbContext;
         }
-
     }
 }

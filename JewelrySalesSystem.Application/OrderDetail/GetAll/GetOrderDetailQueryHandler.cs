@@ -1,4 +1,5 @@
-﻿using JewelrySalesSystem.Domain.Repositories;
+﻿using AutoMapper;
+using JewelrySalesSystem.Domain.Repositories;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -8,29 +9,21 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Application.OrderDetail.GetAll
 {
-    public class GetOrderDetailQueryHandler : IRequestHandler<GetOrderDetailQuery, IEnumerable<OrderDetailDto>>
+    public class GetOrderDetailQueryHandler : IRequestHandler<GetOrderDetailQuery, List<OrderDetailDto>>
     {
         private readonly IOrderDetailRepository _orderDetailRepository;
+        private readonly IMapper _mapper;
 
-        public GetOrderDetailQueryHandler(IOrderDetailRepository orderDetailRepository)
+        public GetOrderDetailQueryHandler(IOrderDetailRepository orderDetailRepository, IMapper mapper)
         {
             _orderDetailRepository = orderDetailRepository;
+            _mapper = mapper;
         }
 
-        public async Task<IEnumerable<OrderDetailDto>> Handle(GetOrderDetailQuery request, CancellationToken cancellationToken)
+        public async Task<List<OrderDetailDto>> Handle(GetOrderDetailQuery request, CancellationToken cancellationToken)
         {
             var orderDetails = await _orderDetailRepository.FindAllAsync(cancellationToken);
-            return orderDetails.Select(s => new OrderDetailDto
-            {
-                ID = s.ID,
-                OrderID = s.OrderID,
-                ProductCost = s.ProductCost,
-                ProductID = s.ProductID,
-                Quantity = s.Quantity,
-                DiamondSellCost = s.DiamondSellCost,
-                GoldBuyCost = s.GoldBuyCost,
-                GoldSellCost = s.GoldSellCost,
-            }).ToList();
+            return orderDetails.MapToOrderDetailDtoList(_mapper);
         }
     }
 }

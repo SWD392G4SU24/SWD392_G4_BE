@@ -1,5 +1,4 @@
-﻿using JewelrySalesSystem.Domain.Entities;
-using JewelrySalesSystem.Domain.Entities.Configured;
+﻿using JewelrySalesSystem.Domain.Entities.Configured;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +9,5 @@ namespace JewelrySalesSystem.Domain.Repositories.ConfiguredEntity
 {
     public interface IDiamondRepository : IEFRepository<DiamondEntity, DiamondEntity>
     {
-
     }
 }

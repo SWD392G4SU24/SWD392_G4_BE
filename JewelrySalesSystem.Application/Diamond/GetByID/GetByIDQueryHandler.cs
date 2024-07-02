@@ -11,16 +11,17 @@ namespace JewelrySalesSystem.Application.Diamon.GetByID
 {
     public class GetByIDQueryHandler : IRequestHandler<GetByIDQuery, DiamondDto>
     {
-        private readonly IDiamondRepository _diamonRepository;
+        private readonly IDiamondRepository _diamondRepository;
 
-        public GetByIDQueryHandler(IDiamondRepository diamonRepository)
+        public GetByIDQueryHandler(IDiamondRepository diamondRepository)
         {
-            _diamonRepository = diamonRepository;
+            _diamondRepository = diamondRepository;
         }
         public async Task<DiamondDto> Handle(GetByIDQuery request, CancellationToken cancellationToken)
         {
-            var diamon = await _diamonRepository.FindAsync(s => s.ID == request.ID, cancellationToken);
-            if (diamon is null) throw new NotFoundException("Diamon is not exist");
+            var diamon = await _diamondRepository.FindAsync(s => s.ID == request.ID, cancellationToken)
+                ?? throw new NotFoundException("Diamond không tồn tại");
+
             return new DiamondDto 
             {
                 Name = diamon.Name,

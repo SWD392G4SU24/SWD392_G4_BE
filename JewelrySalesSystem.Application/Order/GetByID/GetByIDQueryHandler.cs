@@ -1,4 +1,5 @@
 ﻿
+using AutoMapper;
 using JewelrySalesSystem.Application.Promotion;
 using JewelrySalesSystem.Domain.Commons.Exceptions;
 using JewelrySalesSystem.Domain.Repositories;
@@ -15,27 +16,21 @@ namespace JewelrySalesSystem.Application.Order.GetByID
     public class GetByIDQueryHandler : IRequestHandler<GetByIDQuery, OrderDto>
     {
         private readonly IOrderRepository _orderRepository;
+        private readonly IMapper _mapper;
 
-        public GetByIDQueryHandler(IOrderRepository orderRepository)
+        public GetByIDQueryHandler(IOrderRepository orderRepository, IMapper mapper)
         {
             _orderRepository = orderRepository;
+            _mapper = mapper;
         }
+
         public async Task<OrderDto> Handle(GetByIDQuery request, CancellationToken cancellationToken)
         {
-            // Logic to retrieve orders base on query parameters(if any)
-            var order = await _orderRepository.FindAsync(s => s.ID == request.Id, cancellationToken);
-              if(order is null) throw new NotFoundException("Order is not exist");
-            return new OrderDto
-            {
-               BuyerID = order.BuyerID,
-               ID = order.ID,
-               Note = order.Note,
-               PaymentMethodID = order.PaymentMethodID,
-               TotalCost = order.TotalCost,
-               Type = order.Type,
-               CounterID = order.CounterID,
-               PromotionID = order.PromotionID,
-            };
+
+            var order = await _orderRepository.FindAsync(s => s.ID == request.Id, cancellationToken)
+                ?? throw new NotFoundException("Order không tồn tại");
+            return order.MapToOrderDto(_mapper);
+
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using JewelrySalesSystem.Application.Common.Interfaces;
 using JewelrySalesSystem.Domain.Commons.Exceptions;
+using JewelrySalesSystem.Domain.Commons.Interfaces;
 using JewelrySalesSystem.Domain.Repositories;
 using MediatR;
 using System;
@@ -22,13 +23,13 @@ namespace JewelrySalesSystem.Application.Order.DeleteOrder
         }
         public async Task<string> Handle(DeleteOrdercommand request, CancellationToken cancellationToken)
         {
-            var order = await _orderRepository.FindAsync(s => s.ID == request.Id, cancellationToken);
-            if (order is null) throw new NotFoundException("Order is not exist");
+            var order = await _orderRepository.FindAsync(s => s.ID == request.Id, cancellationToken)
+                ?? throw new NotFoundException("Order không tồn tại");
             order.DeletedAt = DateTime.UtcNow;
             order.DeleterID = _currentUserService.UserId;
             _orderRepository.Update(order);
-            await _orderRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
-            return "Deleted Order Successfully";
+
+            return await _orderRepository.UnitOfWork.SaveChangesAsync(cancellationToken) == 1 ? "Xóa order thành công" : "Xóa order thất bại";
         }
     }
 }

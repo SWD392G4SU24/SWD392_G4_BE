@@ -1,6 +1,8 @@
 ﻿using JewelrySalesSystem.Domain.Commons.Exceptions;
 using JewelrySalesSystem.Domain.Commons.Interfaces;
 using JewelrySalesSystem.Domain.Entities.Configured;
+using JewelrySalesSystem.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -15,7 +17,7 @@ namespace JewelrySalesSystem.Infrastructure.ExternalService.Diamond
     {
 
         private readonly HttpClient _httpClient;
-
+ 
         public DiamondService(HttpClient httpClient)
         {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
@@ -53,10 +55,7 @@ namespace JewelrySalesSystem.Infrastructure.ExternalService.Diamond
 
             return responseList;
         }
-        public async Task<bool> CheckIfDiamondExistAsync(int? diamondId, CancellationToken cancellationToken)
-        {
-            var diamondEixst = await GetDiamondPricesAsync(cancellationToken);
-            return diamondEixst.Any(d => d.ID == diamondId);
-;        }
+
+        
     }
 }

@@ -10,13 +10,14 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Application.Promotion
 {
-    public class PromotionDto : IMapFrom<ProductEntity>
+    public class PromotionDto : IMapFrom<PromotionEntity>
     {
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<ProductEntity, PromotionDto>();
+            profile.CreateMap<PromotionEntity, PromotionDto>();
         }
         public required string Id { get; set; }
+        public required string? Description { get; set; }
         public required decimal ConditionsOfUse { get; set; }
         public required float ReducedPercent { get; set; }
         public required decimal MaximumReduce { get; set; }

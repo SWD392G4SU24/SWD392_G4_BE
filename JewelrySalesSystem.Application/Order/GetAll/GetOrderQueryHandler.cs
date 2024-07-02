@@ -1,4 +1,5 @@
-﻿using JewelrySalesSystem.Application.Promotion;
+﻿using AutoMapper;
+using JewelrySalesSystem.Application.Promotion;
 using JewelrySalesSystem.Domain.Repositories;
 using JewelrySalesSystem.Infrastructure.Repositories;
 using MediatR;
@@ -10,30 +11,21 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Application.Order.GetAll
 {
-    public class GetOrderQueryHandler : IRequestHandler<GetOrderQuery, IEnumerable<OrderDto>>
+    public class GetOrderQueryHandler : IRequestHandler<GetOrderQuery, List<OrderDto>>
     {
         private readonly IOrderRepository _orderRepository;
+        private readonly IMapper _mapper;
 
-        public GetOrderQueryHandler(IOrderRepository orderRepository)
+        public GetOrderQueryHandler(IOrderRepository orderRepository, IMapper mapper)
         {
             _orderRepository = orderRepository;
+            _mapper = mapper;
         }
 
-        public async Task<IEnumerable<OrderDto>> Handle(GetOrderQuery request, CancellationToken cancellationToken)
+        public async Task<List<OrderDto>> Handle(GetOrderQuery request, CancellationToken cancellationToken)
         {
-            // Logic to retrieve orders base on query parameters(if any)
-            var orders = await _orderRepository.FindAllAsync(cancellationToken);
-            return orders.Select(s => new OrderDto
-            {
-                ID = s.ID,
-                BuyerID = s.BuyerID,
-                Note = s.Note,
-                PaymentMethodID = s.PaymentMethodID,
-                TotalCost = s.TotalCost,
-                Type = s.Type,
-                CounterID = s.CounterID,
-                PromotionID = s.PromotionID,
-            }).ToList();
+            var listOrder = await _orderRepository.FindAllAsync(cancellationToken);
+            return listOrder.MapToOrderDtoList(_mapper);
         }
     }
 }

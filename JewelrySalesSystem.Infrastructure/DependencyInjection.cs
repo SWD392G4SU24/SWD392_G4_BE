@@ -37,6 +37,7 @@ namespace JewelrySalesSystem.Infrastructure
             services.AddScoped<IVnPayService, VnPayService>();
             services.AddHttpClient<IGoldService, GoldService>();
             services.AddHttpClient<IDiamondService, DiamondService>();
+            
             //inject repo ở đây
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IRoleRepository, RoleRepository>();
@@ -45,8 +46,7 @@ namespace JewelrySalesSystem.Infrastructure
             services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddTransient<IOrderDetailRepository, OrderDetailRepository>();
             services.AddTransient<IDiamondRepository, DiamondRepository>();
-            services.AddTransient<IOrderDetailRepository, OrderDetailRepository>();
-
+            services.AddTransient<IGoldRepository, GoldRepository>();
 
             return services;
         }

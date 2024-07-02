@@ -1,4 +1,5 @@
-﻿using JewelrySalesSystem.Application.OrderDetail.GetAll;
+﻿using AutoMapper;
+using JewelrySalesSystem.Application.OrderDetail.GetAll;
 using JewelrySalesSystem.Domain.Commons.Exceptions;
 using JewelrySalesSystem.Domain.Repositories;
 using JewelrySalesSystem.Infrastructure.Repositories;
@@ -14,28 +15,20 @@ namespace JewelrySalesSystem.Application.OrderDetail.GetByID
     public class GetByIDQueryHandler : IRequestHandler<GetByIDQuery, OrderDetailDto>
     {
         private readonly IOrderDetailRepository _orderDetailRepository;
+        private readonly IMapper _mapper;
 
-        public GetByIDQueryHandler(IOrderDetailRepository orderDetailRepository)
+        public GetByIDQueryHandler(IOrderDetailRepository orderDetailRepository, IMapper mapper)
         {
             _orderDetailRepository = orderDetailRepository;
+            _mapper = mapper;
         }
 
         public async Task<OrderDetailDto> Handle(GetByIDQuery request, CancellationToken cancellationToken)
         {
-            var orderDetail = await _orderDetailRepository.FindAsync(s => s.ID == request.Id, cancellationToken);
-            if (orderDetail is null) throw new NotFoundException("Order is not exist");
-            return new OrderDetailDto
-            {
-                ID = orderDetail.ID,
-                OrderID = orderDetail.OrderID,
-                ProductCost = orderDetail.ProductCost,
-                ProductID = orderDetail.ProductID,
-                Quantity = orderDetail.Quantity,
-                DiamondSellCost = orderDetail?.DiamondSellCost,
-                GoldBuyCost = orderDetail?.GoldBuyCost,
-                GoldSellCost = orderDetail?.GoldSellCost,
-            };
-  
+            var orderDetail = await _orderDetailRepository.FindAsync(s => s.ID == request.Id, cancellationToken)
+                ?? throw new NotFoundException("OrderDetail không tồi tại");
+            return orderDetail.MapToOrderDetailDto(_mapper);
+
         }
     }
 

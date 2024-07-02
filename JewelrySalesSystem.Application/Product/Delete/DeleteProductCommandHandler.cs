@@ -26,11 +26,11 @@ namespace JewelrySalesSystem.Application.Product.Delete
         public async Task<string> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
         {
             var product = await _productRepository.FindAsync(s => s.ID == request.ID && s.DeletedAt == null, cancellationToken);
-            if (product is null) throw new NotFoundException("Product is not exist");
+            if (product is null) throw new NotFoundException("Product không tồn tại");
             product.DeleterID = _currentUserService.UserId;
             product.DeletedAt = DateTime.Now;
             _productRepository.Update(product);
-            return await _productRepository.UnitOfWork.SaveChangesAsync(cancellationToken) == 1 ? "Deleted Product Successfully" : "Delete Product Failed" ;
+            return await _productRepository.UnitOfWork.SaveChangesAsync(cancellationToken) == 1 ? "Xóa product thành công" : "Xóa product thất bại" ;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using JewelrySalesSystem.Application.Promotion.GetAll;
+﻿using AutoMapper;
+using JewelrySalesSystem.Application.Promotion.GetAll;
 using JewelrySalesSystem.Domain.Repositories;
 using MediatR;
 using System;
@@ -9,30 +10,21 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Application.Promotion.GetPromotion
 {
-    public class GetAllPromotionsQueryHandler : IRequestHandler<GetPromotionsQuery, IEnumerable<PromotionDto>>
+    public class GetAllPromotionsQueryHandler : IRequestHandler<GetPromotionsQuery, List<PromotionDto>>
 
     {
         private readonly IPromotionRepository _promotionRepository;
-        public GetAllPromotionsQueryHandler(IPromotionRepository promotionRepository)
+        private readonly IMapper _mapper;
+        public GetAllPromotionsQueryHandler(IPromotionRepository promotionRepository,IMapper mapper )
         {
             _promotionRepository = promotionRepository;
+            _mapper = mapper;
         }
-        public async Task<IEnumerable<PromotionDto>> Handle(GetPromotionsQuery request, CancellationToken cancellationToken)
+        public async Task<List<PromotionDto>> Handle(GetPromotionsQuery request, CancellationToken cancellationToken)
         {
             // Logic to retrieve promotions base on query parameters(if any)
             var promotions = await _promotionRepository.FindAllAsync(cancellationToken);
-            return promotions.Select(s => new PromotionDto
-            {
-                Id = s.ID,
-                ConditionsOfUse = s.ConditionsOfUse,
-                ExchangePoint = s.ExchangePoint,
-                ExpiresTime = s.ExpiresTime,
-                MaximumReduce = s.MaximumReduce,
-                ReducedPercent = s.ReducedPercent,
-                UserID = s.UserID
-            }).ToList();
+            return promotions.MapToPromotionDtoList(_mapper);
         }
-
-       
     }
 }

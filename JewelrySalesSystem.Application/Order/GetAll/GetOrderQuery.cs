@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Application.Order.GetAll
 {
-    public class GetOrderQuery : IRequest<IEnumerable<OrderDto>>, IQuery
+    public class GetOrderQuery : IRequest<List<OrderDto>>, IQuery
     {
         public GetOrderQuery()
         {

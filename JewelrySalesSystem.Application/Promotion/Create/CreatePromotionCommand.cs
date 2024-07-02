@@ -23,6 +23,7 @@ namespace JewelrySalesSystem.Application.Promotion.CreatePromotion
         public  string? UserID { get; set; }
 
 
+
     }
 
 }

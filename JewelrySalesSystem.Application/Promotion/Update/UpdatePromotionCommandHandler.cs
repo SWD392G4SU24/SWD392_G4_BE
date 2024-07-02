@@ -26,8 +26,9 @@ namespace JewelrySalesSystem.Application.Promotion.UpdatePromotion
 
         public async Task<string> Handle(UpdatePromotionCommand request, CancellationToken cancellationToken)
         {
-            var promotion = await _promotionRepository.FindAsync(s => s.ID == request.ID, cancellationToken);
-            if (promotion is null) throw new NotFoundException("Promotion is not exist");
+            var promotion = await _promotionRepository.FindAsync(s => s.ID == request.ID, cancellationToken)
+                ?? throw new NotFoundException("Promotion is not exist");
+
             // Update specific fields based on request properties
             promotion.ConditionsOfUse = request.ConditionsOfUse;
             promotion.Description = request.Description ?? request.Description;
@@ -38,8 +39,7 @@ namespace JewelrySalesSystem.Application.Promotion.UpdatePromotion
             promotion.UpdaterID = _currentUserService.UserId;
             promotion.LastestUpdateAt = DateTime.Now;
             _promotionRepository.Update(promotion);
-            await _promotionRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
-            return "Promotion Updated Successfully";
+            return await _promotionRepository.UnitOfWork.SaveChangesAsync(cancellationToken) == 1 ? "Promotion cập nhật thành công" : "Promotion cập nhật thất bại";
         }
 
  

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Application.Promotion.GetAll
 {
-    public class GetPromotionsQuery : IRequest<IEnumerable<PromotionDto>>, IQuery
+    public class GetPromotionsQuery : IRequest<List<PromotionDto>>, IQuery
     {
         public GetPromotionsQuery()
         {

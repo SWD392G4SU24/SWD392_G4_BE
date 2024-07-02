@@ -4,7 +4,6 @@ using JewelrySalesSystem.Application.Common.Validation;
 using JewelrySalesSystem.Application.Product.Create;
 using JewelrySalesSystem.Domain.Repositories.ConfiguredEntity;
 using JewelrySalesSystem.Infrastructure.Repositories.ConfiguredEntity;
-using JewelrySalesSystem.Infrastructure.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -16,6 +15,7 @@ using System.Threading.Tasks;
 using MediatR;
 using JewelrySalesSystem.Domain.Commons.Interfaces;
 using JewelrySalesSystem.Infrastructure.ExternalService.GoldBtmc;
+using JewelrySalesSystem.Infrastructure.ExternalService.Diamond;
 
 namespace JewelrySalesSystem.Application
 {
@@ -35,9 +35,9 @@ namespace JewelrySalesSystem.Application
             });
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddScoped<IValidatorProvider, ValidatorProvider>();
-            services.AddScoped<ICategoryRepository, CategoryRepository>();
-            services.AddScoped<IDiamondRepository, DiamondRepository>();
             services.AddScoped<IGoldService, GoldService>();
+            services.AddScoped<IDiamondService, DiamondService>();
+
             return services;
         }
     }

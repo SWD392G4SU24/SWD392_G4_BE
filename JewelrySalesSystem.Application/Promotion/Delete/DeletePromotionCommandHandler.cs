@@ -24,13 +24,13 @@ namespace JewelrySalesSystem.Application.Promotion.DeletePromotion
         public async Task<string> Handle(DeletePromotionCommand request, CancellationToken cancellationToken)
         {
             // Logic to retrieve promotions base on query parameters(if any)
-            var promotion = await _promotionRepository.FindAsync(s => s.ID == request.ID, cancellationToken);
-            if (promotion is null) throw new NotFoundException("Prmotion is not exist");
+            var promotion = await _promotionRepository.FindAsync(s => s.ID == request.ID, cancellationToken)
+                ?? throw new NotFoundException("Promotion không tồn tại");
+
             promotion.DeleterID = _currentUserService.UserId;
             promotion.DeletedAt = DateTime.Now;
             _promotionRepository.Update(promotion);
-            await _promotionRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
-            return "Promotion Deleted Successfully";
+            return await _promotionRepository.UnitOfWork.SaveChangesAsync(cancellationToken) == 1 ? "Xóa Promotion thành công" : "Xóa Promotion thất bại";
         }
     }
 }

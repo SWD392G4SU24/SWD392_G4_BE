@@ -10,6 +10,5 @@ namespace JewelrySalesSystem.Domain.Commons.Interfaces
     public interface IDiamondService
     {
         Task<List<DiamondEntity>> GetDiamondPricesAsync(CancellationToken cancellationToken = default);
-        Task<bool> CheckIfDiamondExistAsync(int? diamondId, CancellationToken cancellationToken);
     }
 }
