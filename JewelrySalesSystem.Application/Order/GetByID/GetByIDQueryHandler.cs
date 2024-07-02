@@ -27,7 +27,7 @@ namespace JewelrySalesSystem.Application.Order.GetByID
         public async Task<OrderDto> Handle(GetByIDQuery request, CancellationToken cancellationToken)
         {
 
-            var order = await _orderRepository.FindAsync(s => s.ID == request.Id, cancellationToken)
+            var order = await _orderRepository.FindAsync(s => s.ID == request.Id && s.DeletedAt == null, cancellationToken)
                 ?? throw new NotFoundException("Order không tồn tại");
             return order.MapToOrderDto(_mapper);
 

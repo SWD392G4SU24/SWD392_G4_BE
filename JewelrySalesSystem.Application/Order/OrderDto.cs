@@ -28,5 +28,6 @@ namespace JewelrySalesSystem.Application.Order
         public int? CounterID { get; set; }
         public required string BuyerID { get; set; }
         public required int PaymentMethodID { get; set; }
+
     }
 }

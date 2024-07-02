@@ -24,7 +24,7 @@ namespace JewelrySalesSystem.Application.Order.GetAll
 
         public async Task<List<OrderDto>> Handle(GetOrderQuery request, CancellationToken cancellationToken)
         {
-            var listOrder = await _orderRepository.FindAllAsync(cancellationToken);
+            var listOrder = await _orderRepository.FindAllAsync(x => x.DeletedAt == null,cancellationToken);
             return listOrder.MapToOrderDtoList(_mapper);
         }
     }

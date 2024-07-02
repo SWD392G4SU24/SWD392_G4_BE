@@ -18,8 +18,6 @@ namespace JewelrySalesSystem.Application.Product.Update
         {
             RuleFor(x => x.CategoryID)
                 .NotEmpty();
-            RuleFor(x => x.WageCost)
-                .NotEmpty();
             RuleFor(x => x.Quantity)
                 .NotEmpty();
             RuleFor(x => x.Description)

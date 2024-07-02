@@ -23,7 +23,7 @@ namespace JewelrySalesSystem.Application.Product.GetProduct
 
         public async Task<List<ProductDto>> Handle(GetProductQuery request, CancellationToken cancellationToken)
         {
-            var product = await _productRepository.FindAllAsync(cancellationToken);
+            var product = await _productRepository.FindAllAsync(x => x.DeletedAt == null, cancellationToken);
             return product.MapToProductDtoList(_mapper);
         }
     }

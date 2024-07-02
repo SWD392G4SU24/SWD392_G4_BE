@@ -31,7 +31,7 @@ namespace JewelrySalesSystem.Application.Promotion.CreatePromotion
         {
             if (request.UserID != "NULL")
             {
-                var isExist = await _promotionRepository.FindAsync(s => s.UserID == request.UserID, cancellationToken)
+                var isExist = await _promotionRepository.FindAsync(s => s.UserID == request.UserID && s.DeletedAt == null, cancellationToken)
                ?? throw new NotFoundException("The User không tồn tại");
             }
 

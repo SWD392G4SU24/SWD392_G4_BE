@@ -11,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Application.OrderDetail
 {
-    public class OrderDetailDto : IMapFrom<OrderDetailDto>
+    public class OrderDetailDto : IMapFrom<OrderDetailEntity>
     {
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<OrderDetailDto, OrderDetailDto>();
+            profile.CreateMap<OrderDetailEntity, OrderDetailDto>();
         }
         public required string ID { get; set; }
         public required string OrderID { get; set; }

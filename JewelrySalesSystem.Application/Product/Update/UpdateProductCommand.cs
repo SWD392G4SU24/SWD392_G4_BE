@@ -10,9 +10,8 @@ namespace JewelrySalesSystem.Application.Product.Update
 {
     public class UpdateProductCommand : IRequest<string>, ICommand
     {
-        public UpdateProductCommand(decimal wageCost, float? goldWeight, int? goldType, int? diamonType, string? imageURL, int quantity, string? description, int categoryID)
+        public UpdateProductCommand( float? goldWeight, int? goldType, int? diamonType, string? imageURL, int quantity, string? description, int categoryID)
         {
-            WageCost = wageCost;
             GoldWeight = goldWeight;
             GoldType = goldType;
             DiamonType = diamonType;
@@ -23,7 +22,6 @@ namespace JewelrySalesSystem.Application.Product.Update
         }
 
         public string ID { get; set; }
-        public required decimal WageCost { get; set; }
         public float? GoldWeight { get; set; }
         public int? GoldType { get; set; }
         public int? DiamonType { get; set; }

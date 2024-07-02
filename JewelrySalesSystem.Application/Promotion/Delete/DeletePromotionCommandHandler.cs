@@ -24,7 +24,7 @@ namespace JewelrySalesSystem.Application.Promotion.DeletePromotion
         public async Task<string> Handle(DeletePromotionCommand request, CancellationToken cancellationToken)
         {
             // Logic to retrieve promotions base on query parameters(if any)
-            var promotion = await _promotionRepository.FindAsync(s => s.ID == request.ID, cancellationToken)
+            var promotion = await _promotionRepository.FindAsync(s => s.ID == request.ID && s.DeletedAt == null, cancellationToken)
                 ?? throw new NotFoundException("Promotion không tồn tại");
 
             promotion.DeleterID = _currentUserService.UserId;

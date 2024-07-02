@@ -33,10 +33,9 @@ namespace JewelrySalesSystem.Application.Product.Create
 
         public async Task<string> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
-
+            /* categoryEntity đức anh làm, nên tui thêm để tượng trưng là có checkExist r */
             //var category = await _categoryRepository.FindAsync(c => c.ID == request.CategoryID && c.DeletedAt == null, cancellationToken)
             //    ?? throw new NotFoundException("Category không tồn tại");
-            var diamondList = await _diamondRepository.FindAllAsync(cancellationToken);
 
             var diamond = await _diamondRepository.FindAsync(c => c.ID == request.DiamondType, cancellationToken)
                 ?? throw new NotFoundException("Diamond không tồn tại");
@@ -57,11 +56,11 @@ namespace JewelrySalesSystem.Application.Product.Create
                 CategoryID = request.CategoryID,
                 Quantity = request.Quantity,
                 WageCost = wageCost,
-                Description = request.Description,
-                DiamonType = request.DiamondType,
-                GoldType = request.GoldType,
-                GoldWeight = request.GoldWeight,
-                ImageURL = request.ImageURL,
+                Description = request.Description == "NULL" ? null : request.Description,
+                DiamonType = request.DiamondType ?? request.DiamondType,
+                GoldType = request.GoldType ?? request.DiamondType,
+                GoldWeight = request.GoldWeight ?? request.GoldWeight,
+                ImageURL = request.ImageURL == "NULL" ? null : request.ImageURL,
                 CreatedAt = DateTime.Now,
                 CreatorID = _currentUserService.UserId
             };

@@ -24,7 +24,7 @@ namespace JewelrySalesSystem.Application.Product.GetByID
 
         public async Task<ProductDto> Handle(GetByIDQuery request, CancellationToken cancellationToken)
         {
-            var product = await _productRepository.FindAsync(s => s.ID == request.ID, cancellationToken);
+            var product = await _productRepository.FindAsync(s => s.ID == request.ID && s.DeletedAt == null, cancellationToken);
             if (product is null) throw new NotFoundException("Product is not exist");
             return product.MapToProductDto(_mapper);
         }

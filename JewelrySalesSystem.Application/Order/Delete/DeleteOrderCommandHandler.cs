@@ -23,7 +23,7 @@ namespace JewelrySalesSystem.Application.Order.DeleteOrder
         }
         public async Task<string> Handle(DeleteOrdercommand request, CancellationToken cancellationToken)
         {
-            var order = await _orderRepository.FindAsync(s => s.ID == request.Id, cancellationToken)
+            var order = await _orderRepository.FindAsync(s => s.ID == request.Id && s.DeletedAt == null, cancellationToken)
                 ?? throw new NotFoundException("Order không tồn tại");
             order.DeletedAt = DateTime.UtcNow;
             order.DeleterID = _currentUserService.UserId;

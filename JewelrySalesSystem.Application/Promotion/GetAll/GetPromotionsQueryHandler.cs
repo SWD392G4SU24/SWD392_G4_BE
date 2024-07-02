@@ -23,7 +23,7 @@ namespace JewelrySalesSystem.Application.Promotion.GetPromotion
         public async Task<List<PromotionDto>> Handle(GetPromotionsQuery request, CancellationToken cancellationToken)
         {
             // Logic to retrieve promotions base on query parameters(if any)
-            var promotions = await _promotionRepository.FindAllAsync(cancellationToken);
+            var promotions = await _promotionRepository.FindAllAsync(x => x.DeletedAt == null, cancellationToken);
             return promotions.MapToPromotionDtoList(_mapper);
         }
     }

@@ -22,7 +22,7 @@ namespace JewelrySalesSystem.Application.OrderDetail.GetAll
 
         public async Task<List<OrderDetailDto>> Handle(GetOrderDetailQuery request, CancellationToken cancellationToken)
         {
-            var orderDetails = await _orderDetailRepository.FindAllAsync(cancellationToken);
+            var orderDetails = await _orderDetailRepository.FindAllAsync(x => x.DeletedAt == null,cancellationToken);
             return orderDetails.MapToOrderDetailDtoList(_mapper);
         }
     }
