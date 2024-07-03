@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace JewelrySalesSystem.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class v4 : Migration
+    public partial class final : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -154,6 +156,7 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                 columns: table => new
                 {
                     ID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     WageCost = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     GoldWeight = table.Column<float>(type: "real", nullable: true),
                     GoldType = table.Column<int>(type: "int", nullable: true),
@@ -339,6 +342,26 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                         principalTable: "Product",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Role",
+                columns: new[] { "ID", "CreatedAt", "CreatorID", "DeletedAt", "DeleterID", "LastestUpdateAt", "Name", "UpdaterID" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2024, 7, 3, 14, 39, 52, 495, DateTimeKind.Utc).AddTicks(6012), null, null, null, null, "Admin", null },
+                    { 2, new DateTime(2024, 7, 3, 14, 39, 52, 495, DateTimeKind.Utc).AddTicks(6017), null, null, null, null, "Manager", null },
+                    { 3, new DateTime(2024, 7, 3, 14, 39, 52, 495, DateTimeKind.Utc).AddTicks(6019), null, null, null, null, "Customer", null },
+                    { 4, new DateTime(2024, 7, 3, 14, 39, 52, 495, DateTimeKind.Utc).AddTicks(6020), null, null, null, null, "Staff", null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "ID", "Address", "CounterID", "CreatedAt", "CreatorID", "DeletedAt", "DeleterID", "Email", "FullName", "LastestUpdateAt", "PasswordHash", "PhoneNumber", "Point", "RoleID", "Status", "UpdaterID", "Username" },
+                values: new object[,]
+                {
+                    { "43919cc5-c466-4a0b-a782-748596e24e0f", "123 Admin St.", null, new DateTime(2024, 7, 3, 21, 39, 52, 696, DateTimeKind.Local).AddTicks(1470), null, null, null, "admin@gmail.com", "Administrator", new DateTime(2024, 7, 3, 21, 39, 52, 495, DateTimeKind.Local).AddTicks(6265), "$2a$11$MsfuT50NFq7FhShCkfZudu5gDiXo4N4muPHvKedJpipDIYQdpDQWu", "1234567890", 0, 1, "VERIFIED", null, "admin" },
+                    { "6a7a26ab-fe67-40e6-9e4c-911adc298d94", "123 Manager St.", null, new DateTime(2024, 7, 3, 21, 39, 52, 886, DateTimeKind.Local).AddTicks(545), null, null, null, "manager@gmail.com", "Manager", new DateTime(2024, 7, 3, 21, 39, 52, 696, DateTimeKind.Local).AddTicks(1541), "$2a$11$t8YjyxwcWV1XJ4xIBLi2Ke7CFQ3kmtpCVNR6iIpEZSpy8exjmQXay", "2234567890", 0, 2, "VERIFIED", null, "manager" }
                 });
 
             migrationBuilder.CreateIndex(

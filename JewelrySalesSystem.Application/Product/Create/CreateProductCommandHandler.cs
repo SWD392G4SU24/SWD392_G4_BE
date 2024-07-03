@@ -53,6 +53,7 @@ namespace JewelrySalesSystem.Application.Product.Create
 
             var product = new ProductEntity
             {
+                Name = request.Name,
                 CategoryID = request.CategoryID,
                 Quantity = request.Quantity,
                 WageCost = wageCost,

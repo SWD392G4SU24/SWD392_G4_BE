@@ -2,6 +2,7 @@
 using Jewelry_Sales_System.Configuration;
 using JewelrySalesSystem.Application;
 using JewelrySalesSystem.Infrastructure;
+using JewelrySalesSystem.Infrastructure.Persistence;
 using Serilog;
 
 namespace Jewelry_Sales_System.API

@@ -36,9 +36,9 @@ namespace JewelrySalesSystem.Application.Order.DeleteOrder
             {
                item.DeletedAt = DateTime.UtcNow;
                item.DeleterID = _currentUserService.UserId;
-               _orderDetailRepository.Update(item);
+               _orderDetailRepository.Update(item);               
             }
-
+            await _orderDetailRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
             return await _orderRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? "Xóa order thành công" : "Xóa order thất bại";
         }
     }

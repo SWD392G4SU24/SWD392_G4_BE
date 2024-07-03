@@ -88,6 +88,10 @@ namespace Jewelry_Sales_System.API.Controllers
            CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(command, cancellationToken);
+            if (result.Contains("thất bại"))
+            {
+                return BadRequest(new JsonResponse<string>(result));
+            }
             return Ok(new JsonResponse<string>(result));
         }
 
@@ -105,6 +109,10 @@ namespace Jewelry_Sales_System.API.Controllers
            CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(new DeleteProductCommand(iD : id), cancellationToken);
+            if (result.Contains("thất bại"))
+            {
+                return BadRequest(new JsonResponse<string>(result));
+            }
             return Ok(new JsonResponse<string>(result));
         }
 
