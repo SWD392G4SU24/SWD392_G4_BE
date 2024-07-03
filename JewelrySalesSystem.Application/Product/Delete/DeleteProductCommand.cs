@@ -10,6 +10,11 @@ namespace JewelrySalesSystem.Application.Product.Delete
 {
     public class DeleteProductCommand : IRequest<string>, ICommand
     {
-        public required string ID {  get; set; }
+        public DeleteProductCommand(string iD)
+        {
+            ID = iD;
+        }
+
+        public  string ID {  get; set; }
     }
 }

@@ -13,10 +13,10 @@ namespace JewelrySalesSystem.Infrastructure.Repositories
 {
     public class ProductRepository : RepositoryBase<ProductEntity, ProductEntity, ApplicationDbContext>, IProductRepository
     {
-        private readonly ApplicationDbContext _context;
+     
         public ProductRepository(ApplicationDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
         {
-            _context = dbContext;
+            
         }
 
 

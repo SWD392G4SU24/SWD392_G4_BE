@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using JewelrySalesSystem.Application.Promotion.GetAll;
+using JewelrySalesSystem.Domain.Commons.Exceptions;
 using JewelrySalesSystem.Domain.Repositories;
 using MediatR;
 using System;
@@ -23,7 +24,8 @@ namespace JewelrySalesSystem.Application.Promotion.GetPromotion
         public async Task<List<PromotionDto>> Handle(GetPromotionsQuery request, CancellationToken cancellationToken)
         {
             // Logic to retrieve promotions base on query parameters(if any)
-            var promotions = await _promotionRepository.FindAllAsync(x => x.DeletedAt == null, cancellationToken);
+            var promotions = await _promotionRepository.FindAllAsync(x => x.DeletedAt == null, cancellationToken)
+                ?? throw new NotFoundException("Không tìm thấy promtion nào");
             return promotions.MapToPromotionDtoList(_mapper);
         }
     }

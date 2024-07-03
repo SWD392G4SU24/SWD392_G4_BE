@@ -12,10 +12,10 @@ namespace JewelrySalesSystem.Infrastructure.Repositories.ConfiguredEntity
 {
     public class DiamondRepository : RepositoryBase<DiamondEntity, DiamondEntity, ApplicationDbContext>, IDiamondRepository
     {
-        private readonly ApplicationDbContext _dbContext;
+       
         public DiamondRepository(ApplicationDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
         {
-            _dbContext = dbContext;
+            
         }
 
     }

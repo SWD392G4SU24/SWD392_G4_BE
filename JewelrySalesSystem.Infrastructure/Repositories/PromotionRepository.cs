@@ -14,10 +14,10 @@ namespace JewelrySalesSystem.Infrastructure.Repositories
 {
     public class PromotionRepository : RepositoryBase<PromotionEntity, PromotionEntity, ApplicationDbContext>, IPromotionRepository
     {
-        private readonly ApplicationDbContext _context;
+       
         public PromotionRepository(ApplicationDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
         {
-            _context = dbContext;
+            
         }
 
      

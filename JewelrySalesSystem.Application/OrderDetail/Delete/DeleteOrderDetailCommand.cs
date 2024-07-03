@@ -10,7 +10,12 @@ namespace JewelrySalesSystem.Application.OrderDetail.Delete
 {
     public class DeleteOrderDetailCommand : IRequest<string>, ICommand
     {
-        public required string Id { get; set; }
+        public DeleteOrderDetailCommand(string id)
+        {
+            Id = id;
+        }
+
+        public  string Id { get; set; }
 
     }
 }

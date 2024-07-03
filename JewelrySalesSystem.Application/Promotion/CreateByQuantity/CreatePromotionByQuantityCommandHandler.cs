@@ -28,12 +28,7 @@ namespace JewelrySalesSystem.Application.Promotion.CreateByQuantity
 
         public async Task<List<string>> Handle(CreatePromotionByQuantityCommand request, CancellationToken cancellationToken)
         {
-            if (request.UserID != "NULL")
-            {
-                var isExist = await _userRepository.FindAsync(s => s.ID == request.UserID && s.DeletedAt == null, cancellationToken)
-               ?? throw new NotFoundException("The User không tồn tại");
-            }
-
+         
             List<string> promotionIds = new List<string>();
 
             for (int i = 0; i < request.Quantity; i++)
@@ -46,7 +41,7 @@ namespace JewelrySalesSystem.Application.Promotion.CreateByQuantity
                     ExpiresTime = request.ExpiresTime,
                     MaximumReduce = request.MaximumReduce,
                     ReducedPercent = request.ReducedPercent,
-                    UserID = request.UserID == "NULL" ? null : request.UserID,
+                    UserID = null,
                     CreatedAt = DateTime.Now,
                     CreatorID = _currentUserService.UserId,
                     Status = PromotionStatus.UNAVAILABLE

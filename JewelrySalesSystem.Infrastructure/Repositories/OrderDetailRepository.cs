@@ -14,10 +14,10 @@ namespace JewelrySalesSystem.Infrastructure.Repositories
     public class OrderDetailRepository : RepositoryBase<OrderDetailEntity, OrderDetailEntity, ApplicationDbContext>, IOrderDetailRepository
 
     {
-        private readonly ApplicationDbContext _context;
+ 
         public OrderDetailRepository(ApplicationDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
         {
-            _context = dbContext;
+        
         }
 
     }

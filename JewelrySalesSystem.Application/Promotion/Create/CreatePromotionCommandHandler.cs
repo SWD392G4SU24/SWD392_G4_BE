@@ -29,28 +29,22 @@ namespace JewelrySalesSystem.Application.Promotion.CreatePromotion
 
         public async Task<string> Handle(CreatePromtionCommand request, CancellationToken cancellationToken)
         {
-            if (request.UserID != "NULL")
-            {
-                var isExist = await _promotionRepository.FindAsync(s => s.UserID == request.UserID && s.DeletedAt == null, cancellationToken)
-               ?? throw new NotFoundException("The User không tồn tại");
-            }
-
+            
             var promotion = new PromotionEntity
             {
                 ConditionsOfUse = request.ConditionsOfUse,
                 ExchangePoint = request.ExchangePoint,
-                Description = request.Description == "NULL" ? null : "NULL",
+                Description = request.Description == "NULL" ? null : request.Description,
                 ExpiresTime = request.ExpiresTime,
                 MaximumReduce = request.MaximumReduce,
                 ReducedPercent = request.ReducedPercent,
-                UserID = request.UserID == "NULL" ? null : "NULL",
+                UserID = null,
                 CreatedAt = DateTime.Now,
                 CreatorID = _currentUserService.UserId,
                 Status = PromotionStatus.UNAVAILABLE
             };
             _promotionRepository.Add(promotion);
-            await _promotionRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
-            return await _promotionRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ?  promotion.ID : "tạo thất bại";
+            return await _promotionRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? promotion.ID : "tạo thất bại";
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿
+using JewelrySalesSystem.Application.Product;
 using JewelrySalesSystem.Application.Promotion;
 using JewelrySalesSystem.Application.Promotion.CreatePromotion;
 using JewelrySalesSystem.Application.Promotion.DeletePromotion;
@@ -26,39 +27,44 @@ namespace Jewelry_Sales_System.API.Controllers
 
         [HttpGet]
         [Route("[controller]")]
-        [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(IEnumerable<PromotionDto>), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(JsonResponse<List<PromotionDto>>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<IEnumerable<PromotionDto>>> GetAllPromotions(
             CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(new GetPromotionsQuery(), cancellationToken);
-            return Ok(result);
+            return result != null ? Ok(new JsonResponse<List<PromotionDto>>(result)) : NotFound();
         }
 
 
         [HttpGet]
         [Route("[controller]/{id}")]
-        [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(IEnumerable<PromotionDto>), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(JsonResponse<PromotionDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<IEnumerable<PromotionDto>>> GetPromotionById(
-            string id,
+            [FromRoute]string id,
             CancellationToken cancellationToken)
         {
-            var query = new GetByIDQuery { Id = id };
-            var result = await _mediator.Send(query, cancellationToken);
-            return Ok(result);
+            var result = await _mediator.Send(new GetByIDQuery(id : id), cancellationToken);
+            return result != null ? Ok(new JsonResponse<PromotionDto>(result)) : NotFound();
         }
 
         [AllowAnonymous]
         [HttpPost]
-        [Route("[controller]")]
+        [Route("[controller]/create")]
         [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<JsonResponse<string>>> CreateNewPromotion(
            [FromBody] CreatePromtionCommand command,
@@ -70,10 +76,12 @@ namespace Jewelry_Sales_System.API.Controllers
         
         [AllowAnonymous]
         [HttpPost]
-        [Route("[controller]/random")]
+        [Route("[controller]/create-random")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(JsonResponse<List<string>>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<JsonResponse<List<string>>>> RandomNewPromotion(
            [FromBody] CreatePromotionByQuantityCommand command,
@@ -85,32 +93,35 @@ namespace Jewelry_Sales_System.API.Controllers
 
         [AllowAnonymous]
         [HttpPut]
-        [Route("[controller]/{id}")]
+        [Route("[controller]/update")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<JsonResponse<string>>> UpdatePromotion(string id,
-               [FromBody] UpdatePromotionCommand command,
+        public async Task<ActionResult<JsonResponse<string>>> UpdatePromotion(
+               UpdatePromotionCommand command,
                CancellationToken cancellationToken = default)
         {
-            if (id != command.ID) return BadRequest("The promotion in the request body must match the route parameter.");
             var result = await _mediator.Send(command, cancellationToken);
             return Ok(new JsonResponse<string>(result));
         }
 
         [AllowAnonymous]
         [HttpDelete]
-        [Route("[controller]/{id}")]
-        [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status201Created)]
+        [Route("[controller]/delete/{id}")]
+        [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<JsonResponse<string>>> DeletePromotion(string id,
                CancellationToken cancellationToken = default)
         {
-            var command = new DeletePromotionCommand { ID = id };
-            var result = await _mediator.Send(command, cancellationToken);
+ 
+            var result = await _mediator.Send(new DeletePromotionCommand(iD : id), cancellationToken);
             return Ok(new JsonResponse<string>(result));
         }
     }

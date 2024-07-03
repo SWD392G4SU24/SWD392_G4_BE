@@ -10,6 +10,11 @@ namespace JewelrySalesSystem.Application.Promotion.DeletePromotion
 {
     public class DeletePromotionCommand : IRequest<string>, ICommand
     {
-        public required string ID { get; set; }
+        public DeletePromotionCommand(string iD)
+        {
+            ID = iD;
+        }
+
+        public  string ID { get; set; }
     }
 }

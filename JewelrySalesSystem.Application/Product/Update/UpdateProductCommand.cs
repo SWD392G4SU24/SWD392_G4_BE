@@ -10,8 +10,9 @@ namespace JewelrySalesSystem.Application.Product.Update
 {
     public class UpdateProductCommand : IRequest<string>, ICommand
     {
-        public UpdateProductCommand( float? goldWeight, int? goldType, int? diamonType, string? imageURL, int quantity, string? description, int categoryID)
+        public UpdateProductCommand(string iD, float? goldWeight, int? goldType, int? diamonType, string? imageURL, int quantity, string? description, int categoryID)
         {
+            ID = iD;
             GoldWeight = goldWeight;
             GoldType = goldType;
             DiamonType = diamonType;

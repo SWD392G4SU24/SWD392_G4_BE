@@ -17,9 +17,11 @@ namespace JewelrySalesSystem.Application.Product.Update
         private void OnValidate()
         {
             RuleFor(x => x.CategoryID)
-                .NotEmpty();
+                 .NotEmpty().WithMessage("CatergoryID không được để trống");
             RuleFor(x => x.Quantity)
-                .NotEmpty();
+                .NotEmpty().WithMessage("Vui lòng nhập số lượng");
+            RuleFor(x => x.Quantity)
+                .GreaterThanOrEqualTo(1).WithMessage("Quantity phải lớn hơn hoặc bằng 1");
             RuleFor(x => x.Description)
                 .MaximumLength(255);
         }

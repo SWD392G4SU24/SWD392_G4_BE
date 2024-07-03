@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 using Microsoft.AspNetCore.Authorization;
+using JewelrySalesSystem.Application.Role;
+using JewelrySalesSystem.Application.Order;
 
 namespace Jewelry_Sales_System.API.Controllers
 {
@@ -26,45 +28,50 @@ namespace Jewelry_Sales_System.API.Controllers
 
         [HttpGet]
         [Route("[controller]")]
-        [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(IEnumerable<OrderDetailDto>), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(JsonResponse<List<OrderDetailDto>>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<OrderDetailDto>>> GetAllOrderDetails(
+        public async Task<ActionResult<List<OrderDetailDto>>> GetAllOrderDetails(
            CancellationToken cancellationToken)
         {
-            var result = await _mediator.Send(new GetOrderDetailQuery(), cancellationToken);
-            return Ok(result);
+            var result = await _mediator.Send(new GetAllOrderDetailQuery(), cancellationToken);
+            return result != null ? Ok(new JsonResponse<List<OrderDetailDto>>(result)) : NotFound();
         }
 
         [HttpGet]
         [Route("[controller]/{id}")]
-        [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(OrderDetailDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(JsonResponse<OrderDetailDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<OrderDetailDto>> GetOrderDetailByID(
-            string id,
+           [FromRoute] string id,
            CancellationToken cancellationToken)
         {
-            var query = new GetByIDQuery { Id = id };
-            var result = await _mediator.Send(query, cancellationToken);
-            return Ok(result);
+            var result = await _mediator.Send(new GetByIDQuery(id : id), cancellationToken);
+            return result != null ? Ok(new JsonResponse<OrderDetailDto>(result)) : NotFound();
         }
 
         [AllowAnonymous]
         [HttpDelete]
-        [Route("[controller]/{id}")]
-        [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status201Created)]
+        [Route("[controller]/delete/{id}")]
+        [ProducesResponseType(typeof(JsonResponse<OrderDetailDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<JsonResponse<string>>> DeleteProduct(
-            string id,
+           [FromRoute] string id,
            CancellationToken cancellationToken)
         {
-            var command = new DeleteOrderDetailCommand { Id  = id };
-            var result = await _mediator.Send(command, cancellationToken);
+ 
+            var result = await _mediator.Send(new DeleteOrderDetailCommand(id : id), cancellationToken);
             return Ok(new JsonResponse<string>(result));
         }
 

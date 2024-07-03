@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using JewelrySalesSystem.Domain.Repositories;
 using AutoMapper;
+using JewelrySalesSystem.Domain.Commons.Exceptions;
 
 namespace JewelrySalesSystem.Application.Product.GetProduct
 {
@@ -23,7 +24,8 @@ namespace JewelrySalesSystem.Application.Product.GetProduct
 
         public async Task<List<ProductDto>> Handle(GetProductQuery request, CancellationToken cancellationToken)
         {
-            var product = await _productRepository.FindAllAsync(x => x.DeletedAt == null, cancellationToken);
+            var product = await _productRepository.FindAllAsync(x => x.DeletedAt == null, cancellationToken)
+                ?? throw new NotFoundException("Không tìm thấy product nào");
             return product.MapToProductDtoList(_mapper);
         }
     }

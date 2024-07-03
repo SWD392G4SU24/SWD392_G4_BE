@@ -10,7 +10,12 @@ namespace JewelrySalesSystem.Application.OrderDetail.GetByID
 {
     public class GetByIDQuery : IRequest<OrderDetailDto>, IQuery
     {
-        public required string Id { get; set; }
+        public GetByIDQuery(string id)
+        {
+            Id = id;
+        }
+
+        public  string Id { get; set; }
 
     }
 }

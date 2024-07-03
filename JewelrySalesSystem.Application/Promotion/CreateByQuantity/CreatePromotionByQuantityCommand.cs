@@ -10,7 +10,7 @@ namespace JewelrySalesSystem.Application.Promotion.NewFolder
 {
     public class CreatePromotionByQuantityCommand : IRequest<List<string>>, ICommand
     {
-        public CreatePromotionByQuantityCommand(int quantity, string? description, decimal conditionsOfUse, float reducedPercent, decimal maximumReduce, int exchangePoint, DateTime expiresTime, string? userID)
+        public CreatePromotionByQuantityCommand(int quantity, string? description, decimal conditionsOfUse, float reducedPercent, decimal maximumReduce, int exchangePoint, DateTime expiresTime)
         {
             Quantity = quantity;
             Description = description;
@@ -19,18 +19,15 @@ namespace JewelrySalesSystem.Application.Promotion.NewFolder
             MaximumReduce = maximumReduce;
             ExchangePoint = exchangePoint;
             ExpiresTime = expiresTime;
-            UserID = userID;
         }
 
-        public required int Quantity { get; set; }
+        public  int Quantity { get; set; }
         public string? Description { get; set; }
         public decimal ConditionsOfUse { get; set; }
         public float ReducedPercent { get; set; }
         public decimal MaximumReduce { get; set; }
         public int ExchangePoint { get; set; }
-        public DateTime ExpiresTime { get; set; }
-        public string? UserID { get; set; }
-        
+        public DateTime ExpiresTime { get; set; }   
  
     }
 }

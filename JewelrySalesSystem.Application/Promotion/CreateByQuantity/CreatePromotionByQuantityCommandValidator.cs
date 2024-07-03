@@ -1,15 +1,16 @@
 ﻿using FluentValidation;
+using JewelrySalesSystem.Application.Promotion.NewFolder;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JewelrySalesSystem.Application.Promotion.UpdatePromotion
+namespace JewelrySalesSystem.Application.Promotion.CreateByQuantity
 {
-    public class UpdatePromotionCommandValidator : AbstractValidator<UpdatePromotionCommand>
+    public class CreatePromotionByQuantityCommandValidator : AbstractValidator<CreatePromotionByQuantityCommand>
     {
-        public UpdatePromotionCommandValidator()
+        public CreatePromotionByQuantityCommandValidator()
         {
             OnValidate();
         }
@@ -17,8 +18,8 @@ namespace JewelrySalesSystem.Application.Promotion.UpdatePromotion
         private void OnValidate()
         {
             RuleFor(x => x.ReducedPercent)
-                .NotNull().
-                WithMessage("ReducedPercent không được để trống");
+                 .NotNull().
+                 WithMessage("ReducedPercent không được để trống");
             RuleFor(x => x.ReducedPercent)
                 .GreaterThanOrEqualTo(1).
                 WithMessage("ReducedPercent phải lớn hơn 0");

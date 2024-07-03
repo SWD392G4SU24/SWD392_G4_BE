@@ -8,6 +8,7 @@ using AuthorizeAttribute = JewelrySalesSystem.Application.Common.Security.Author
 using JewelrySalesSystem.Application.Order.GetAll;
 using JewelrySalesSystem.Application.Order.DeleteOrder;
 using JewelrySalesSystem.Application.Order.GetByID;
+using JewelrySalesSystem.Application.Role;
 
 namespace Jewelry_Sales_System.API.Controllers
 {
@@ -24,46 +25,51 @@ namespace Jewelry_Sales_System.API.Controllers
 
         [HttpGet]
         [Route("[controller]")]
-        [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(List<OrderDto>), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(JsonResponse<List<OrderDto>>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<List<OrderDto>>> GetAllOrders(
-           CancellationToken cancellationToken)
+        public async Task<ActionResult<JsonResponse<List<OrderDto>>>> GetAllOrder(
+            CancellationToken cancellationToken = default)
         {
-            var result = await _mediator.Send(new GetOrderQuery(), cancellationToken);
-            return Ok(result);
+            var result = await this._mediator.Send(new GetAllOrderQuery(), cancellationToken);
+            return result != null ? Ok(new JsonResponse<List<OrderDto>>(result)) : NotFound();
         }
 
         [HttpGet]
         [Route("[controller]/{id}")]
-        [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(OrderDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(JsonResponse<OrderDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<OrderDto>> GetOrderByID(
-                 string id,
+                 [FromRoute] string id,
            CancellationToken cancellationToken)
         {
-            var query = new GetByIDQuery { Id = id };
-            var result = await _mediator.Send(query, cancellationToken);
-            return Ok(result);
+            var result = await _mediator.Send(new GetByIDQuery(id : id), cancellationToken);
+            return result != null ? Ok(new JsonResponse<OrderDto>(result)) : NotFound();
         }
 
 
 
         [AllowAnonymous]
         [HttpDelete]
-        [Route("[controller]/{id}")]
-        [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status201Created)]
+        [Route("[controller]/delete/{id}")]
+        [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<JsonResponse<string>>> DeleteOrder( string id,
+        public async Task<ActionResult<JsonResponse<string>>> DeleteOrder([FromRoute] string id,
            CancellationToken cancellationToken)
         {
-            var command = new DeleteOrdercommand { Id = id };
-            var result = await _mediator.Send(command, cancellationToken);
+            
+            var result = await _mediator.Send(new DeleteOrdercommand(id : id), cancellationToken);
             return Ok(new JsonResponse<string>(result));
         }
     }

@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Application.OrderDetail.GetAll
 {
-    public class GetOrderDetailQuery : IRequest<List<OrderDetailDto>>, IQuery
+    public class GetAllOrderDetailQuery : IRequest<List<OrderDetailDto>>, IQuery
     {
-        public GetOrderDetailQuery() { }
+        public GetAllOrderDetailQuery() { }
     }
 }
