@@ -17,7 +17,7 @@ namespace JewelrySalesSystem.Application.Users.Login
         }
         public LoginQuery(LoginEntity loginEntity)
         {
-            user.Email = loginEntity.Email;
+            user.Username = loginEntity.Username;
             user.Password = loginEntity.Password;
         }
         public required LoginEntity user { get; set; }
