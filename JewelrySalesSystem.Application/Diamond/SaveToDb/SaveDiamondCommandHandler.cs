@@ -26,13 +26,12 @@ namespace JewelrySalesSystem.Application.Diamond.SaveToDb
         public async Task<string> Handle(SaveDiamondCommand request, CancellationToken cancellationToken)
         {
             var listdiamond = await _diamondService.GetDiamondPricesAsync(cancellationToken);
-            
             foreach (var item in listdiamond)
             {
-                var existDiamond = await _diamondRepository.AnyAsync(x => x.CreatedAt == item.CreatedAt, cancellationToken);
+                var existDiamond = await _diamondRepository.AnyAsync(x => x.Name == item.Name && x.CreatedAt == item.CreatedAt, cancellationToken);
                 if (existDiamond)
                 {
-                    throw new DuplicationException("Diamond đã tồn tại");
+                    continue;
                 }
 
                 _diamondRepository.Add(new DiamondEntity

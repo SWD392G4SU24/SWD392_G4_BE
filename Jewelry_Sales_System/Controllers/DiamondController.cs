@@ -5,6 +5,7 @@ using JewelrySalesSystem.Application.Diamond.SaveToDb;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Mime;
 
 namespace Jewelry_Sales_System.API.Controllers
 {
@@ -23,12 +24,16 @@ namespace Jewelry_Sales_System.API.Controllers
             var result = await _mediator.Send(new GetDiamondQuery(), cancellationToken);
             return Ok(result);
         }
-        [HttpPost("diamond/save-price")]
-        public async Task<IActionResult> SaveDiamondPrices(CancellationToken cancellationToken)
+        [HttpPost("diamond/save-today-price")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<string>>> SaveDiamondPrices(CancellationToken cancellationToken)
         {
 
             var result = await _mediator.Send(new SaveDiamondCommand(), cancellationToken);
-            return Ok(result);
+            return Ok(new JsonResponse<string>(result));
         }
     }
 }
