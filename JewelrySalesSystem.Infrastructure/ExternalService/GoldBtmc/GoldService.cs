@@ -21,6 +21,8 @@ namespace JewelrySalesSystem.Infrastructure.ExternalService.GoldBtmc
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         }
 
+     
+
         public async Task<List<GoldEntity>> GetGoldPricesAsync(CancellationToken cancellationToken = default)
         {
             var response = await _httpClient.GetAsync("https://6663df16932baf9032a93456.mockapi.io/goldprice", cancellationToken);
@@ -43,6 +45,7 @@ namespace JewelrySalesSystem.Infrastructure.ExternalService.GoldBtmc
                 // Log or handle the JSON deserialization error
                 throw new Exception("Error deserializing JSON", ex);
             }
+          
 
             if (responseList.Count == 0)
             {
@@ -50,6 +53,11 @@ namespace JewelrySalesSystem.Infrastructure.ExternalService.GoldBtmc
             }
 
             return responseList;
+        }
+        public async Task<bool> CheckIfGoldExistAsync(int? GoldId, CancellationToken cancellationToken)
+        {
+            var getGold = await GetGoldPricesAsync(cancellationToken);
+            return getGold.Any(g => g.ID == GoldId);
         }
     }
 }
