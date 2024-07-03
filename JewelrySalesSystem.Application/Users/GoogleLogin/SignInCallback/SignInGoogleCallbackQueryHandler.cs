@@ -35,10 +35,10 @@ namespace JewelrySalesSystem.Application.GoogleLogin.SignInCallback
             var nameClaim = claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
 
             if (emailClaim != null && nameClaim != null)
-{
+            {
                 var user = await _userRepository.FindByEmailAsync(emailClaim.Value);
                 if (user == null)
-    {
+                {
                     throw new Exception("User not found.");
                 }
 

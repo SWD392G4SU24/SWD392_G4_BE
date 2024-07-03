@@ -6,9 +6,11 @@
         public string Name { get; set; }
         public string Token { get; set; }
 
-namespace JewelrySalesSystem.Application.Users.GoogleLogin.SignInCallback
-{
-    internal class SignInGoogleCallbackResponse
-    {
+        public SignInGoogleCallbackResponse(string email, string name, string token)
+        {
+            Email = email;
+            Name = name;
+            Token = token;
+        }
     }
 }

@@ -53,11 +53,5 @@ namespace JewelrySalesSystem.Infrastructure.Repositories
         {
             return BCrypt.Net.BCrypt.Verify(password, passwordHash);
         }
-
-        public async Task AddAsync(UserEntity user, CancellationToken cancellationToken)
-        {
-            await _context.Users.AddAsync(user, cancellationToken);
-            await _context.SaveChangesAsync(cancellationToken);
-        }
     }
 }
