@@ -13,6 +13,7 @@ namespace JewelrySalesSystem.Domain.Entities
     [Table("Product")]
     public class ProductEntity : BaseEntity
     {
+        public required string Name {  get; set; }
         public required decimal WageCost {  get; set; }
         public float? GoldWeight {  get; set; }
         //Product: vàng thuần, kc thuần, vàng đính kc -> tùy theo đó để tính giá sản phẩm

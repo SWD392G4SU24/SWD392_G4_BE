@@ -105,6 +105,10 @@ namespace Jewelry_Sales_System.API.Controllers
                CancellationToken cancellationToken = default)
         {
             var result = await _mediator.Send(command, cancellationToken);
+            if (result.Contains("thất bại"))
+            {
+                return BadRequest(new JsonResponse<string>(result));
+            }
             return Ok(new JsonResponse<string>(result));
         }
 
@@ -122,6 +126,10 @@ namespace Jewelry_Sales_System.API.Controllers
         {
  
             var result = await _mediator.Send(new DeletePromotionCommand(iD : id), cancellationToken);
+            if (result.Contains("thất bại"))
+            {
+                return BadRequest(new JsonResponse<string>(result));
+            }
             return Ok(new JsonResponse<string>(result));
         }
     }

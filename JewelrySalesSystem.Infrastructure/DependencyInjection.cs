@@ -25,7 +25,7 @@ namespace JewelrySalesSystem.Infrastructure
             services.AddDbContext<ApplicationDbContext>((sp, options) =>
             {
                 options.UseSqlServer(
-                    configuration.GetConnectionString("local"),
+                    configuration.GetConnectionString("ServerDocker"),
                     b =>
                     {
                         b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName);
@@ -46,8 +46,8 @@ namespace JewelrySalesSystem.Infrastructure
             services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddTransient<IOrderDetailRepository, OrderDetailRepository>();
             services.AddTransient<IDiamondRepository, DiamondRepository>();
-            services.AddTransient<IGoldRepository, GoldRepository>();
-
+            services.AddTransient<IGoldRepository, GoldRepository>();        
+            
             return services;
         }
     }

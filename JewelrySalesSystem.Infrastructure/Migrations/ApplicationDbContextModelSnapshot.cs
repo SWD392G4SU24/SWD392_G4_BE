@@ -235,6 +235,32 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                         .HasName("RoleID");
 
                     b.ToTable("Role");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            CreatedAt = new DateTime(2024, 7, 3, 14, 39, 52, 495, DateTimeKind.Utc).AddTicks(6012),
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            ID = 2,
+                            CreatedAt = new DateTime(2024, 7, 3, 14, 39, 52, 495, DateTimeKind.Utc).AddTicks(6017),
+                            Name = "Manager"
+                        },
+                        new
+                        {
+                            ID = 3,
+                            CreatedAt = new DateTime(2024, 7, 3, 14, 39, 52, 495, DateTimeKind.Utc).AddTicks(6019),
+                            Name = "Customer"
+                        },
+                        new
+                        {
+                            ID = 4,
+                            CreatedAt = new DateTime(2024, 7, 3, 14, 39, 52, 495, DateTimeKind.Utc).AddTicks(6020),
+                            Name = "Staff"
+                        });
                 });
 
             modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.FormEntity", b =>
@@ -439,6 +465,10 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     b.Property<DateTime?>("LastestUpdateAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
@@ -590,6 +620,38 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     b.HasIndex("RoleID");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = "43919cc5-c466-4a0b-a782-748596e24e0f",
+                            Address = "123 Admin St.",
+                            CreatedAt = new DateTime(2024, 7, 3, 21, 39, 52, 696, DateTimeKind.Local).AddTicks(1470),
+                            Email = "admin@gmail.com",
+                            FullName = "Administrator",
+                            LastestUpdateAt = new DateTime(2024, 7, 3, 21, 39, 52, 495, DateTimeKind.Local).AddTicks(6265),
+                            PasswordHash = "$2a$11$MsfuT50NFq7FhShCkfZudu5gDiXo4N4muPHvKedJpipDIYQdpDQWu",
+                            PhoneNumber = "1234567890",
+                            Point = 0,
+                            RoleID = 1,
+                            Status = "VERIFIED",
+                            Username = "admin"
+                        },
+                        new
+                        {
+                            ID = "6a7a26ab-fe67-40e6-9e4c-911adc298d94",
+                            Address = "123 Manager St.",
+                            CreatedAt = new DateTime(2024, 7, 3, 21, 39, 52, 886, DateTimeKind.Local).AddTicks(545),
+                            Email = "manager@gmail.com",
+                            FullName = "Manager",
+                            LastestUpdateAt = new DateTime(2024, 7, 3, 21, 39, 52, 696, DateTimeKind.Local).AddTicks(1541),
+                            PasswordHash = "$2a$11$t8YjyxwcWV1XJ4xIBLi2Ke7CFQ3kmtpCVNR6iIpEZSpy8exjmQXay",
+                            PhoneNumber = "2234567890",
+                            Point = 0,
+                            RoleID = 2,
+                            Status = "VERIFIED",
+                            Username = "manager"
+                        });
                 });
 
             modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.Configured.CounterEntity", b =>
