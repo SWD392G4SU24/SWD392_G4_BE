@@ -25,11 +25,14 @@ namespace JewelrySalesSystem.Application.GoldBtmc.SaveToDb
 
         public async Task<string> Handle(SaveGoldCommand request, CancellationToken cancellationToken)
         {
-            var goldList = await _goldService.GetGoldPricesAsync(cancellationToken);
-            foreach (var item in goldList)
+            var goldBtmc = await _goldService.GetGoldPricesAsync(cancellationToken);
+            foreach (var item in goldBtmc)
             {
-                var existGold = await _goldRepository.AnyAsync(x => x.CreatedAt == item.CreatedAt, cancellationToken);
-                if (existGold)  throw new DuplicationException("Gold đã tồn tại");
+                var existGold = await _goldRepository.AnyAsync(x => x.Name == item.Name && x.CreatedAt == item.CreatedAt, cancellationToken);
+                if (existGold)
+                {
+                    continue;
+                }
 
                 _goldRepository.Add(new GoldEntity
                 {

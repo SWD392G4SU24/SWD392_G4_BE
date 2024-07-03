@@ -36,7 +36,7 @@ namespace JewelrySalesSystem.Infrastructure.ExternalService.GoldBtmc
                 foreach (JObject item in jsonArray)
                 {
                     GoldEntity goldEntity = item.ToObject<GoldEntity>();
-                    goldEntity.CreatedAt = DateTime.Parse(item["date"].ToString());
+                    goldEntity.CreatedAt = DateTime.Parse(item["createAt"].ToString());
                     responseList.Add(goldEntity);
                 }
             }
