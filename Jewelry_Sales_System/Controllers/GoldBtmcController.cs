@@ -5,6 +5,7 @@ using JewelrySalesSystem.Application.Role;
 using JewelrySalesSystem.Domain.Entities.Configured;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Mime;
 
 namespace Jewelry_Sales_System.API.Controllers
 {
@@ -26,11 +27,15 @@ namespace Jewelry_Sales_System.API.Controllers
             return Ok(result);
         }
 
-        [HttpPost("goldBtmc/save-price")]
-        public async Task<IActionResult> SaveGoldPrices(CancellationToken cancellationToken)
+        [HttpPost("goldBtmc/save-today-price")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<string>>> SaveGoldPrices(CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(new SaveGoldCommand(), cancellationToken);
-            return Ok(result);
+            return Ok(new JsonResponse<string>(result));
         }
     }
 }
