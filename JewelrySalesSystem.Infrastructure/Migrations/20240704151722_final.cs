@@ -232,36 +232,6 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Promotion",
-                columns: table => new
-                {
-                    VoucherCode = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ConditionsOfUse = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    ReducedPercent = table.Column<float>(type: "real", nullable: false),
-                    MaximumReduce = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    ExchangePoint = table.Column<int>(type: "int", nullable: false),
-                    ExpiresTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserID = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    CreatorID = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdaterID = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastestUpdateAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeleterID = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Promotion", x => x.VoucherCode);
-                    table.ForeignKey(
-                        name: "FK_Promotion_Users_UserID",
-                        column: x => x.UserID,
-                        principalTable: "Users",
-                        principalColumn: "ID");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Order",
                 columns: table => new
                 {
@@ -295,11 +265,6 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                         principalTable: "PaymentMethod",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Order_Promotion_VoucherCode",
-                        column: x => x.VoucherCode,
-                        principalTable: "Promotion",
-                        principalColumn: "VoucherCode");
                     table.ForeignKey(
                         name: "FK_Order_Users_BuyerID",
                         column: x => x.BuyerID,
@@ -344,15 +309,60 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Promotion",
+                columns: table => new
+                {
+                    VoucherCode = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ConditionsOfUse = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ReducedPercent = table.Column<float>(type: "real", nullable: false),
+                    MaximumReduce = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ExchangePoint = table.Column<int>(type: "int", nullable: false),
+                    ExpiresTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserID = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    OrderID = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreatorID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdaterID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastestUpdateAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeleterID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Promotion", x => x.VoucherCode);
+                    table.ForeignKey(
+                        name: "FK_Promotion_Order_OrderID",
+                        column: x => x.OrderID,
+                        principalTable: "Order",
+                        principalColumn: "ID");
+                    table.ForeignKey(
+                        name: "FK_Promotion_Users_UserID",
+                        column: x => x.UserID,
+                        principalTable: "Users",
+                        principalColumn: "ID");
+                });
+
+            migrationBuilder.InsertData(
+                table: "PaymentMethod",
+                columns: new[] { "ID", "CreatedAt", "CreatorID", "DeletedAt", "DeleterID", "LastestUpdateAt", "Name", "UpdaterID" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2024, 7, 4, 15, 17, 21, 388, DateTimeKind.Utc).AddTicks(354), null, null, null, null, "VnPay", null },
+                    { 2, new DateTime(2024, 7, 4, 15, 17, 21, 388, DateTimeKind.Utc).AddTicks(357), null, null, null, null, "COD", null }
+                });
+
             migrationBuilder.InsertData(
                 table: "Role",
                 columns: new[] { "ID", "CreatedAt", "CreatorID", "DeletedAt", "DeleterID", "LastestUpdateAt", "Name", "UpdaterID" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 7, 3, 14, 39, 52, 495, DateTimeKind.Utc).AddTicks(6012), null, null, null, null, "Admin", null },
-                    { 2, new DateTime(2024, 7, 3, 14, 39, 52, 495, DateTimeKind.Utc).AddTicks(6017), null, null, null, null, "Manager", null },
-                    { 3, new DateTime(2024, 7, 3, 14, 39, 52, 495, DateTimeKind.Utc).AddTicks(6019), null, null, null, null, "Customer", null },
-                    { 4, new DateTime(2024, 7, 3, 14, 39, 52, 495, DateTimeKind.Utc).AddTicks(6020), null, null, null, null, "Staff", null }
+                    { 1, new DateTime(2024, 7, 4, 15, 17, 21, 388, DateTimeKind.Utc).AddTicks(129), null, null, null, null, "Admin", null },
+                    { 2, new DateTime(2024, 7, 4, 15, 17, 21, 388, DateTimeKind.Utc).AddTicks(140), null, null, null, null, "Manager", null },
+                    { 3, new DateTime(2024, 7, 4, 15, 17, 21, 388, DateTimeKind.Utc).AddTicks(142), null, null, null, null, "Customer", null },
+                    { 4, new DateTime(2024, 7, 4, 15, 17, 21, 388, DateTimeKind.Utc).AddTicks(150), null, null, null, null, "Staff", null }
                 });
 
             migrationBuilder.InsertData(
@@ -360,8 +370,8 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                 columns: new[] { "ID", "Address", "CounterID", "CreatedAt", "CreatorID", "DeletedAt", "DeleterID", "Email", "FullName", "LastestUpdateAt", "PasswordHash", "PhoneNumber", "Point", "RoleID", "Status", "UpdaterID", "Username" },
                 values: new object[,]
                 {
-                    { "43919cc5-c466-4a0b-a782-748596e24e0f", "123 Admin St.", null, new DateTime(2024, 7, 3, 21, 39, 52, 696, DateTimeKind.Local).AddTicks(1470), null, null, null, "admin@gmail.com", "Administrator", new DateTime(2024, 7, 3, 21, 39, 52, 495, DateTimeKind.Local).AddTicks(6265), "$2a$11$MsfuT50NFq7FhShCkfZudu5gDiXo4N4muPHvKedJpipDIYQdpDQWu", "1234567890", 0, 1, "VERIFIED", null, "admin" },
-                    { "6a7a26ab-fe67-40e6-9e4c-911adc298d94", "123 Manager St.", null, new DateTime(2024, 7, 3, 21, 39, 52, 886, DateTimeKind.Local).AddTicks(545), null, null, null, "manager@gmail.com", "Manager", new DateTime(2024, 7, 3, 21, 39, 52, 696, DateTimeKind.Local).AddTicks(1541), "$2a$11$t8YjyxwcWV1XJ4xIBLi2Ke7CFQ3kmtpCVNR6iIpEZSpy8exjmQXay", "2234567890", 0, 2, "VERIFIED", null, "manager" }
+                    { "48a506ce4e9548c8a65b9b390bda9bbb", "123 Admin St.", null, new DateTime(2024, 7, 4, 22, 17, 21, 725, DateTimeKind.Local).AddTicks(105), null, null, null, "admin@gmail.com", "Administrator", new DateTime(2024, 7, 4, 22, 17, 21, 388, DateTimeKind.Local).AddTicks(529), "$2a$11$FkCZHoJX38ZcNEIU/35SL.nLqemNJBiDlwjNliTZNOy0LCJbUR62e", "1234567890", 0, 1, "VERIFIED", null, "admin" },
+                    { "e0c4bc6353ef4109aee7dbad2ebfc233", "123 Manager St.", null, new DateTime(2024, 7, 4, 22, 17, 21, 960, DateTimeKind.Local).AddTicks(8231), null, null, null, "manager@gmail.com", "Manager", new DateTime(2024, 7, 4, 22, 17, 21, 725, DateTimeKind.Local).AddTicks(258), "$2a$11$z31D2tFJv9HhMes.pbBLf.J58mer3iO6Tnwgm4BXDQ56fUZX34EQm", "2234567890", 0, 2, "VERIFIED", null, "manager" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -415,6 +425,11 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                 column: "GoldType");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Promotion_OrderID",
+                table: "Promotion",
+                column: "OrderID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Promotion_UserID",
                 table: "Promotion",
                 column: "UserID");
@@ -440,11 +455,38 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                 name: "IX_Users_RoleID",
                 table: "Users",
                 column: "RoleID");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Order_Promotion_VoucherCode",
+                table: "Order",
+                column: "VoucherCode",
+                principalTable: "Promotion",
+                principalColumn: "VoucherCode");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Counter_Category_CategoryID",
+                table: "Counter");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Order_Counter_CounterID",
+                table: "Order");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Users_Counter_CounterID",
+                table: "Users");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Order_PaymentMethod_PaymentMethodID",
+                table: "Order");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Order_Promotion_VoucherCode",
+                table: "Order");
+
             migrationBuilder.DropTable(
                 name: "Forms");
 
@@ -452,16 +494,7 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                 name: "OrderDetail");
 
             migrationBuilder.DropTable(
-                name: "Order");
-
-            migrationBuilder.DropTable(
                 name: "Product");
-
-            migrationBuilder.DropTable(
-                name: "PaymentMethod");
-
-            migrationBuilder.DropTable(
-                name: "Promotion");
 
             migrationBuilder.DropTable(
                 name: "Diamond");
@@ -470,16 +503,25 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                 name: "Gold");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Category");
 
             migrationBuilder.DropTable(
                 name: "Counter");
 
             migrationBuilder.DropTable(
-                name: "Role");
+                name: "PaymentMethod");
 
             migrationBuilder.DropTable(
-                name: "Category");
+                name: "Promotion");
+
+            migrationBuilder.DropTable(
+                name: "Order");
+
+            migrationBuilder.DropTable(
+                name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Role");
         }
     }
 }

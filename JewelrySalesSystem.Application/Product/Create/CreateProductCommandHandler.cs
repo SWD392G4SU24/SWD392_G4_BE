@@ -18,30 +18,34 @@ namespace JewelrySalesSystem.Application.Product.Create
     public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, string>
     {
         private readonly IProductRepository _productRepository;
-        //private readonly ICategoryRepository _categoryRepository;
+        private readonly ICategoryRepository _categoryRepository;
         private readonly IDiamondRepository _diamondRepository;
         private readonly IGoldRepository _goldRepository;
         private readonly ICurrentUserService _currentUserService;
 
-        public CreateProductCommandHandler(IProductRepository productRepository, IDiamondRepository diamondRepository, IGoldRepository goldRepository, ICurrentUserService currentUserService)
+        public CreateProductCommandHandler(IProductRepository productRepository
+            , IDiamondRepository diamondRepository
+            , IGoldRepository goldRepository
+            , ICurrentUserService currentUserService
+            , ICategoryRepository categoryRepository)
         {
             _productRepository = productRepository;
             _diamondRepository = diamondRepository;
             _goldRepository = goldRepository;
             _currentUserService = currentUserService;
+            _categoryRepository = categoryRepository;
         }
 
         public async Task<string> Handle(CreateProductCommand request, CancellationToken cancellationToken)
-        {
-            /* categoryEntity đức anh làm, nên tui thêm để tượng trưng là có checkExist r */
-            //var category = await _categoryRepository.FindAsync(c => c.ID == request.CategoryID && c.DeletedAt == null, cancellationToken)
-            //    ?? throw new NotFoundException("Category không tồn tại");
+        {            
+            var category = await _categoryRepository.FindAsync(c => c.ID == request.CategoryID && c.DeletedAt == null, cancellationToken)
+                ?? throw new NotFoundException("Không tồn tại Category với ID: " + request.CategoryID);
 
             var diamond = await _diamondRepository.FindAsync(c => c.ID == request.DiamondType, cancellationToken)
-                ?? throw new NotFoundException("Diamond không tồn tại");
+                ?? throw new NotFoundException("Không tồn tại kim cương với type: " + request.DiamondType);
           
             var gold = await _goldRepository.FindAsync(c => c.ID == request.GoldType, cancellationToken)
-                ?? throw new NotFoundException("Gold không tồn tại");
+                ?? throw new NotFoundException("Không tồn tại vàng với type: " + request.GoldType);
 
             //Caculate wageCost
             decimal wageCost = WageCost.CalculateWageCost
@@ -57,16 +61,16 @@ namespace JewelrySalesSystem.Application.Product.Create
                 CategoryID = request.CategoryID,
                 Quantity = request.Quantity,
                 WageCost = wageCost,
-                Description = request.Description == "NULL" ? null : request.Description,
+                Description = request.Description,
                 DiamonType = request.DiamondType ?? request.DiamondType,
                 GoldType = request.GoldType ?? request.DiamondType,
                 GoldWeight = request.GoldWeight ?? request.GoldWeight,
-                ImageURL = request.ImageURL == "NULL" ? null : request.ImageURL,
+                ImageURL = request.ImageURL,
                 CreatedAt = DateTime.Now,
                 CreatorID = _currentUserService.UserId
             };
             _productRepository.Add(product);
-            return await _productRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? product.ID : "Tạo thất bại";
+            return await _productRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? "Tạo thành công" : "Tạo thất bại";
 
         }
     }
