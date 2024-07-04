@@ -11,6 +11,11 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 using JewelrySalesSystem.Application.Users;
 using JewelrySalesSystem.Application.Users.GetByPagination;
+using JewelrySalesSystem.Application.Users.GetStaffByPagination;
+using JewelrySalesSystem.Application.Users.GetCustomerByPagination;
+using JewelrySalesSystem.Application.Users.GetManagerByPagination;
+using JewelrySalesSystem.Application.Role.Update;
+using JewelrySalesSystem.Application.Users.Update;
 
 namespace Jewelry_Sales_System.API.Controllers
 {
@@ -69,6 +74,64 @@ namespace Jewelry_Sales_System.API.Controllers
         {
             var result = await _mediator.Send(query, cancellationToken);
             return Ok(result);
+        }
+
+        [HttpGet("user/staff-pagination")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(JsonResponse<PagedResult<UserDto>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<PagedResult<UserDto>>>> GetStaffPagination([FromQuery] GetStaffByPaginationQuery query
+            , CancellationToken cancellationToken = default)
+        {
+            var result = await _mediator.Send(query, cancellationToken);
+            return Ok(result);
+        }
+
+        [HttpGet("user/customer-pagination")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(JsonResponse<PagedResult<UserDto>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<PagedResult<UserDto>>>> GetCustomerPagination([FromQuery] GetCustomerByPaginationQuery query
+            , CancellationToken cancellationToken = default)
+        {
+            var result = await _mediator.Send(query, cancellationToken);
+            return Ok(result);
+        }
+
+        [HttpGet("user/manager-pagination")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(JsonResponse<PagedResult<UserDto>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<PagedResult<UserDto>>>> GetManagerPagination([FromQuery] GetManagerByPaginationQuery query
+            , CancellationToken cancellationToken = default)
+        {
+            var result = await _mediator.Send(query, cancellationToken);
+            return Ok(result);
+        }
+
+        [HttpPatch("user/update")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<string>>> UpdateRole([FromForm] UpdateUserCommand command
+            , CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(command, cancellationToken);
+            if (!result.Contains("thành công"))
+            {
+                return BadRequest(new JsonResponse<string>(result));
+            }
+            return Ok(new JsonResponse<string>(result));
         }
     }
 }
