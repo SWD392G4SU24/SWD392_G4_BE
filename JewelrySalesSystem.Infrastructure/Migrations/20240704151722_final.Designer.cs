@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JewelrySalesSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240703143953_final")]
+    [Migration("20240704151722_final")]
     partial class final
     {
         /// <inheritdoc />
@@ -202,6 +202,20 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("PaymentMethod");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            CreatedAt = new DateTime(2024, 7, 4, 15, 17, 21, 388, DateTimeKind.Utc).AddTicks(354),
+                            Name = "VnPay"
+                        },
+                        new
+                        {
+                            ID = 2,
+                            CreatedAt = new DateTime(2024, 7, 4, 15, 17, 21, 388, DateTimeKind.Utc).AddTicks(357),
+                            Name = "COD"
+                        });
                 });
 
             modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.Configured.RoleEntity", b =>
@@ -243,25 +257,25 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                         new
                         {
                             ID = 1,
-                            CreatedAt = new DateTime(2024, 7, 3, 14, 39, 52, 495, DateTimeKind.Utc).AddTicks(6012),
+                            CreatedAt = new DateTime(2024, 7, 4, 15, 17, 21, 388, DateTimeKind.Utc).AddTicks(129),
                             Name = "Admin"
                         },
                         new
                         {
                             ID = 2,
-                            CreatedAt = new DateTime(2024, 7, 3, 14, 39, 52, 495, DateTimeKind.Utc).AddTicks(6017),
+                            CreatedAt = new DateTime(2024, 7, 4, 15, 17, 21, 388, DateTimeKind.Utc).AddTicks(140),
                             Name = "Manager"
                         },
                         new
                         {
                             ID = 3,
-                            CreatedAt = new DateTime(2024, 7, 3, 14, 39, 52, 495, DateTimeKind.Utc).AddTicks(6019),
+                            CreatedAt = new DateTime(2024, 7, 4, 15, 17, 21, 388, DateTimeKind.Utc).AddTicks(142),
                             Name = "Customer"
                         },
                         new
                         {
                             ID = 4,
-                            CreatedAt = new DateTime(2024, 7, 3, 14, 39, 52, 495, DateTimeKind.Utc).AddTicks(6020),
+                            CreatedAt = new DateTime(2024, 7, 4, 15, 17, 21, 388, DateTimeKind.Utc).AddTicks(150),
                             Name = "Staff"
                         });
                 });
@@ -529,6 +543,9 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     b.Property<decimal>("MaximumReduce")
                         .HasColumnType("decimal(18, 2)");
 
+                    b.Property<string>("OrderID")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<float>("ReducedPercent")
                         .HasColumnType("real");
 
@@ -543,6 +560,8 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("OrderID");
 
                     b.HasIndex("UserID");
 
@@ -627,13 +646,13 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            ID = "43919cc5-c466-4a0b-a782-748596e24e0f",
+                            ID = "48a506ce4e9548c8a65b9b390bda9bbb",
                             Address = "123 Admin St.",
-                            CreatedAt = new DateTime(2024, 7, 3, 21, 39, 52, 696, DateTimeKind.Local).AddTicks(1470),
+                            CreatedAt = new DateTime(2024, 7, 4, 22, 17, 21, 725, DateTimeKind.Local).AddTicks(105),
                             Email = "admin@gmail.com",
                             FullName = "Administrator",
-                            LastestUpdateAt = new DateTime(2024, 7, 3, 21, 39, 52, 495, DateTimeKind.Local).AddTicks(6265),
-                            PasswordHash = "$2a$11$MsfuT50NFq7FhShCkfZudu5gDiXo4N4muPHvKedJpipDIYQdpDQWu",
+                            LastestUpdateAt = new DateTime(2024, 7, 4, 22, 17, 21, 388, DateTimeKind.Local).AddTicks(529),
+                            PasswordHash = "$2a$11$FkCZHoJX38ZcNEIU/35SL.nLqemNJBiDlwjNliTZNOy0LCJbUR62e",
                             PhoneNumber = "1234567890",
                             Point = 0,
                             RoleID = 1,
@@ -642,13 +661,13 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                         },
                         new
                         {
-                            ID = "6a7a26ab-fe67-40e6-9e4c-911adc298d94",
+                            ID = "e0c4bc6353ef4109aee7dbad2ebfc233",
                             Address = "123 Manager St.",
-                            CreatedAt = new DateTime(2024, 7, 3, 21, 39, 52, 886, DateTimeKind.Local).AddTicks(545),
+                            CreatedAt = new DateTime(2024, 7, 4, 22, 17, 21, 960, DateTimeKind.Local).AddTicks(8231),
                             Email = "manager@gmail.com",
                             FullName = "Manager",
-                            LastestUpdateAt = new DateTime(2024, 7, 3, 21, 39, 52, 696, DateTimeKind.Local).AddTicks(1541),
-                            PasswordHash = "$2a$11$t8YjyxwcWV1XJ4xIBLi2Ke7CFQ3kmtpCVNR6iIpEZSpy8exjmQXay",
+                            LastestUpdateAt = new DateTime(2024, 7, 4, 22, 17, 21, 725, DateTimeKind.Local).AddTicks(258),
+                            PasswordHash = "$2a$11$z31D2tFJv9HhMes.pbBLf.J58mer3iO6Tnwgm4BXDQ56fUZX34EQm",
                             PhoneNumber = "2234567890",
                             Point = 0,
                             RoleID = 2,
@@ -706,7 +725,7 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("JewelrySalesSystem.Domain.Entities.PromotionEntity", "Promotion")
-                        .WithMany("Orders")
+                        .WithMany()
                         .HasForeignKey("PromotionID");
 
                     b.Navigation("Counter");
@@ -743,9 +762,15 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
 
             modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.PromotionEntity", b =>
                 {
+                    b.HasOne("JewelrySalesSystem.Domain.Entities.OrderEntity", "Order")
+                        .WithMany()
+                        .HasForeignKey("OrderID");
+
                     b.HasOne("JewelrySalesSystem.Domain.Entities.UserEntity", "User")
                         .WithMany("Promotions")
                         .HasForeignKey("UserID");
+
+                    b.Navigation("Order");
 
                     b.Navigation("User");
                 });
@@ -807,11 +832,6 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
             modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.ProductEntity", b =>
                 {
                     b.Navigation("OrderDetails");
-                });
-
-            modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.PromotionEntity", b =>
-                {
-                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.UserEntity", b =>

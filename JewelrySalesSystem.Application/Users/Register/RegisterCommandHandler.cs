@@ -30,7 +30,12 @@ namespace JewelrySalesSystem.Application.Users.CreateNewUser
             {
                 throw new DuplicationException("Email is existed");
             }
-            isExist = await _userRepository.AnyAsync(x => x.Email == request.PhoneNumber && x.DeletedAt == null, cancellationToken);
+            isExist = await _userRepository.AnyAsync(x => x.Username == request.Username && x.DeletedAt == null, cancellationToken);
+            if (isExist)
+            {
+                throw new DuplicationException("Username is existed");
+            }
+            isExist = await _userRepository.AnyAsync(x => x.PhoneNumber == request.PhoneNumber && x.DeletedAt == null, cancellationToken);
             if (isExist)
             {
                 throw new DuplicationException("Phone number is existed");

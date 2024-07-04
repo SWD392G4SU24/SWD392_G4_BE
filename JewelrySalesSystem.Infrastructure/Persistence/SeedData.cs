@@ -23,11 +23,16 @@ namespace JewelrySalesSystem.Infrastructure.Persistence
                     new RoleEntity {ID = 4, Name = "Staff", CreatedAt = DateTime.UtcNow }
                 );
 
+            modelBuilder.Entity<PaymentMethodEntity>().HasData(
+                    new PaymentMethodEntity { ID = 1, Name = "VnPay", CreatedAt = DateTime.UtcNow },
+                    new PaymentMethodEntity { ID = 2, Name = "COD", CreatedAt = DateTime.UtcNow }
+                );
+
             // Seed admin account
             modelBuilder.Entity<UserEntity>().HasData(
                 new UserEntity
                 {
-                    ID = Guid.NewGuid().ToString(),
+                    ID = Guid.NewGuid().ToString("N"),
                     Username = "admin",
                     Email = "admin@gmail.com",
                     PasswordHash = BCrypt.Net.BCrypt.HashPassword("admin"),
@@ -43,7 +48,7 @@ namespace JewelrySalesSystem.Infrastructure.Persistence
                 // Seed manager account
                 new UserEntity
                 {
-                    ID = Guid.NewGuid().ToString(),
+                    ID = Guid.NewGuid().ToString("N"),
                     Username = "manager",
                     Email = "manager@gmail.com",
                     PasswordHash = BCrypt.Net.BCrypt.HashPassword("manager"),
