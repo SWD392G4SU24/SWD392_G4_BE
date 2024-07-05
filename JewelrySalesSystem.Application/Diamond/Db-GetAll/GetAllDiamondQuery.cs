@@ -6,9 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JewelrySalesSystem.Application.Diamon.GetAll
+namespace JewelrySalesSystem.Application.Diamond.Db_GetAll
 {
-    public class GetDiamondQuery : IRequest<List<DiamondDto>>, IQuery
+    public class GetAllDiamondQuery : IRequest<List<DiamondDto>>, IQuery
     {
+        public GetAllDiamondQuery()
+        {
+            
+        }
     }
 }

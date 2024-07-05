@@ -11,5 +11,10 @@ namespace JewelrySalesSystem.Application.Diamond
         => mapper.Map<DiamondDto>(projectFrom);
         public static List<DiamondDto> MapToDiamondDtoList(this IEnumerable<DiamondEntity> projectFrom, IMapper mapper)
          => projectFrom.Select(x => x.MapToDiamondDto(mapper)).ToList();
+
+        public static DiamondServiceDto MapToDiamondServiceDto(this DiamondEntity projectFrom, IMapper mapper)
+        => mapper.Map<DiamondServiceDto>(projectFrom);
+        public static List<DiamondServiceDto> MapToDiamondServiceDtoList(this IEnumerable<DiamondEntity> projectFrom, IMapper mapper)
+         => projectFrom.Select(x => x.MapToDiamondServiceDto(mapper)).ToList();
     }
 }
