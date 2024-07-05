@@ -1,5 +1,5 @@
 ﻿using JewelrySalesSystem.Domain.Commons.Interfaces;
-using JewelrySalesSystem.Domain.Entities;
+using JewelrySalesSystem.Domain.Entities.VnPayModel;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using System;

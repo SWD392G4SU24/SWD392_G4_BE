@@ -1,7 +1,7 @@
 ﻿using JewelrySalesSystem.Application.VnPay.CreatePaymentUrl;
 using JewelrySalesSystem.Application.VnPay.PaymentCallback;
 using JewelrySalesSystem.Domain.Commons.Interfaces;
-using JewelrySalesSystem.Domain.Entities;
+using JewelrySalesSystem.Domain.Entities.VnPayModel;
 using JewelrySalesSystem.Infrastructure.ExternalService.VnPay;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

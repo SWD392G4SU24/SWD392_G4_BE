@@ -40,7 +40,7 @@ namespace JewelrySalesSystem.Application.Users.Login
                 var checkPassword = _repository.VerifyPassword(query.user.Password, user.PasswordHash);
                 if (checkPassword)
                 {
-                    return UserLoginDto.Create(user.Email, user.ID, role.Name);
+                    return UserLoginDto.Create(user.Username, user.ID, role.Name);
                 }
             }
             throw new NotFoundException("Tài khoản hoặc mật khẩu không đúng.");

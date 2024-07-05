@@ -1,6 +1,8 @@
 ﻿
 using JewelrySalesSystem.Application.Diamon;
 using JewelrySalesSystem.Application.Diamon.GetAll;
+using JewelrySalesSystem.Application.Diamond;
+using JewelrySalesSystem.Application.Diamond.Db_GetAll;
 using JewelrySalesSystem.Application.Diamond.SaveToDb;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -18,12 +20,21 @@ namespace Jewelry_Sales_System.API.Controllers
         {
             _mediator = mediator;
         }
-        [HttpGet("diamond/get-price")]
-        public async Task<ActionResult<List<DiamondDto>>> GetDiamondPrices(CancellationToken cancellationToken)
+
+        [HttpGet("diamond/get-service-price")]
+        public async Task<ActionResult<List<DiamondServiceDto>>> GetDiamondServicePrices(CancellationToken cancellationToken)
         {
-            var result = await _mediator.Send(new GetDiamondQuery(), cancellationToken);
+            var result = await _mediator.Send(new GetAllDiamondServiceQuery(), cancellationToken);
             return Ok(result);
         }
+
+        [HttpGet("diamond/get-db-price")]
+        public async Task<ActionResult<List<DiamondDto>>> GetDiamondPrices(CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(new GetAllDiamondQuery(), cancellationToken);
+            return Ok(result);
+        }
+
         [HttpPost("diamond/save-today-price")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status200OK)]

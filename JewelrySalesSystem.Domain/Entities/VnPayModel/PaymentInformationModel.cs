@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JewelrySalesSystem.Domain.Entities
+namespace JewelrySalesSystem.Domain.Entities.VnPayModel
 {
     //[Table("Payment")]
     [NotMapped]
@@ -15,6 +15,6 @@ namespace JewelrySalesSystem.Domain.Entities
         public string OrderType { get; set; }
         public double Amount { get; set; }
         public string OrderDescription { get; set; }
-        public string Name { get; set; }       
+        public string Name { get; set; }
     }
 }

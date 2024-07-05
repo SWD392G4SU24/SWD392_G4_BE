@@ -13,21 +13,21 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Application.Diamon.GetAll
 {
-    public class GetDiamondQueryHandler : IRequestHandler<GetDiamondQuery, List<DiamondDto>>
+    public class GetAllDiamondServiceQueryHandler : IRequestHandler<GetAllDiamondServiceQuery, List<DiamondServiceDto>>
     {
         private readonly IDiamondService _diamondService;
         private readonly IMapper _mapper;
 
-        public GetDiamondQueryHandler(IDiamondService diamondService, IMapper mapper)
+        public GetAllDiamondServiceQueryHandler(IDiamondService diamondService, IMapper mapper)
         {
             _diamondService = diamondService;
             _mapper = mapper;
         }
 
-        public async Task<List<DiamondDto>> Handle(GetDiamondQuery request, CancellationToken cancellationToken)
+        public async Task<List<DiamondServiceDto>> Handle(GetAllDiamondServiceQuery request, CancellationToken cancellationToken)
         {
             var listDiamond = await _diamondService.GetDiamondPricesAsync(cancellationToken);
-            return listDiamond.MapToDiamondDtoList(_mapper);
+            return listDiamond.MapToDiamondServiceDtoList(_mapper);
         }
     }
 }

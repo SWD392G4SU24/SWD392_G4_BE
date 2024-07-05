@@ -43,7 +43,7 @@ namespace JewelrySalesSystem.Application.Diamond.SaveToDb
                 });
             }
             var result = await _diamondRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
-            return result == 0 ? "Lưu diamond thất bại" : "Lưu diamond thành công";
+            return result == 0 ? "Lưu thất bại" : "Lưu thành công";
 
         }
     }
