@@ -13,18 +13,18 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Application.Order.GetByID
 {
-    public class GetByIDQueryHandler : IRequestHandler<GetByIDQuery, OrderDto>
+    public class GetByOrderIDQueryHandler : IRequestHandler<GetByOrderIDQuery, OrderDto>
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IMapper _mapper;
 
-        public GetByIDQueryHandler(IOrderRepository orderRepository, IMapper mapper)
+        public GetByOrderIDQueryHandler(IOrderRepository orderRepository, IMapper mapper)
         {
             _orderRepository = orderRepository;
             _mapper = mapper;
         }
 
-        public async Task<OrderDto> Handle(GetByIDQuery request, CancellationToken cancellationToken)
+        public async Task<OrderDto> Handle(GetByOrderIDQuery request, CancellationToken cancellationToken)
         {
 
             var order = await _orderRepository.FindAsync(s => s.ID == request.Id && s.DeletedAt == null, cancellationToken)

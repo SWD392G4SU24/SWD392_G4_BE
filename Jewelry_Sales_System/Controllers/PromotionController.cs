@@ -1,60 +1,60 @@
-﻿using JewelrySalesSystem.Application.Common.Security;
+﻿
+using JewelrySalesSystem.Application.Product;
+using JewelrySalesSystem.Application.Promotion;
+using JewelrySalesSystem.Application.Promotion.CreatePromotion;
+using JewelrySalesSystem.Application.Promotion.DeletePromotion;
+using JewelrySalesSystem.Application.Promotion.GetAll;
+using JewelrySalesSystem.Application.Promotion.GetById;
+using JewelrySalesSystem.Application.Promotion.NewFolder;
+using JewelrySalesSystem.Application.Promotion.UpdatePromotion;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
-using JewelrySalesSystem.Application.Product;
-using JewelrySalesSystem.Application.Product.GetProduct;
-using JewelrySalesSystem.Application.Product.Create;
-using Microsoft.AspNetCore.Authorization;
 using AuthorizeAttribute = JewelrySalesSystem.Application.Common.Security.AuthorizeAttribute;
-using JewelrySalesSystem.Application.Product.Update;
-using JewelrySalesSystem.Application.Product.Delete;
-using JewelrySalesSystem.Application.Product.GetByID;
-using JewelrySalesSystem.Application.Role;
-
 
 namespace Jewelry_Sales_System.API.Controllers
 {
     [ApiController]
     [Authorize]
-    public class ProductController : ControllerBase
+    public class PromotionController : ControllerBase
     {
         private readonly IMediator _mediator;
-
-        public ProductController(IMediator mediator)
+        public PromotionController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
         [HttpGet]
         [Route("[controller]")]
-        [ProducesResponseType(typeof(JsonResponse<List<ProductDto>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(JsonResponse<List<PromotionDto>>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<List<ProductDto>>> GetAllPrducts(
-           CancellationToken cancellationToken)
+        public async Task<ActionResult<IEnumerable<PromotionDto>>> GetAllPromotions(
+            CancellationToken cancellationToken)
         {
-            var result = await _mediator.Send(new GetProductQuery(), cancellationToken);
-            return result != null ? Ok(new JsonResponse<List<ProductDto>>(result)) : NotFound();
+            var result = await _mediator.Send(new GetPromotionsQuery(), cancellationToken);
+            return result != null ? Ok(new JsonResponse<List<PromotionDto>>(result)) : NotFound();
         }
+
 
         [HttpGet]
         [Route("[controller]/{id}")]
-        [ProducesResponseType(typeof(JsonResponse<ProductDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(JsonResponse<PromotionDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<ProductDto>> GetProductByID(
+        public async Task<ActionResult<IEnumerable<PromotionDto>>> GetPromotionById(
             [FromRoute]string id,
-           CancellationToken cancellationToken)
-        { 
-            var result = await _mediator.Send(new GetByProductIDQuery(iD : id), cancellationToken);
-            return result != null ? Ok(new JsonResponse<ProductDto>(result)) : NotFound();
+            CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(new GetByPromotionIDQuery(id : id), cancellationToken);
+            return result != null ? Ok(new JsonResponse<PromotionDto>(result)) : NotFound();
         }
 
         [AllowAnonymous]
@@ -66,12 +66,29 @@ namespace Jewelry_Sales_System.API.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<JsonResponse<string>>> CreateNewProduct(
-            [FromBody] CreateProductCommand command,
-           CancellationToken cancellationToken)
+        public async Task<ActionResult<JsonResponse<string>>> CreateNewPromotion(
+           [FromBody] CreatePromtionCommand command,
+           CancellationToken cancellationToken = default)
         {
             var result = await _mediator.Send(command, cancellationToken);
             return Ok(new JsonResponse<string>(result));
+        }
+        
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("[controller]/create-random")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(JsonResponse<List<string>>), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<List<string>>>> RandomNewPromotion(
+           [FromBody] CreatePromotionByQuantityCommand command,
+           CancellationToken cancellationToken = default)
+        {
+            var result = await _mediator.Send(command, cancellationToken);
+            return Ok(new JsonResponse<List<string>>(result));
         }
 
         [AllowAnonymous]
@@ -83,9 +100,9 @@ namespace Jewelry_Sales_System.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<JsonResponse<string>>> UpdateProduct(
-            UpdateProductCommand command,
-           CancellationToken cancellationToken)
+        public async Task<ActionResult<JsonResponse<string>>> UpdatePromotion(
+               UpdatePromotionCommand command,
+               CancellationToken cancellationToken = default)
         {
             var result = await _mediator.Send(command, cancellationToken);
             if (result.Contains("thất bại"))
@@ -104,17 +121,17 @@ namespace Jewelry_Sales_System.API.Controllers
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<JsonResponse<string>>> DeleteProduct(
-            string id,
-           CancellationToken cancellationToken)
+        public async Task<ActionResult<JsonResponse<string>>> DeletePromotion(string id,
+               CancellationToken cancellationToken = default)
         {
-            var result = await _mediator.Send(new DeleteProductCommand(iD : id), cancellationToken);
+ 
+            var result = await _mediator.Send(new DeletePromotionCommand(iD : id), cancellationToken);
             if (result.Contains("thất bại"))
             {
                 return BadRequest(new JsonResponse<string>(result));
             }
             return Ok(new JsonResponse<string>(result));
         }
-
     }
+
 }
