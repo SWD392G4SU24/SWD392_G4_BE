@@ -6,15 +6,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JewelrySalesSystem.Application.Promotion.GetById
+namespace JewelrySalesSystem.Application.Form.GetByID
 {
-    public class GetByIDQuery : IRequest<PromotionDto>, IQuery
+    public class GetFormByIDQuery : IRequest<FormDto>, IQuery
     {
-        public GetByIDQuery(string id)
+        public GetFormByIDQuery(string id)
         {
-            Id = id;
+            this.id = id;
         }
 
-        public  string Id { get; set; }
+        public string id { get; set; }
     }
 }

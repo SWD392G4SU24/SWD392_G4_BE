@@ -6,10 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JewelrySalesSystem.Application.Diamon.GetByID
+namespace JewelrySalesSystem.Application.Form.GetAll
 {
-    public class GetByIDQuery : IRequest<DiamondDto>, IQuery
+    public class GetAllFormQuery : IRequest<List<FormDto>>, IQuery
     {
-        public required int ID { get; set; }
+        public GetAllFormQuery()
+        {
+        }
     }
 }

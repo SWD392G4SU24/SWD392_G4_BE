@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -36,8 +37,11 @@ namespace JewelrySalesSystem.Infrastructure.ExternalService.Diamond
                 {
                     DiamondEntity diamondEntity = item.ToObject<DiamondEntity>();
                     diamondEntity.Name = item["Type"].ToString();
-                    diamondEntity.ID = int.Parse(item["DiamondID"].ToString());
-                    diamondEntity.CreatedAt = DateTime.Parse(item["Date"].ToString());
+                    diamondEntity.CreatedAt = DateTime.ParseExact(
+                    item["Date"].ToString(),
+                    "dd-MM-yyyy", // Adjusted format
+                    CultureInfo.InvariantCulture
+                     );
                     responseList.Add(diamondEntity);
                 }
             }
