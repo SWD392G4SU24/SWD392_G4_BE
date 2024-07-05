@@ -204,13 +204,13 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                         new
                         {
                             ID = 1,
-                            CreatedAt = new DateTime(2024, 7, 4, 15, 17, 21, 388, DateTimeKind.Utc).AddTicks(354),
+                            CreatedAt = new DateTime(2024, 7, 5, 18, 38, 43, 444, DateTimeKind.Utc).AddTicks(2926),
                             Name = "VnPay"
                         },
                         new
                         {
                             ID = 2,
-                            CreatedAt = new DateTime(2024, 7, 4, 15, 17, 21, 388, DateTimeKind.Utc).AddTicks(357),
+                            CreatedAt = new DateTime(2024, 7, 5, 18, 38, 43, 444, DateTimeKind.Utc).AddTicks(2927),
                             Name = "COD"
                         });
                 });
@@ -254,25 +254,25 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                         new
                         {
                             ID = 1,
-                            CreatedAt = new DateTime(2024, 7, 4, 15, 17, 21, 388, DateTimeKind.Utc).AddTicks(129),
+                            CreatedAt = new DateTime(2024, 7, 5, 18, 38, 43, 444, DateTimeKind.Utc).AddTicks(2778),
                             Name = "Admin"
                         },
                         new
                         {
                             ID = 2,
-                            CreatedAt = new DateTime(2024, 7, 4, 15, 17, 21, 388, DateTimeKind.Utc).AddTicks(140),
+                            CreatedAt = new DateTime(2024, 7, 5, 18, 38, 43, 444, DateTimeKind.Utc).AddTicks(2786),
                             Name = "Manager"
                         },
                         new
                         {
                             ID = 3,
-                            CreatedAt = new DateTime(2024, 7, 4, 15, 17, 21, 388, DateTimeKind.Utc).AddTicks(142),
+                            CreatedAt = new DateTime(2024, 7, 5, 18, 38, 43, 444, DateTimeKind.Utc).AddTicks(2787),
                             Name = "Customer"
                         },
                         new
                         {
                             ID = 4,
-                            CreatedAt = new DateTime(2024, 7, 4, 15, 17, 21, 388, DateTimeKind.Utc).AddTicks(150),
+                            CreatedAt = new DateTime(2024, 7, 5, 18, 38, 43, 444, DateTimeKind.Utc).AddTicks(2793),
                             Name = "Staff"
                         });
                 });
@@ -464,10 +464,10 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("DiamonType")
+                    b.Property<int?>("DiamondID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("GoldType")
+                    b.Property<int?>("GoldID")
                         .HasColumnType("int");
 
                     b.Property<float?>("GoldWeight")
@@ -496,9 +496,9 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
 
                     b.HasIndex("CategoryID");
 
-                    b.HasIndex("DiamonType");
+                    b.HasIndex("DiamondID");
 
-                    b.HasIndex("GoldType");
+                    b.HasIndex("GoldID");
 
                     b.ToTable("Product");
                 });
@@ -643,13 +643,13 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            ID = "48a506ce4e9548c8a65b9b390bda9bbb",
+                            ID = "8d797c9720f64812b6d88b8641f65845",
                             Address = "123 Admin St.",
-                            CreatedAt = new DateTime(2024, 7, 4, 22, 17, 21, 725, DateTimeKind.Local).AddTicks(105),
+                            CreatedAt = new DateTime(2024, 7, 6, 1, 38, 43, 615, DateTimeKind.Local).AddTicks(4673),
                             Email = "admin@gmail.com",
                             FullName = "Administrator",
-                            LastestUpdateAt = new DateTime(2024, 7, 4, 22, 17, 21, 388, DateTimeKind.Local).AddTicks(529),
-                            PasswordHash = "$2a$11$FkCZHoJX38ZcNEIU/35SL.nLqemNJBiDlwjNliTZNOy0LCJbUR62e",
+                            LastestUpdateAt = new DateTime(2024, 7, 6, 1, 38, 43, 444, DateTimeKind.Local).AddTicks(3063),
+                            PasswordHash = "$2a$11$GIUJBQBPJem57U7pJ/uAdeWt8BmaJVnQLeM5snoe9zLa6izyksKg.",
                             PhoneNumber = "1234567890",
                             Point = 0,
                             RoleID = 1,
@@ -658,13 +658,13 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                         },
                         new
                         {
-                            ID = "e0c4bc6353ef4109aee7dbad2ebfc233",
+                            ID = "a3a529b6f6d9405ea7d163b65d605e61",
                             Address = "123 Manager St.",
-                            CreatedAt = new DateTime(2024, 7, 4, 22, 17, 21, 960, DateTimeKind.Local).AddTicks(8231),
+                            CreatedAt = new DateTime(2024, 7, 6, 1, 38, 43, 797, DateTimeKind.Local).AddTicks(2374),
                             Email = "manager@gmail.com",
                             FullName = "Manager",
-                            LastestUpdateAt = new DateTime(2024, 7, 4, 22, 17, 21, 725, DateTimeKind.Local).AddTicks(258),
-                            PasswordHash = "$2a$11$z31D2tFJv9HhMes.pbBLf.J58mer3iO6Tnwgm4BXDQ56fUZX34EQm",
+                            LastestUpdateAt = new DateTime(2024, 7, 6, 1, 38, 43, 615, DateTimeKind.Local).AddTicks(4744),
+                            PasswordHash = "$2a$11$OfEf3qKjivf5iWX0FPUXbubZYZdODGjBaSrWOzDckv.Xwrx9AHMAi",
                             PhoneNumber = "2234567890",
                             Point = 0,
                             RoleID = 2,
@@ -744,11 +744,11 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
 
                     b.HasOne("JewelrySalesSystem.Domain.Entities.Configured.DiamondEntity", "Diamond")
                         .WithMany("Products")
-                        .HasForeignKey("DiamonType");
+                        .HasForeignKey("DiamondID");
 
                     b.HasOne("JewelrySalesSystem.Domain.Entities.Configured.GoldEntity", "Gold")
                         .WithMany("Products")
-                        .HasForeignKey("GoldType");
+                        .HasForeignKey("GoldID");
 
                     b.Navigation("Category");
 
