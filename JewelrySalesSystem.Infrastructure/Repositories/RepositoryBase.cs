@@ -118,5 +118,7 @@ namespace JewelrySalesSystem.Infrastructure.Repositories
             }
             return queryable;
         }
+
+       
     }
 }

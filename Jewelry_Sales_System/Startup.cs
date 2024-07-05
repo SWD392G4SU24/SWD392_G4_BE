@@ -4,6 +4,7 @@ using JewelrySalesSystem.Application;
 using JewelrySalesSystem.Infrastructure;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
+using JewelrySalesSystem.Infrastructure.Persistence;
 using Serilog;
 
 namespace Jewelry_Sales_System.API
@@ -59,10 +60,15 @@ namespace Jewelry_Sales_System.API
             {
                 options.Cookie.SameSite = SameSiteMode.None;
             })
-            .AddGoogle(options =>
-            {
-                options.CallbackPath = "/api/GoogleLogin/signin-google-callback";
-            });
+             .AddGoogle(options =>
+             {
+                 IConfigurationSection googleAuthNSection = Configuration.GetSection("Authentication:Google");
+                 options.ClientId = googleAuthNSection["ClientId"];
+                 options.ClientSecret = googleAuthNSection["ClientSecret"];
+                 options.CallbackPath = "/api/GoogleLogin/signin-google-callback";
+                 options.SaveTokens = true;
+             });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

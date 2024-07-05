@@ -1,9 +1,11 @@
 ﻿using JewelrySalesSystem.Application.GoldBtmc;
 using JewelrySalesSystem.Application.GoldBtmc.GetGoldPrice;
+using JewelrySalesSystem.Application.GoldBtmc.SaveToDb;
 using JewelrySalesSystem.Application.Role;
 using JewelrySalesSystem.Domain.Entities.Configured;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Mime;
 
 namespace Jewelry_Sales_System.API.Controllers
 {
@@ -23,6 +25,21 @@ namespace Jewelry_Sales_System.API.Controllers
         {
             var result = await _mediator.Send(new GetGoldPriceQuery(), cancellationToken);
             return Ok(result);
+        }
+
+        [HttpPost("goldBtmc/save-today-price")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<string>>> SaveGoldPrices(CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(new SaveGoldCommand(), cancellationToken);
+            if (result.Contains("thất bại"))
+            {
+                return BadRequest(new JsonResponse<string>(result));
+            }
+            return Ok(new JsonResponse<string>(result));
         }
     }
 }
