@@ -1,5 +1,4 @@
-﻿using JewelrySalesSystem.Application.GoogleLogin.SignInGoogle;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Google;
 using System.Threading;

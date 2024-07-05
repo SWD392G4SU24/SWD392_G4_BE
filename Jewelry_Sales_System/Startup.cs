@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using JewelrySalesSystem.Infrastructure.Persistence;
 using Serilog;
+using JewelrySalesSystem.Domain.Repositories.ConfiguredEntity;
+using JewelrySalesSystem.Infrastructure.Repositories.ConfiguredEntity;
 
 namespace Jewelry_Sales_System.API
 {
@@ -25,6 +27,7 @@ namespace Jewelry_Sales_System.API
                 {
                     opt.Filters.Add<ExceptionFilter>();
                 });
+            services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddApplication(Configuration);
             services.ConfigureApplicationSecurity(Configuration);
             services.ConfigureProblemDetails();

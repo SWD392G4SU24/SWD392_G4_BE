@@ -20,7 +20,14 @@ namespace JewelrySalesSystem.Infrastructure.Repositories
         {
             _context = dbContext;
         }
-
+        public async Task<UserEntity> FindByEmailAsync(string email)
+        {
+            return await _context.Set<UserEntity>().FirstOrDefaultAsync(u => u.Email == email);
+        }
+        public async Task AddAsync(UserEntity user)
+        {
+            await _context.Set<UserEntity>().AddAsync(user);
+        }
         public string GeneratePassword()
         {
             var characters = "qwertyuiopasdfghjklzxcvbnm1234567890!@#$%";
