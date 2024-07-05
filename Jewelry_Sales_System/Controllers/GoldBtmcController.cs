@@ -35,6 +35,10 @@ namespace Jewelry_Sales_System.API.Controllers
         public async Task<ActionResult<JsonResponse<string>>> SaveGoldPrices(CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(new SaveGoldCommand(), cancellationToken);
+            if (result.Contains("thất bại"))
+            {
+                return BadRequest(new JsonResponse<string>(result));
+            }
             return Ok(new JsonResponse<string>(result));
         }
     }

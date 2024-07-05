@@ -20,9 +20,13 @@ namespace JewelrySalesSystem.Domain.Entities
         public required decimal MaximumReduce {  get; set; }
         public required int ExchangePoint {  get; set; }
         public required DateTime ExpiresTime {  get; set; }
+
         public string? UserID {  get; set; }
         [ForeignKey(nameof(UserID))]
         public virtual UserEntity? User { get; set; }
-        public virtual ICollection<OrderEntity> Orders { get; set; }
+
+        public string? OrderID { get; set; }
+        [ForeignKey(nameof(OrderID))]
+        public virtual OrderEntity? Order { get; set; }
     }
 }

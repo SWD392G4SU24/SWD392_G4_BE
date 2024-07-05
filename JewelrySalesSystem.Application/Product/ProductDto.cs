@@ -11,6 +11,7 @@ namespace JewelrySalesSystem.Application.Product
         {
             profile.CreateMap<ProductEntity, ProductDto>();
         }
+        public string Name {  get; set; }
         public required string Id { get; set; }
         public required decimal WageCost { get; set; }
         public float? GoldWeight { get; set; }

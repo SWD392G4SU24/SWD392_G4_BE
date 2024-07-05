@@ -50,6 +50,7 @@ namespace JewelrySalesSystem.Application.Product.Update
                     diamond.Name
                 );
             // Update specific fields based on request properties
+            product.Name = request.Name;
             product.CategoryID = request.CategoryID;
             product.WageCost = wageCost;
             product.Quantity = request.Quantity;

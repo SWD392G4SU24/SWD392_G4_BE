@@ -46,6 +46,8 @@ namespace JewelrySalesSystem.Infrastructure.Persistence
             modelBuilder.ApplyConfiguration(new GoldConfiguration());
             modelBuilder.ApplyConfiguration(new FormConfiguration());
             ConfigureModel(modelBuilder);
+
+            SeedData.Seed(modelBuilder);
         }
         private void ConfigureModel(ModelBuilder modelBuilder)
         {
