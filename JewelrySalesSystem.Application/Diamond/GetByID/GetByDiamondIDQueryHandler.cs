@@ -1,4 +1,5 @@
-﻿using JewelrySalesSystem.Domain.Commons.Exceptions;
+﻿using JewelrySalesSystem.Application.Diamond;
+using JewelrySalesSystem.Domain.Commons.Exceptions;
 using JewelrySalesSystem.Domain.Repositories.ConfiguredEntity;
 using MediatR;
 using System;
@@ -22,7 +23,7 @@ namespace JewelrySalesSystem.Application.Diamon.GetByID
             var diamon = await _diamondRepository.FindAsync(s => s.ID == request.ID, cancellationToken)
                 ?? throw new NotFoundException("Diamond không tồn tại");
 
-            return new DiamondDto 
+            return new DiamondDto
             {
                 Name = diamon.Name,
                 BuyCost = diamon.BuyCost, 

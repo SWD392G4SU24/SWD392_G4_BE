@@ -1,4 +1,5 @@
 ﻿using JewelrySalesSystem.Application.Common.Interfaces;
+using JewelrySalesSystem.Application.Diamond;
 using MediatR;
 using System;
 using System.Collections.Generic;
