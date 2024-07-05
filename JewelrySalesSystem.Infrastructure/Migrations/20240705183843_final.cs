@@ -159,8 +159,8 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     WageCost = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     GoldWeight = table.Column<float>(type: "real", nullable: true),
-                    GoldType = table.Column<int>(type: "int", nullable: true),
-                    DiamonType = table.Column<int>(type: "int", nullable: true),
+                    GoldID = table.Column<int>(type: "int", nullable: true),
+                    DiamondID = table.Column<int>(type: "int", nullable: true),
                     ImageURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -182,13 +182,13 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Product_Diamond_DiamonType",
-                        column: x => x.DiamonType,
+                        name: "FK_Product_Diamond_DiamondID",
+                        column: x => x.DiamondID,
                         principalTable: "Diamond",
                         principalColumn: "ID");
                     table.ForeignKey(
-                        name: "FK_Product_Gold_GoldType",
-                        column: x => x.GoldType,
+                        name: "FK_Product_Gold_GoldID",
+                        column: x => x.GoldID,
                         principalTable: "Gold",
                         principalColumn: "ID");
                 });
@@ -350,8 +350,8 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                 columns: new[] { "ID", "CreatedAt", "CreatorID", "DeletedAt", "DeleterID", "LastestUpdateAt", "Name", "UpdaterID" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 7, 4, 15, 17, 21, 388, DateTimeKind.Utc).AddTicks(354), null, null, null, null, "VnPay", null },
-                    { 2, new DateTime(2024, 7, 4, 15, 17, 21, 388, DateTimeKind.Utc).AddTicks(357), null, null, null, null, "COD", null }
+                    { 1, new DateTime(2024, 7, 5, 18, 38, 43, 444, DateTimeKind.Utc).AddTicks(2926), null, null, null, null, "VnPay", null },
+                    { 2, new DateTime(2024, 7, 5, 18, 38, 43, 444, DateTimeKind.Utc).AddTicks(2927), null, null, null, null, "COD", null }
                 });
 
             migrationBuilder.InsertData(
@@ -359,10 +359,10 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                 columns: new[] { "ID", "CreatedAt", "CreatorID", "DeletedAt", "DeleterID", "LastestUpdateAt", "Name", "UpdaterID" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 7, 4, 15, 17, 21, 388, DateTimeKind.Utc).AddTicks(129), null, null, null, null, "Admin", null },
-                    { 2, new DateTime(2024, 7, 4, 15, 17, 21, 388, DateTimeKind.Utc).AddTicks(140), null, null, null, null, "Manager", null },
-                    { 3, new DateTime(2024, 7, 4, 15, 17, 21, 388, DateTimeKind.Utc).AddTicks(142), null, null, null, null, "Customer", null },
-                    { 4, new DateTime(2024, 7, 4, 15, 17, 21, 388, DateTimeKind.Utc).AddTicks(150), null, null, null, null, "Staff", null }
+                    { 1, new DateTime(2024, 7, 5, 18, 38, 43, 444, DateTimeKind.Utc).AddTicks(2778), null, null, null, null, "Admin", null },
+                    { 2, new DateTime(2024, 7, 5, 18, 38, 43, 444, DateTimeKind.Utc).AddTicks(2786), null, null, null, null, "Manager", null },
+                    { 3, new DateTime(2024, 7, 5, 18, 38, 43, 444, DateTimeKind.Utc).AddTicks(2787), null, null, null, null, "Customer", null },
+                    { 4, new DateTime(2024, 7, 5, 18, 38, 43, 444, DateTimeKind.Utc).AddTicks(2793), null, null, null, null, "Staff", null }
                 });
 
             migrationBuilder.InsertData(
@@ -370,8 +370,8 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                 columns: new[] { "ID", "Address", "CounterID", "CreatedAt", "CreatorID", "DeletedAt", "DeleterID", "Email", "FullName", "LastestUpdateAt", "PasswordHash", "PhoneNumber", "Point", "RoleID", "Status", "UpdaterID", "Username" },
                 values: new object[,]
                 {
-                    { "48a506ce4e9548c8a65b9b390bda9bbb", "123 Admin St.", null, new DateTime(2024, 7, 4, 22, 17, 21, 725, DateTimeKind.Local).AddTicks(105), null, null, null, "admin@gmail.com", "Administrator", new DateTime(2024, 7, 4, 22, 17, 21, 388, DateTimeKind.Local).AddTicks(529), "$2a$11$FkCZHoJX38ZcNEIU/35SL.nLqemNJBiDlwjNliTZNOy0LCJbUR62e", "1234567890", 0, 1, "VERIFIED", null, "admin" },
-                    { "e0c4bc6353ef4109aee7dbad2ebfc233", "123 Manager St.", null, new DateTime(2024, 7, 4, 22, 17, 21, 960, DateTimeKind.Local).AddTicks(8231), null, null, null, "manager@gmail.com", "Manager", new DateTime(2024, 7, 4, 22, 17, 21, 725, DateTimeKind.Local).AddTicks(258), "$2a$11$z31D2tFJv9HhMes.pbBLf.J58mer3iO6Tnwgm4BXDQ56fUZX34EQm", "2234567890", 0, 2, "VERIFIED", null, "manager" }
+                    { "8d797c9720f64812b6d88b8641f65845", "123 Admin St.", null, new DateTime(2024, 7, 6, 1, 38, 43, 615, DateTimeKind.Local).AddTicks(4673), null, null, null, "admin@gmail.com", "Administrator", new DateTime(2024, 7, 6, 1, 38, 43, 444, DateTimeKind.Local).AddTicks(3063), "$2a$11$GIUJBQBPJem57U7pJ/uAdeWt8BmaJVnQLeM5snoe9zLa6izyksKg.", "1234567890", 0, 1, "VERIFIED", null, "admin" },
+                    { "a3a529b6f6d9405ea7d163b65d605e61", "123 Manager St.", null, new DateTime(2024, 7, 6, 1, 38, 43, 797, DateTimeKind.Local).AddTicks(2374), null, null, null, "manager@gmail.com", "Manager", new DateTime(2024, 7, 6, 1, 38, 43, 615, DateTimeKind.Local).AddTicks(4744), "$2a$11$OfEf3qKjivf5iWX0FPUXbubZYZdODGjBaSrWOzDckv.Xwrx9AHMAi", "2234567890", 0, 2, "VERIFIED", null, "manager" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -415,14 +415,14 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                 column: "CategoryID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Product_DiamonType",
+                name: "IX_Product_DiamondID",
                 table: "Product",
-                column: "DiamonType");
+                column: "DiamondID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Product_GoldType",
+                name: "IX_Product_GoldID",
                 table: "Product",
-                column: "GoldType");
+                column: "GoldID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Promotion_OrderID",

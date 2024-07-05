@@ -10,13 +10,13 @@ namespace JewelrySalesSystem.Application.Product.Update
 {
     public class UpdateProductCommand : IRequest<string>, ICommand
     {
-        public UpdateProductCommand(string name, string iD, float? goldWeight, int? goldType, int? diamonType, string? imageURL, int quantity, string? description, int categoryID)
+        public UpdateProductCommand(string name, string iD, float? goldWeight, int? goldID, int? diamondID, string? imageURL, int quantity, string? description, int categoryID)
         {
             Name = name;
             ID = iD;
             GoldWeight = goldWeight;
-            GoldType = goldType;
-            DiamonType = diamonType;
+            GoldID = goldID;
+            DiamondID = diamondID;
             ImageURL = imageURL;
             Quantity = quantity;
             Description = description;
@@ -25,8 +25,8 @@ namespace JewelrySalesSystem.Application.Product.Update
         public string Name {  get; set; }
         public string ID { get; set; }
         public float? GoldWeight { get; set; }
-        public int? GoldType { get; set; }
-        public int? DiamonType { get; set; }
+        public int? GoldID { get; set; }
+        public int? DiamondID { get; set; }
         public string? ImageURL { get; set; }
         public required int Quantity { get; set; }
         public string? Description { get; set; }
