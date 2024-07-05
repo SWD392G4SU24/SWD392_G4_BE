@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JewelrySalesSystem.Domain.Entities
+namespace JewelrySalesSystem.Domain.Entities.VnPayModel
 {
     [NotMapped]
     public class PaymentResponseModel

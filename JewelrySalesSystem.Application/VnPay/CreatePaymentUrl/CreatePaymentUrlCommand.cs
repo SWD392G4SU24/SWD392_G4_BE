@@ -1,5 +1,5 @@
 ﻿using JewelrySalesSystem.Application.Common.Interfaces;
-using JewelrySalesSystem.Domain.Entities;
+using JewelrySalesSystem.Domain.Entities.VnPayModel;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using System;

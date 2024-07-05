@@ -37,11 +37,7 @@ namespace JewelrySalesSystem.Infrastructure.ExternalService.Diamond
                 {
                     DiamondEntity diamondEntity = item.ToObject<DiamondEntity>();
                     diamondEntity.Name = item["Type"].ToString();
-                    diamondEntity.CreatedAt = DateTime.ParseExact(
-                    item["Date"].ToString(),
-                    "dd-MM-yyyy", // Adjusted format
-                    CultureInfo.InvariantCulture
-                     );
+                    diamondEntity.CreatedAt = DateTime.ParseExact(item["Date"].ToString(), "dd-MM-yyyy", CultureInfo.InvariantCulture);
                     responseList.Add(diamondEntity);
                 }
             }

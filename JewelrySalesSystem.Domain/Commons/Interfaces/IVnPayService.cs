@@ -1,4 +1,4 @@
-﻿using JewelrySalesSystem.Domain.Entities;
+﻿using JewelrySalesSystem.Domain.Entities.VnPayModel;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;

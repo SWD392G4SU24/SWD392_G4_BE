@@ -49,6 +49,7 @@ namespace JewelrySalesSystem.Infrastructure
             services.AddTransient<IGoldRepository, GoldRepository>();        
             services.AddTransient<ICategoryRepository, CategoryRepository>();
             services.AddTransient<IPaymentMethodRepository, PaymentMethodRepository>();
+            services.AddTransient<ICounterRepository, CounterRepository>();
             services.AddTransient<IFormRepository, FormRepository>();
 
             return services;
