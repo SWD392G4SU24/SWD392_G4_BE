@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Application.Order.GetByID
 {
-    public class GetByIDQuery : IRequest<OrderDto>, IQuery
+    public class GetByOrderIDQuery : IRequest<OrderDto>, IQuery
     {
-        public GetByIDQuery(string id)
+        public GetByOrderIDQuery(string id)
         {
             Id = id;
         }

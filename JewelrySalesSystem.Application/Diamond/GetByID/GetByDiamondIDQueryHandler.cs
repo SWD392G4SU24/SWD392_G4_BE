@@ -9,15 +9,15 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Application.Diamon.GetByID
 {
-    public class GetByIDQueryHandler : IRequestHandler<GetByIDQuery, DiamondDto>
+    public class GetByDiamondIDQueryHandler : IRequestHandler<GetDiamondByIDQuery, DiamondDto>
     {
         private readonly IDiamondRepository _diamondRepository;
 
-        public GetByIDQueryHandler(IDiamondRepository diamondRepository)
+        public GetByDiamondIDQueryHandler(IDiamondRepository diamondRepository)
         {
             _diamondRepository = diamondRepository;
         }
-        public async Task<DiamondDto> Handle(GetByIDQuery request, CancellationToken cancellationToken)
+        public async Task<DiamondDto> Handle(GetDiamondByIDQuery request, CancellationToken cancellationToken)
         {
             var diamon = await _diamondRepository.FindAsync(s => s.ID == request.ID, cancellationToken)
                 ?? throw new NotFoundException("Diamond không tồn tại");
@@ -26,7 +26,6 @@ namespace JewelrySalesSystem.Application.Diamon.GetByID
             {
                 Name = diamon.Name,
                 BuyCost = diamon.BuyCost, 
-                Id = diamon.ID,
                 SellCost = diamon.SellCost
             };
         }

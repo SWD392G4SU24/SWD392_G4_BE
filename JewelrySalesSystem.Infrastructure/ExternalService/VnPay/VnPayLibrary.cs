@@ -1,5 +1,4 @@
-﻿using JewelrySalesSystem.Domain.Entities;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -9,6 +8,7 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using JewelrySalesSystem.Domain.Entities.VnPayModel;
 
 namespace JewelrySalesSystem.Infrastructure.ExternalService.VnPay
 {

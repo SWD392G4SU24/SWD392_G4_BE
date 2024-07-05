@@ -6,15 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JewelrySalesSystem.Application.Promotion.GetById
+namespace JewelrySalesSystem.Application.Diamond.Db_GetAll
 {
-    public class GetByIDQuery : IRequest<PromotionDto>, IQuery
+    public class GetAllDiamondQuery : IRequest<List<DiamondDto>>, IQuery
     {
-        public GetByIDQuery(string id)
+        public GetAllDiamondQuery()
         {
-            Id = id;
+            
         }
-
-        public  string Id { get; set; }
     }
 }

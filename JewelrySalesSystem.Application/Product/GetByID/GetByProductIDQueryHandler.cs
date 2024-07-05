@@ -12,17 +12,17 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Application.Product.GetByID
 {
-    public class GetByIDQueryHandler : IRequestHandler<GetByIDQuery, ProductDto>
+    public class GetByProductIDQueryHandler : IRequestHandler<GetByProductIDQuery, ProductDto>
     {
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
-        public GetByIDQueryHandler(IProductRepository productRepository, IMapper mapper)
+        public GetByProductIDQueryHandler(IProductRepository productRepository, IMapper mapper)
         {
             _productRepository = productRepository;
             _mapper = mapper;
         }
 
-        public async Task<ProductDto> Handle(GetByIDQuery request, CancellationToken cancellationToken)
+        public async Task<ProductDto> Handle(GetByProductIDQuery request, CancellationToken cancellationToken)
         {
             var product = await _productRepository.FindAsync(s => s.ID == request.ID && s.DeletedAt == null, cancellationToken);
             if (product is null) throw new NotFoundException("Product is not exist");

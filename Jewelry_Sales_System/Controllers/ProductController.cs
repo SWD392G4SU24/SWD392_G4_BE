@@ -16,7 +16,7 @@ using JewelrySalesSystem.Application.Role;
 namespace Jewelry_Sales_System.API.Controllers
 {
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class ProductController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -53,7 +53,7 @@ namespace Jewelry_Sales_System.API.Controllers
             [FromRoute]string id,
            CancellationToken cancellationToken)
         { 
-            var result = await _mediator.Send(new GetByIDQuery(iD : id), cancellationToken);
+            var result = await _mediator.Send(new GetByProductIDQuery(iD : id), cancellationToken);
             return result != null ? Ok(new JsonResponse<ProductDto>(result)) : NotFound();
         }
 

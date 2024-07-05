@@ -12,12 +12,12 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Application.OrderDetail.GetByID
 {
-    public class GetByIDQueryHandler : IRequestHandler<GetByIDQuery, OrderDetailDto>
+    public class GetByOrderDetailIDQueryHandler : IRequestHandler<GetByIDQuery, OrderDetailDto>
     {
         private readonly IOrderDetailRepository _orderDetailRepository;
         private readonly IMapper _mapper;
 
-        public GetByIDQueryHandler(IOrderDetailRepository orderDetailRepository, IMapper mapper)
+        public GetByOrderDetailIDQueryHandler(IOrderDetailRepository orderDetailRepository, IMapper mapper)
         {
             _orderDetailRepository = orderDetailRepository;
             _mapper = mapper;

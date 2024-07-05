@@ -59,7 +59,7 @@ namespace JewelrySalesSystem.Infrastructure.Persistence
                     PhoneNumber = "2234567890",
                     Point = 0,
                     Status = UserStatus.VERIFIED
-                });            
+                });
         }
     }
 }

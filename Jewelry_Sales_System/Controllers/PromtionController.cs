@@ -53,7 +53,7 @@ namespace Jewelry_Sales_System.API.Controllers
             [FromRoute]string id,
             CancellationToken cancellationToken)
         {
-            var result = await _mediator.Send(new GetByIDQuery(id : id), cancellationToken);
+            var result = await _mediator.Send(new GetByPromotionIDQuery(id : id), cancellationToken);
             return result != null ? Ok(new JsonResponse<PromotionDto>(result)) : NotFound();
         }
 
