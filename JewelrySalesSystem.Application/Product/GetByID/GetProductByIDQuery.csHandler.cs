@@ -13,14 +13,14 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Application.Product.GetByID
 {
-    public class GetByProductIDQueryHandler : IRequestHandler<GetByProductIDQuery, ProductDto>
+    public class GetByProductIDQueryHandler : IRequestHandler<GetProductByIDQuery, ProductDto>
     {
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
         private readonly IGoldRepository _goldRepository;
         private readonly IDiamondRepository _diamondRepository;
         private readonly ICategoryRepository _categoryRepository;
-        public GetByIDQueryHandler(IProductRepository productRepository, IMapper mapper
+        public GetByProductIDQueryHandler(IProductRepository productRepository, IMapper mapper
             , IDiamondRepository diamondRepository
             , IGoldRepository goldRepository
             , ICategoryRepository categoryRepository)
@@ -32,7 +32,7 @@ namespace JewelrySalesSystem.Application.Product.GetByID
             _mapper = mapper;
         }
 
-        public async Task<ProductDto> Handle(GetByProductIDQuery request, CancellationToken cancellationToken)
+        public async Task<ProductDto> Handle(GetProductByIDQuery request, CancellationToken cancellationToken)
         {
             var product = await _productRepository.FindAsync(s => s.ID == request.ID && s.DeletedAt == null, cancellationToken);
             if (product == null)

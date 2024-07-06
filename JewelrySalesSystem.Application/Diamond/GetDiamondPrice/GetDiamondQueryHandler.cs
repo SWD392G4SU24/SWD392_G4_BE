@@ -1,17 +1,9 @@
 ﻿using AutoMapper;
-using JewelrySalesSystem.Application.Diamond;
-using JewelrySalesSystem.Application.GoldBtmc;
+using JewelrySalesSystem.Application.Diamon.GetAll;
 using JewelrySalesSystem.Domain.Commons.Interfaces;
-using JewelrySalesSystem.Domain.Repositories.ConfiguredEntity;
-using JewelrySalesSystem.Infrastructure.ExternalService.Diamond;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace JewelrySalesSystem.Application.Diamon.GetAll
+namespace JewelrySalesSystem.Application.Diamond
 {
     public class GetDiamondQueryHandler : IRequestHandler<GetDiamondQuery, List<DiamondDto>>
     {
