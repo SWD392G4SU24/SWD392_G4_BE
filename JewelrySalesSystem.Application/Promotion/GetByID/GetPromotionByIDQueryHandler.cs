@@ -13,16 +13,16 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Application.Promotion.GetById
 {
-    public class GetByIdQueryHandler : IRequestHandler<GetByIDQuery, PromotionDto>
+    public class GetPromotionByIDQueryHandler : IRequestHandler<GetByPromotionIDQuery, PromotionDto>
     {
         private readonly IPromotionRepository _promotionRepository;
         private readonly IMapper _mapper;
-        public GetByIdQueryHandler(IPromotionRepository promotionRepository, IMapper mapper)
+        public GetPromotionByIDQueryHandler(IPromotionRepository promotionRepository, IMapper mapper)
         {
             _promotionRepository = promotionRepository;
             _mapper = mapper;
         }
-        public async Task<PromotionDto> Handle(GetByIDQuery request, CancellationToken cancellationToken)
+        public async Task<PromotionDto> Handle(GetByPromotionIDQuery request, CancellationToken cancellationToken)
         {
             // Logic to retrieve promotions base on query parameters(if any)
             var promotion = await _promotionRepository.FindAsync(s => s.ID == request.Id && s.DeletedAt == null, cancellationToken)

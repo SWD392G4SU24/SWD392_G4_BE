@@ -16,7 +16,7 @@ namespace JewelrySalesSystem.Application.Diamond
         public required string Name { get; set; }
         public required decimal BuyCost { get; set; }
         public required decimal SellCost { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedAt {  get; set; }
         public void Mapping(Profile profile)
         {
             profile.CreateMap<DiamondEntity, DiamondDto>();

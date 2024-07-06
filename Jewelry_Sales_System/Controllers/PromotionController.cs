@@ -17,10 +17,10 @@ namespace Jewelry_Sales_System.API.Controllers
 {
     [ApiController]
     [Authorize]
-    public class PromtionController : ControllerBase
+    public class PromotionController : ControllerBase
     {
         private readonly IMediator _mediator;
-        public PromtionController(IMediator mediator)
+        public PromotionController(IMediator mediator)
         {
             _mediator = mediator;
         }
