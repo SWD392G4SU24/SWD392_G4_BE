@@ -1,4 +1,5 @@
 ﻿using JewelrySalesSystem.Application.Common.Interfaces;
+using JewelrySalesSystem.Application.Diamond;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -10,5 +11,9 @@ namespace JewelrySalesSystem.Application.Diamon.GetAll
 {
     public class GetDiamondQuery : IRequest<List<DiamondDto>>, IQuery
     {
+        public GetDiamondQuery()
+        {
+            
+        }
     }
 }
