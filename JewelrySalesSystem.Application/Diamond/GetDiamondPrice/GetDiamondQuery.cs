@@ -11,5 +11,9 @@ namespace JewelrySalesSystem.Application.Diamon.GetAll
 {
     public class GetDiamondQuery : IRequest<List<DiamondDto>>, IQuery
     {
+        public GetDiamondQuery()
+        {
+            
+        }
     }
 }
