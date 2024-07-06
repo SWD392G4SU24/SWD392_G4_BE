@@ -38,7 +38,7 @@ namespace Jewelry_Sales_System.API.Controllers
            CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(new GetProductQuery(), cancellationToken);
-            return result != null ? Ok(new JsonResponse<List<ProductDto>>(result)) : NotFound();
+            return result != null ? Ok(result) : NotFound();
         }
 
         [HttpGet]
@@ -54,7 +54,7 @@ namespace Jewelry_Sales_System.API.Controllers
            CancellationToken cancellationToken)
         { 
             var result = await _mediator.Send(new GetByIDQuery(iD : id), cancellationToken);
-            return result != null ? Ok(new JsonResponse<ProductDto>(result)) : NotFound();
+            return result != null ? Ok(result) : NotFound();
         }
 
         [AllowAnonymous]
