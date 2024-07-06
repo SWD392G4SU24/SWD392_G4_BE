@@ -1,0 +1,274 @@
+[33mcommit 37d9784ca41edc8dfc3a724edf48a1ca5980d160[m[33m ([m[1;36mHEAD -> [m[1;32mleducanh[m[33m)[m
+Author: duc-anh-le <ducanhle.iter@gmail.com>
+Date:   Sat Jun 15 07:46:18 2024 +0700
+
+    Add login via Google mail
+
+[33mcommit d6519ca10743eaf90bc0c215bf9fc791e099e5c0[m[33m ([m[1;31morigin/leducanh[m[33m)[m
+Merge: 793f147 ec43564
+Author: phnam <97936911+phnemm@users.noreply.github.com>
+Date:   Mon Jun 10 22:01:58 2024 +0700
+
+    Merge pull request #22 from SWD392G4SU24/Nam
+    
+    Nam: remove builder UserEntity
+
+[33mcommit ec43564ffdab5fc9b77c5b27c109459ad08782e7[m
+Author: NemissU <namphse171651@fpt.edu.vn>
+Date:   Mon Jun 10 22:01:19 2024 +0700
+
+    Nam: remove builder UserEntity
+
+[33mcommit 793f147c60d69aebf0d557a571fd30fa46c82f46[m
+Merge: cd1fcb5 80e8c0c
+Author: phnam <97936911+phnemm@users.noreply.github.com>
+Date:   Mon Jun 10 19:06:46 2024 +0700
+
+    Merge pull request #21 from SWD392G4SU24/Nam
+    
+    Nam: fixed entity relationship
+
+[33mcommit 80e8c0c3fd0dec2569256ef8aedeb999de3a8ed5[m
+Author: NemissU <namphse171651@fpt.edu.vn>
+Date:   Mon Jun 10 19:06:00 2024 +0700
+
+    Nam: fixed entity relationship
+
+[33mcommit cd1fcb5a1534d939cd7f413361ed17a5af4c5564[m
+Merge: a4b2594 eb8c454
+Author: phnam <97936911+phnemm@users.noreply.github.com>
+Date:   Mon Jun 10 09:34:54 2024 +0700
+
+    Merge pull request #20 from SWD392G4SU24/Nam
+    
+    Nam:Fixed entity, add PaymentMethod
+
+[33mcommit eb8c454ba4ebe10c829759aa2dc37a5765e8b7f7[m
+Author: NemissU <namphse171651@fpt.edu.vn>
+Date:   Mon Jun 10 09:34:13 2024 +0700
+
+    Nam:Fixed entity, add PaymentMethod
+
+[33mcommit a4b259461d44da209e3359f211889bccf41e17bc[m
+Merge: 7a19900 df99d0f
+Author: phnam <97936911+phnemm@users.noreply.github.com>
+Date:   Tue Jun 4 21:18:07 2024 +0700
+
+    Merge pull request #18 from SWD392G4SU24/Nam
+    
+    Nam: Done register API
+
+[33mcommit df99d0ffdf02224a256cc56fb16b31d12351d030[m
+Author: NemissU <namphse171651@fpt.edu.vn>
+Date:   Tue Jun 4 21:17:22 2024 +0700
+
+    Nam: Done register API
+
+[33mcommit 7a199006a2fe5ffd40332948e47eb5ec728efc70[m
+Merge: 3741740 7f3972d
+Author: phnam <97936911+phnemm@users.noreply.github.com>
+Date:   Tue Jun 4 20:24:45 2024 +0700
+
+    Merge pull request #17 from SWD392G4SU24/Nam
+    
+    Nam: fixed configuration, Migration-able
+
+[33mcommit 7f3972d5a086cef1ef3d9d2affb826a92c49cab1[m
+Author: NemissU <namphse171651@fpt.edu.vn>
+Date:   Tue Jun 4 20:23:54 2024 +0700
+
+    Nam: fixed configuration, Migration-able
+
+[33mcommit 3741740d757858f83e6b7b7daacc9e650ce08b4a[m
+Merge: bfbcc92 a56aad9
+Author: phnam <97936911+phnemm@users.noreply.github.com>
+Date:   Tue Jun 4 19:21:05 2024 +0700
+
+    Merge pull request #16 from SWD392G4SU24/Nam
+    
+    Nam
+
+[33mcommit a56aad9c07c27e0c3cfa53979bd03da1bee39f4b[m
+Author: NemissU <namphse171651@fpt.edu.vn>
+Date:   Tue Jun 4 19:20:05 2024 +0700
+
+    Nam:Move class, add db configure
+
+[33mcommit e65fb949ee762ec87cb13edac16fdeb5ec0e5cbd[m
+Merge: cf4702b bfbcc92
+Author: NemissU <namphse171651@fpt.edu.vn>
+Date:   Tue Jun 4 18:03:12 2024 +0700
+
+    Merge branch 'dev' into Nam
+
+[33mcommit cf4702b71b92e6235e255b45d9c554e1e71140ff[m
+Author: NemissU <namphse171651@fpt.edu.vn>
+Date:   Tue Jun 4 18:02:57 2024 +0700
+
+    modifier entity class
+
+[33mcommit bfbcc927ca05a39f4c1328cba4c3ce54a185972e[m
+Merge: 81ef40c 2cefe8f
+Author: phnam <97936911+phnemm@users.noreply.github.com>
+Date:   Mon Jun 3 22:55:46 2024 +0700
+
+    Merge pull request #15 from SWD392G4SU24/MNhat
+    
+    Nhat: Update configure
+
+[33mcommit 2cefe8fa075a87c3b66238879d5ce15ef7e0a23a[m
+Merge: 2488e41 81ef40c
+Author: SeEy <91361829+Bigoose0410@users.noreply.github.com>
+Date:   Mon Jun 3 18:55:51 2024 +0700
+
+    Merge branch 'dev' into MNhat
+
+[33mcommit 2488e413d51bfa23d8c838018c8eeb77a8b2ddc5[m
+Author: Nhat Le <binhatgoose0410@gmail.com>
+Date:   Mon Jun 3 18:53:52 2024 +0700
+
+    Nhat: update config
+
+[33mcommit 431ee567357c7516d08cfea890d431e0a20f3ec9[m
+Author: Nhat Le <binhatgoose0410@gmail.com>
+Date:   Mon Jun 3 15:04:23 2024 +0700
+
+    Nhat: updated to config
+
+[33mcommit 81ef40cbc400c9ff055e7900cc4abed07c29097c[m
+Author: Nhat Le <binhatgoose0410@gmail.com>
+Date:   Mon Jun 3 15:01:33 2024 +0700
+
+    dev: fixed conflicts
+
+[33mcommit b80734ffe4bd69ab400422be0283b92133cc578a[m
+Author: Nhat Le <binhatgoose0410@gmail.com>
+Date:   Mon Jun 3 14:45:04 2024 +0700
+
+    dev: fixed conflicts of configure
+
+[33mcommit 8a2e32a554f09c7afa0f8e7da257b12c3edcbe64[m
+Merge: e0962e5 5436e49
+Author: Nhat Le <binhatgoose0410@gmail.com>
+Date:   Mon Jun 3 14:43:06 2024 +0700
+
+    dev: fixed conflicts
+
+[33mcommit e0962e5a892d4250ef22fc67dff960fddec876ec[m
+Author: Nhat Le <binhatgoose0410@gmail.com>
+Date:   Mon Jun 3 14:38:07 2024 +0700
+
+    dev: Pull code to conflicts
+
+[33mcommit cd09d701cff0f696256b1f8e2f42daa8be2b450d[m
+Author: Nhat Le <binhatgoose0410@gmail.com>
+Date:   Mon Jun 3 13:59:54 2024 +0700
+
+    Nhat: Update to config
+
+[33mcommit f5b5c871a80f2a02c9b5e0917a22bf8f7225270e[m
+Merge: e71d2df 1800d01
+Author: SeEy <91361829+Bigoose0410@users.noreply.github.com>
+Date:   Mon Jun 3 13:45:17 2024 +0700
+
+    Merge pull request #11 from SWD392G4SU24/Nam
+    
+    MNhat: Merge code of Nam
+
+[33mcommit 5436e49e42f53227047753be702d0262dd634c0d[m
+Merge: 6ec8846 cd5933e
+Author: phnam <97936911+phnemm@users.noreply.github.com>
+Date:   Sun Jun 2 22:19:33 2024 +0700
+
+    Merge pull request #9 from SWD392G4SU24/leducanh
+    
+    Add configuration: Counter, Role. Update UserConfiguration
+
+[33mcommit cd5933e4f0dcb4f3fe7db8a11d74e74b53ccd8e0[m
+Author: duc-anh-le <ducanhle.iter@gmail.com>
+Date:   Sun Jun 2 08:51:07 2024 +0700
+
+    Add configuration: Counter, Role. Update UserConfiguration
+
+[33mcommit 6ec88465a1f7292c3693b5c92e3eaf6d9bf52840[m
+Merge: 938e493 1800d01
+Author: phnam <97936911+phnemm@users.noreply.github.com>
+Date:   Fri May 31 21:20:10 2024 +0700
+
+    Merge pull request #6 from SWD392G4SU24/Nam
+    
+    Nam: renamed CounterEntity, remove unuse
+
+[33mcommit 1800d01b990848566d59a93510d3fd67835b165d[m
+Author: NemissU <namphse171651@fpt.edu.vn>
+Date:   Fri May 31 21:19:18 2024 +0700
+
+    Nam: renamed CounterEntity, remove unuse
+
+[33mcommit 938e493f7e5dd760a34ef0395c2e1731c2b30c02[m
+Merge: e71d2df d7db436
+Author: phnam <97936911+phnemm@users.noreply.github.com>
+Date:   Fri May 31 21:11:20 2024 +0700
+
+    Merge pull request #5 from SWD392G4SU24/Nhat
+    
+    Nhat: Add Configuration
+
+[33mcommit d7db436a9bd6af7a52a356edce21ac33ba516ed8[m
+Merge: 9ed7de5 13a31e9
+Author: Bi.nhat.goose <binhatgoose0410@gmail.com>
+Date:   Fri May 31 18:22:36 2024 +0700
+
+    Nhat: fixed conflict
+
+[33mcommit 9ed7de592881228a5931a4d4c01185beb7186078[m
+Author: Bi.nhat.goose <binhatgoose0410@gmail.com>
+Date:   Fri May 31 18:19:50 2024 +0700
+
+    Nhat: Update Configuration of Order, OrderDetail, Product, Promotion
+
+[33mcommit 13a31e97f0af7db200ac867640fc587503f76a86[m
+Author: Nhat Le <binhatgoose0410@gmail.com>
+Date:   Fri May 31 14:20:29 2024 +0700
+
+    Merge Code of Nhat
+
+[33mcommit ea8461fd56db7d7d79e32b71ce3cce5895bbd954[m
+Merge: b30359f 3db575f
+Author: Nhat Le <binhatgoose0410@gmail.com>
+Date:   Fri May 31 12:57:17 2024 +0700
+
+    Merge branch 'Nhat' of https://github.com/SWD392G4SU24/SWD392_G4_BE into Nhat
+
+[33mcommit 3db575f573628e4a5d6b1ed33bbf9350bbe22409[m
+Merge: 4fcc32a d2de419
+Author: SeEy <91361829+Bigoose0410@users.noreply.github.com>
+Date:   Fri May 31 00:35:34 2024 +0700
+
+    Merge pull request #4 from SWD392G4SU24/Nam
+    
+    Nhat: Merge code of Nam
+
+[33mcommit d2de41929c122dced441da229e4925f8fe3f9978[m
+Merge: a655ba7 2d3d942
+Author: NemissU <namphse171651@fpt.edu.vn>
+Date:   Fri May 31 00:08:32 2024 +0700
+
+    Fixed merge conflict
+
+[33mcommit a655ba7012732c31878e1f63181dcc5a3a678d92[m
+Author: NemissU <namphse171651@fpt.edu.vn>
+Date:   Fri May 31 00:05:14 2024 +0700
+
+    Fix revert conflict
+
+[33mcommit f594e6252a3afb7a896ada5dee8a4db129ac1155[m
+Author: NemissU <namphse171651@fpt.edu.vn>
+Date:   Thu May 30 23:53:33 2024 +0700
+
+    Nam: Renamed Users -> User, modifier Entity
+
+[33mcommit b30359ff768b3a52c7dd6e0eda6661d6e0ea3761[m
+Merge: 7a6d100 4fcc32a
+Author: Nhat Le <binhatgoose0410@gmail.com>
+Date:   Thu May 30 14:30:
