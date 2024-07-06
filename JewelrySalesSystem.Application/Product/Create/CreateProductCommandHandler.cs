@@ -7,6 +7,7 @@ using JewelrySalesSystem.Domain.Repositories;
 using JewelrySalesSystem.Domain.Repositories.ConfiguredEntity;
 using JewelrySalesSystem.Infrastructure.Repositories.ConfiguredEntity;
 using MediatR;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,11 +42,21 @@ namespace JewelrySalesSystem.Application.Product.Create
             var category = await _categoryRepository.FindAsync(c => c.ID == request.CategoryID && c.DeletedAt == null, cancellationToken)
                 ?? throw new NotFoundException("Không tồn tại Category với ID: " + request.CategoryID);
 
-            var diamond = await _diamondRepository.FindAsync(c => c.ID == request.DiamondType, cancellationToken)
-                ?? throw new NotFoundException("Không tồn tại kim cương với type: " + request.DiamondType);
-          
-            var gold = await _goldRepository.FindAsync(c => c.ID == request.GoldType, cancellationToken)
-                ?? throw new NotFoundException("Không tồn tại vàng với type: " + request.GoldType);
+            var diamond = await _diamondRepository.FindAsync(c => c.Name.Equals(request.DiamondType)
+            , query => query.OrderByDescending(d => d.CreatedAt).Take(1)
+            , cancellationToken);
+            if (diamond == null && !request.DiamondType.IsNullOrEmpty())
+            {
+                throw new NotFoundException("Không tồn tại kim cương với type: " + request.DiamondType);
+            }
+
+            var gold = await _goldRepository.FindAsync(c => c.Name.Equals(request.GoldType)
+            , query => query.OrderByDescending(c => c.CreatedAt).Take(1)
+            , cancellationToken);
+            if (gold == null && !request.GoldType.IsNullOrEmpty())
+            {
+                throw new NotFoundException("Không tồn tại vàng với type: " + request.GoldType);
+            }
 
             //Caculate wageCost
             decimal wageCost = WageCost.CalculateWageCost
@@ -62,8 +73,8 @@ namespace JewelrySalesSystem.Application.Product.Create
                 Quantity = request.Quantity,
                 WageCost = wageCost,
                 Description = request.Description,
-                DiamonType = request.DiamondType ?? request.DiamondType,
-                GoldType = request.GoldType ?? request.DiamondType,
+                DiamondID = diamond?.ID,
+                GoldID = gold?.ID,
                 GoldWeight = request.GoldWeight ?? request.GoldWeight,
                 ImageURL = request.ImageURL,
                 CreatedAt = DateTime.Now,

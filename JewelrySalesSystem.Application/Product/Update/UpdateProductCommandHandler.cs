@@ -36,10 +36,10 @@ namespace JewelrySalesSystem.Application.Product.Update
             var product = await _productRepository.FindAsync(s => s.ID == request.ID && s.DeletedAt == null, cancellationToken)
                 ?? throw new NotFoundException("Product không tồn tại");
 
-            var diamond = await _diamondRepository.FindAsync(c => c.ID == request.DiamonType, cancellationToken)
+            var diamond = await _diamondRepository.FindAsync(c => c.Name.Equals(request.DiamondID), cancellationToken)
                 ?? throw new NotFoundException("Diamond không tồn tại");
 
-            var gold = await _goldRepository.FindAsync(c => c.ID == request.GoldType, cancellationToken)
+            var gold = await _goldRepository.FindAsync(c => c.Name.Equals(request.GoldID), cancellationToken)
                 ?? throw new NotFoundException("Gold không tồn tại");
 
             //Caculate wageCost
@@ -56,8 +56,8 @@ namespace JewelrySalesSystem.Application.Product.Update
             product.Quantity = request.Quantity;
             product.GoldWeight = request.GoldWeight ?? request.GoldWeight;
             product.Description = request.Description == "NULL" ? null : request.Description;
-            product.GoldType = request.GoldType ?? request.GoldType ;
-            product.DiamonType = request.DiamonType ?? request.DiamonType;
+            product.GoldID = request.GoldID;
+            product.DiamondID = request.DiamondID;
             product.ImageURL = request.ImageURL == "NULL" ? null : request.ImageURL;
             product.UpdaterID = _currentUserService.UserId;
             product.LastestUpdateAt = DateTime.Now;

@@ -16,7 +16,7 @@ using JewelrySalesSystem.Application.Role;
 namespace Jewelry_Sales_System.API.Controllers
 {
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class ProductController : ControllerBase
     {
         private readonly IMediator _mediator;
