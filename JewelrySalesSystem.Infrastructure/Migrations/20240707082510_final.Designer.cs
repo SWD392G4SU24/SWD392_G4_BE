@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JewelrySalesSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240705183843_final")]
+    [Migration("20240707082510_final")]
     partial class final
     {
         /// <inheritdoc />
@@ -207,13 +207,13 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                         new
                         {
                             ID = 1,
-                            CreatedAt = new DateTime(2024, 7, 5, 18, 38, 43, 444, DateTimeKind.Utc).AddTicks(2926),
+                            CreatedAt = new DateTime(2024, 7, 7, 8, 25, 9, 725, DateTimeKind.Utc).AddTicks(1020),
                             Name = "VnPay"
                         },
                         new
                         {
                             ID = 2,
-                            CreatedAt = new DateTime(2024, 7, 5, 18, 38, 43, 444, DateTimeKind.Utc).AddTicks(2927),
+                            CreatedAt = new DateTime(2024, 7, 7, 8, 25, 9, 725, DateTimeKind.Utc).AddTicks(1021),
                             Name = "COD"
                         });
                 });
@@ -257,25 +257,25 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                         new
                         {
                             ID = 1,
-                            CreatedAt = new DateTime(2024, 7, 5, 18, 38, 43, 444, DateTimeKind.Utc).AddTicks(2778),
+                            CreatedAt = new DateTime(2024, 7, 7, 8, 25, 9, 725, DateTimeKind.Utc).AddTicks(848),
                             Name = "Admin"
                         },
                         new
                         {
                             ID = 2,
-                            CreatedAt = new DateTime(2024, 7, 5, 18, 38, 43, 444, DateTimeKind.Utc).AddTicks(2786),
+                            CreatedAt = new DateTime(2024, 7, 7, 8, 25, 9, 725, DateTimeKind.Utc).AddTicks(855),
                             Name = "Manager"
                         },
                         new
                         {
                             ID = 3,
-                            CreatedAt = new DateTime(2024, 7, 5, 18, 38, 43, 444, DateTimeKind.Utc).AddTicks(2787),
+                            CreatedAt = new DateTime(2024, 7, 7, 8, 25, 9, 725, DateTimeKind.Utc).AddTicks(857),
                             Name = "Customer"
                         },
                         new
                         {
                             ID = 4,
-                            CreatedAt = new DateTime(2024, 7, 5, 18, 38, 43, 444, DateTimeKind.Utc).AddTicks(2793),
+                            CreatedAt = new DateTime(2024, 7, 7, 8, 25, 9, 725, DateTimeKind.Utc).AddTicks(861),
                             Name = "Staff"
                         });
                 });
@@ -412,6 +412,9 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
 
                     b.Property<int>("PaymentMethodID")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("PickupDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("PromotionID")
                         .HasColumnType("nvarchar(450)")
@@ -646,13 +649,13 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            ID = "8d797c9720f64812b6d88b8641f65845",
+                            ID = "1208b53c37ff4ef7af58f09a0ce6d64a",
                             Address = "123 Admin St.",
-                            CreatedAt = new DateTime(2024, 7, 6, 1, 38, 43, 615, DateTimeKind.Local).AddTicks(4673),
+                            CreatedAt = new DateTime(2024, 7, 7, 15, 25, 9, 886, DateTimeKind.Local).AddTicks(1401),
                             Email = "admin@gmail.com",
                             FullName = "Administrator",
-                            LastestUpdateAt = new DateTime(2024, 7, 6, 1, 38, 43, 444, DateTimeKind.Local).AddTicks(3063),
-                            PasswordHash = "$2a$11$GIUJBQBPJem57U7pJ/uAdeWt8BmaJVnQLeM5snoe9zLa6izyksKg.",
+                            LastestUpdateAt = new DateTime(2024, 7, 7, 15, 25, 9, 725, DateTimeKind.Local).AddTicks(1087),
+                            PasswordHash = "$2a$11$76ZctgQARUzS1xnNb0OE6e3cxUAze.8ZbNLoD2ZSmt1TsCYu8q.zK",
                             PhoneNumber = "1234567890",
                             Point = 0,
                             RoleID = 1,
@@ -661,13 +664,13 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                         },
                         new
                         {
-                            ID = "a3a529b6f6d9405ea7d163b65d605e61",
+                            ID = "34bb034371604ab5b3065d0c8cb3217d",
                             Address = "123 Manager St.",
-                            CreatedAt = new DateTime(2024, 7, 6, 1, 38, 43, 797, DateTimeKind.Local).AddTicks(2374),
+                            CreatedAt = new DateTime(2024, 7, 7, 15, 25, 10, 57, DateTimeKind.Local).AddTicks(7698),
                             Email = "manager@gmail.com",
                             FullName = "Manager",
-                            LastestUpdateAt = new DateTime(2024, 7, 6, 1, 38, 43, 615, DateTimeKind.Local).AddTicks(4744),
-                            PasswordHash = "$2a$11$OfEf3qKjivf5iWX0FPUXbubZYZdODGjBaSrWOzDckv.Xwrx9AHMAi",
+                            LastestUpdateAt = new DateTime(2024, 7, 7, 15, 25, 9, 886, DateTimeKind.Local).AddTicks(1475),
+                            PasswordHash = "$2a$11$EAzAFrXCt4O1tyisYBU0dOW3wSL2AtOZ8OtD6Eq/RqM89gVHIk9FS",
                             PhoneNumber = "2234567890",
                             Point = 0,
                             RoleID = 2,

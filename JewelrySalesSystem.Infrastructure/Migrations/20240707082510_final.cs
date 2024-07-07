@@ -240,6 +240,7 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TotalCost = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    PickupDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     VoucherCode = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CounterID = table.Column<int>(type: "int", nullable: true),
                     BuyerID = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -350,8 +351,8 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                 columns: new[] { "ID", "CreatedAt", "CreatorID", "DeletedAt", "DeleterID", "LastestUpdateAt", "Name", "UpdaterID" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 7, 5, 18, 38, 43, 444, DateTimeKind.Utc).AddTicks(2926), null, null, null, null, "VnPay", null },
-                    { 2, new DateTime(2024, 7, 5, 18, 38, 43, 444, DateTimeKind.Utc).AddTicks(2927), null, null, null, null, "COD", null }
+                    { 1, new DateTime(2024, 7, 7, 8, 25, 9, 725, DateTimeKind.Utc).AddTicks(1020), null, null, null, null, "VnPay", null },
+                    { 2, new DateTime(2024, 7, 7, 8, 25, 9, 725, DateTimeKind.Utc).AddTicks(1021), null, null, null, null, "COD", null }
                 });
 
             migrationBuilder.InsertData(
@@ -359,10 +360,10 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                 columns: new[] { "ID", "CreatedAt", "CreatorID", "DeletedAt", "DeleterID", "LastestUpdateAt", "Name", "UpdaterID" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 7, 5, 18, 38, 43, 444, DateTimeKind.Utc).AddTicks(2778), null, null, null, null, "Admin", null },
-                    { 2, new DateTime(2024, 7, 5, 18, 38, 43, 444, DateTimeKind.Utc).AddTicks(2786), null, null, null, null, "Manager", null },
-                    { 3, new DateTime(2024, 7, 5, 18, 38, 43, 444, DateTimeKind.Utc).AddTicks(2787), null, null, null, null, "Customer", null },
-                    { 4, new DateTime(2024, 7, 5, 18, 38, 43, 444, DateTimeKind.Utc).AddTicks(2793), null, null, null, null, "Staff", null }
+                    { 1, new DateTime(2024, 7, 7, 8, 25, 9, 725, DateTimeKind.Utc).AddTicks(848), null, null, null, null, "Admin", null },
+                    { 2, new DateTime(2024, 7, 7, 8, 25, 9, 725, DateTimeKind.Utc).AddTicks(855), null, null, null, null, "Manager", null },
+                    { 3, new DateTime(2024, 7, 7, 8, 25, 9, 725, DateTimeKind.Utc).AddTicks(857), null, null, null, null, "Customer", null },
+                    { 4, new DateTime(2024, 7, 7, 8, 25, 9, 725, DateTimeKind.Utc).AddTicks(861), null, null, null, null, "Staff", null }
                 });
 
             migrationBuilder.InsertData(
@@ -370,8 +371,8 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                 columns: new[] { "ID", "Address", "CounterID", "CreatedAt", "CreatorID", "DeletedAt", "DeleterID", "Email", "FullName", "LastestUpdateAt", "PasswordHash", "PhoneNumber", "Point", "RoleID", "Status", "UpdaterID", "Username" },
                 values: new object[,]
                 {
-                    { "8d797c9720f64812b6d88b8641f65845", "123 Admin St.", null, new DateTime(2024, 7, 6, 1, 38, 43, 615, DateTimeKind.Local).AddTicks(4673), null, null, null, "admin@gmail.com", "Administrator", new DateTime(2024, 7, 6, 1, 38, 43, 444, DateTimeKind.Local).AddTicks(3063), "$2a$11$GIUJBQBPJem57U7pJ/uAdeWt8BmaJVnQLeM5snoe9zLa6izyksKg.", "1234567890", 0, 1, "VERIFIED", null, "admin" },
-                    { "a3a529b6f6d9405ea7d163b65d605e61", "123 Manager St.", null, new DateTime(2024, 7, 6, 1, 38, 43, 797, DateTimeKind.Local).AddTicks(2374), null, null, null, "manager@gmail.com", "Manager", new DateTime(2024, 7, 6, 1, 38, 43, 615, DateTimeKind.Local).AddTicks(4744), "$2a$11$OfEf3qKjivf5iWX0FPUXbubZYZdODGjBaSrWOzDckv.Xwrx9AHMAi", "2234567890", 0, 2, "VERIFIED", null, "manager" }
+                    { "1208b53c37ff4ef7af58f09a0ce6d64a", "123 Admin St.", null, new DateTime(2024, 7, 7, 15, 25, 9, 886, DateTimeKind.Local).AddTicks(1401), null, null, null, "admin@gmail.com", "Administrator", new DateTime(2024, 7, 7, 15, 25, 9, 725, DateTimeKind.Local).AddTicks(1087), "$2a$11$76ZctgQARUzS1xnNb0OE6e3cxUAze.8ZbNLoD2ZSmt1TsCYu8q.zK", "1234567890", 0, 1, "VERIFIED", null, "admin" },
+                    { "34bb034371604ab5b3065d0c8cb3217d", "123 Manager St.", null, new DateTime(2024, 7, 7, 15, 25, 10, 57, DateTimeKind.Local).AddTicks(7698), null, null, null, "manager@gmail.com", "Manager", new DateTime(2024, 7, 7, 15, 25, 9, 886, DateTimeKind.Local).AddTicks(1475), "$2a$11$EAzAFrXCt4O1tyisYBU0dOW3wSL2AtOZ8OtD6Eq/RqM89gVHIk9FS", "2234567890", 0, 2, "VERIFIED", null, "manager" }
                 });
 
             migrationBuilder.CreateIndex(
