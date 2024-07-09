@@ -34,8 +34,9 @@ namespace JewelrySalesSystem.Application.Product.GetProduct
 
         public async Task<List<ProductDto>> Handle(GetProductQuery request, CancellationToken cancellationToken)
         {
-            var product = await _productRepository.FindAllAsync(x => x.DeletedAt == null, cancellationToken)
-                ?? throw new NotFoundException("Không tìm thấy product nào");
+            var product = await _productRepository.FindAllAsync(x => x.DeletedAt == null, cancellationToken);
+            if (!product.Any())
+                throw new NotFoundException("Không tìm thấy product nào");
 
             var goldType = await _goldRepository.FindAllToDictionaryAsync(x => x.Name != null, x => x.ID, x => x.Name, cancellationToken);
             var diamondType = await _diamondRepository.FindAllToDictionaryAsync(x => x.Name != null, x => x.ID, x => x.Name, cancellationToken);

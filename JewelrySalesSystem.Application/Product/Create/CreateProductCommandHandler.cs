@@ -58,13 +58,7 @@ namespace JewelrySalesSystem.Application.Product.Create
                 throw new NotFoundException("Không tồn tại vàng với type: " + request.GoldType);
             }
 
-            //Caculate wageCost
-            decimal wageCost = WageCost.CalculateWageCost
-                (
-                    request.Quantity,
-                    request.GoldWeight,
-                    diamond.Name
-                );
+            decimal wageCost = new WageCost().CalculateWageCost(request?.GoldWeight, request?.DiamondType);
 
             var product = new ProductEntity
             {
