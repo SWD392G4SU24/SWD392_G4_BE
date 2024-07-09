@@ -23,7 +23,7 @@ namespace JewelrySalesSystem.Application.Role.GetAll
         public async Task<List<RoleDto>> Handle(GetAllRoleQuery query, CancellationToken cancellationToken)
         {
             var responseList = await _repository.FindAllAsync(x => x.DeletedAt == null, cancellationToken);
-            if(responseList == null)
+            if(!responseList.Any())
             {
                 throw new NotFoundException("Không tìm thấy Role nào");
             }
