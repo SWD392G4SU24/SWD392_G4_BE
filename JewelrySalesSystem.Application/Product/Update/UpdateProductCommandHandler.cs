@@ -18,20 +18,26 @@ namespace JewelrySalesSystem.Application.Product.Update
         private readonly IDiamondRepository _diamondRepository;
         private readonly IGoldRepository _goldRepository;
         private readonly ICurrentUserService _currentUserService;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public UpdateProductCommandHandler(IProductRepository productRepository, IDiamondRepository diamondRepository, IGoldRepository goldRepository, ICurrentUserService currentUserService)
+        public UpdateProductCommandHandler(IProductRepository productRepository
+            , IDiamondRepository diamondRepository
+            , IGoldRepository goldRepository
+            , ICurrentUserService currentUserService
+            , ICategoryRepository categoryRepository)
         {
             _productRepository = productRepository;
             _diamondRepository = diamondRepository;
             _goldRepository = goldRepository;
             _currentUserService = currentUserService;
+            _categoryRepository = categoryRepository;
         }
 
         public async Task<string> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
             //categoryEntity đức anh làm, nên tui thêm để tượng trưng là có checkExist r
-            //var category = await _categoryRepository.FindAsync(c => c.ID == request.CategoryID && c.DeletedAt == null, cancellationToken)
-            //    ?? throw new NotFoundException("Category không tồn tại");
+            var category = await _categoryRepository.FindAsync(c => c.ID == request.CategoryID && c.DeletedAt == null, cancellationToken)
+                ?? throw new NotFoundException("Category không tồn tại");
 
             var product = await _productRepository.FindAsync(s => s.ID == request.ID && s.DeletedAt == null, cancellationToken)
                 ?? throw new NotFoundException("Product không tồn tại");
@@ -43,12 +49,8 @@ namespace JewelrySalesSystem.Application.Product.Update
                 ?? throw new NotFoundException("Gold không tồn tại");
 
             //Caculate wageCost
-            decimal wageCost = WageCost.CalculateWageCost
-                (
-                    request.Quantity,
-                    request.GoldWeight,
-                    diamond.Name
-                );
+            decimal wageCost = new WageCost().CalculateWageCost(request?.GoldWeight, diamond?.Name);
+
             // Update specific fields based on request properties
             product.Name = request.Name;
             product.CategoryID = request.CategoryID;

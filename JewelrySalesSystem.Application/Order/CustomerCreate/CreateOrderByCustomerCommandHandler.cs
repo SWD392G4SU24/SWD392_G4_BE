@@ -1,5 +1,6 @@
 ﻿using JewelrySalesSystem.Application.Common.Interfaces;
 using JewelrySalesSystem.Domain.Commons.Exceptions;
+using JewelrySalesSystem.Domain.Commons.Interfaces;
 using JewelrySalesSystem.Domain.Entities;
 using JewelrySalesSystem.Domain.Repositories;
 using JewelrySalesSystem.Domain.Repositories.ConfiguredEntity;
@@ -23,14 +24,19 @@ namespace JewelrySalesSystem.Application.Order.CustomerCreate
         private readonly IProductRepository _productRepository;
         private readonly IPromotionRepository _promotionRepository;
         private readonly IPaymentMethodRepository _paymentMethodRepository;
+        private readonly IGoldService _goldService;
+        private readonly IDiamondService _diamondService;
         public CreateOrderByCustomerCommandHandler(IOrderRepository orderRepository
             , IOrderDetailRepository orderDetailRepository
             , IProductRepository productRepository
             , IPromotionRepository promotionRepository
             , IUserRepository userRepository
             , ICurrentUserService currentUserService
-            , IPaymentMethodRepository paymentMethodRepository)
+            , IPaymentMethodRepository paymentMethodRepository
+            , IDiamondService diamondService
+            , IGoldService goldService)
         {
+            _goldService = goldService;
             _orderRepository = orderRepository;
             _orderDetailRepository = orderDetailRepository;
             _productRepository = productRepository;
@@ -38,6 +44,7 @@ namespace JewelrySalesSystem.Application.Order.CustomerCreate
             _promotionRepository = promotionRepository;
             _currentUserService = currentUserService;
             _paymentMethodRepository = paymentMethodRepository;
+            _diamondService = diamondService;
         }
         public async Task<string> Handle(CreateOrderByCustomerCommand command, CancellationToken cancellationToken)
         {
@@ -84,11 +91,21 @@ namespace JewelrySalesSystem.Application.Order.CustomerCreate
                 {
                     return "Sản phẩm trong kho không đủ";
                 }
+                decimal gCost = 0;
+                if (existProduct.GoldID != null)
+                {
+                    gCost =  _goldService.GetGoldPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == existProduct.Gold.Name).BuyCost;
+                }
+                decimal dCost = 0;
+                if (existProduct.DiamondID != null)
+                {
+                    gCost = _diamondService.GetDiamondPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == existProduct.Diamond.Name).BuyCost;
+                }
                 orderDetails.Add(new OrderDetailEntity
                 {
                     OrderID = order.ID,
                     ProductID = item.ProductID,
-                    ProductCost = existProduct.WageCost * item.Quantity,
+                    ProductCost = (existProduct.WageCost + gCost + dCost) * item.Quantity,
                     Quantity = item.Quantity
                 });               
             }
@@ -97,7 +114,9 @@ namespace JewelrySalesSystem.Application.Order.CustomerCreate
             foreach (var orderDetail in orderDetails)
             {
                 _orderDetailRepository.Add(orderDetail);
+                order.TotalCost += orderDetail.ProductCost;
             }
+            
             return await _orderRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? "Tạo thành công" : "Tạo thất bại";
         }
     }
