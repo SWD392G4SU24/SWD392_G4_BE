@@ -38,6 +38,11 @@ namespace JewelrySalesSystem.Application.Form.CreateForm
                 if((DateTime.Now - (DateTime)order.LastestUpdateAt).TotalDays > 45)
                 throw new NotFoundException("Đơn hàng đã thanh toán quá 45 ngày sẽ không được chọn REFUND");
             }
+            if (request.Type.Equals(FormType.MAINTENANCE) && order.Status.Equals(OrderStatus.COMPLETED))
+            {
+                if((DateTime.Now - (DateTime)order.LastestUpdateAt).TotalDays > 730)
+                throw new NotFoundException("Đơn hàng đã thanh toán quá 2 năm sẽ không được chọn MAINTENANCE");
+            }
 
             var form = new FormEntity
                 {

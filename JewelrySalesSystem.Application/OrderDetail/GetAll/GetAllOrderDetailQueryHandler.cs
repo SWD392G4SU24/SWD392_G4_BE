@@ -23,8 +23,8 @@ namespace JewelrySalesSystem.Application.OrderDetail.GetAll
 
         public async Task<List<OrderDetailDto>> Handle(GetAllOrderDetailQuery request, CancellationToken cancellationToken)
         {
-            var orderDetails = await _orderDetailRepository.FindAllAsync(x => x.DeletedAt == null, cancellationToken)
-                ?? throw new NotFoundException("Không tìm thấy OrderDetail nào");
+            var orderDetails = await _orderDetailRepository.FindAllAsync(x => x.DeletedAt == null, cancellationToken);
+             if (!orderDetails.Any()) throw new NotFoundException("Không tìm thấy OrderDetail nào");
             return orderDetails.MapToOrderDetailDtoList(_mapper);
         }
     }

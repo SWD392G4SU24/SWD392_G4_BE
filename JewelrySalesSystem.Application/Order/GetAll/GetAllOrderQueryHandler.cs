@@ -25,8 +25,8 @@ namespace JewelrySalesSystem.Application.Order.GetAll
 
         public async Task<List<OrderDto>> Handle(GetAllOrderQuery request, CancellationToken cancellationToken)
         {
-            var repostList = await _orderRepository.FindAllAsync(x => x.DeletedAt == null, cancellationToken)
-                ?? throw new NotFoundException("Không tìm thấy order nào !!");
+            var repostList = await _orderRepository.FindAllAsync(x => x.DeletedAt == null, cancellationToken);
+            if(!repostList.Any()) throw new NotFoundException("Không tìm thấy order nào !!");
             return repostList.MapToOrderDtoList(_mapper);
         }
     }
