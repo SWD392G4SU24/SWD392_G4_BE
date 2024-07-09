@@ -17,7 +17,7 @@ namespace Jewelry_Sales_System.API.Controllers
 {
     [Authorize]
     [ApiController]
-    public class RoleController : Controller
+    public class RoleController : ControllerBase
     {
         private readonly IMediator _mediator;
         public RoleController(IMediator mediator)

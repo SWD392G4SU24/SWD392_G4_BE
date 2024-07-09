@@ -11,7 +11,7 @@ namespace Jewelry_Sales_System.API.Controllers
 {
     [ApiController]
     //[Authorize]
-    public class VnPayController : Controller
+    public class VnPayController : ControllerBase
     {
         private readonly IMediator _mediator;
         private readonly IVnPayService _vnPayService;
@@ -34,7 +34,7 @@ namespace Jewelry_Sales_System.API.Controllers
         public async Task<IActionResult> PaymentCallback()
         {
             var response = await _mediator.Send(new PaymentCallbackQuery(Request.Query));
-            return Json(response);
+            return Ok(new JsonResponse<PaymentResponseModel>(response));
         }
     }
 }

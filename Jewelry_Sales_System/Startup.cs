@@ -27,7 +27,6 @@ namespace Jewelry_Sales_System.API
                 {
                     opt.Filters.Add<ExceptionFilter>();
                 });
-            services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddApplication(Configuration);
             services.ConfigureApplicationSecurity(Configuration);
             services.ConfigureProblemDetails();
@@ -42,35 +41,36 @@ namespace Jewelry_Sales_System.API
                 .AllowAnyHeader()
                 );
             });
-            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-            services.AddControllersWithViews();
+            
+            //services.AddControllersWithViews();
 
             // Add Session
-            services.AddSession(options =>
-            {
-                options.IdleTimeout = TimeSpan.FromMinutes(30);
-                options.Cookie.HttpOnly = true;
-                options.Cookie.IsEssential = true;
-            });
+            //services.AddSession(options =>
+            //{
+            //    options.IdleTimeout = TimeSpan.FromMinutes(30);
+            //    options.Cookie.HttpOnly = true;
+            //    options.Cookie.IsEssential = true;
+            //});
 
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
-            })
-            .AddCookie(options =>
-            {
-                options.Cookie.SameSite = SameSiteMode.None;
-            })
-             .AddGoogle(options =>
-             {
-                 IConfigurationSection googleAuthNSection = Configuration.GetSection("Authentication:Google");
-                 options.ClientId = googleAuthNSection["ClientId"];
-                 options.ClientSecret = googleAuthNSection["ClientSecret"];
-                 options.CallbackPath = "/api/GoogleLogin/signin-google-callback";
-                 options.SaveTokens = true;
-             });
+            //services.AddAuthentication(options =>
+            //{
+            //    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            //    options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            //    options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+            //})
+            //    .AddCookie(options =>
+            //    {
+            //        options.Cookie.SameSite = SameSiteMode.None;
+            //    })
+            //    .AddGoogle(options =>
+            //    {
+            //        IConfigurationSection googleAuthNSection = Configuration.GetSection("Authentication:Google");
+            //        options.ClientId = googleAuthNSection["ClientId"];
+            //        options.ClientSecret = googleAuthNSection["ClientSecret"];
+            //        options.CallbackPath = "/signin-google-callback";
+            //        options.SaveTokens = true;
+            //    });
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
 
         }
 
@@ -91,7 +91,7 @@ namespace Jewelry_Sales_System.API
             app.UseAuthorization();
 
             // Use Session
-            app.UseSession();
+            //app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
