@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static JewelrySalesSystem.Domain.Commons.Enums.Enums;
+using System.Text.Json.Serialization;
 
 namespace JewelrySalesSystem.Application.Order
 {
@@ -17,12 +18,13 @@ namespace JewelrySalesSystem.Application.Order
         public void Mapping(Profile profile)
         {
 
-            profile.CreateMap<OrderEntity, OrderDto>();
+            profile.CreateMap<OrderEntity, OrderDto>()
+                .ForMember(dest => dest.TypeString, opt => opt.MapFrom(src => src.Type.ToString()));
 
         }
         public required string ID {  get; set; }
         public required string Note { get; set; }
-        public required OrderType Type { get; set; }
+        public string TypeString { get; set; }
         public required decimal TotalCost { get; set; }
         public string? PromotionID { get; set; }
         public int? CounterID { get; set; }
