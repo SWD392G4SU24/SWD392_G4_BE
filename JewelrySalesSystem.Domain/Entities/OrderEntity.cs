@@ -17,7 +17,7 @@ namespace JewelrySalesSystem.Domain.Entities
         public required OrderType Type { get; set; }
         public required OrderStatus Status { get; set; }
         public required decimal TotalCost {  get; set; }
-
+        public DateTime? PickupDate {  get; set; }
         public string? PromotionID { get; set; }
         [ForeignKey(nameof(PromotionID))]
         public virtual PromotionEntity? Promotion { get; set; }

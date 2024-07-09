@@ -9,5 +9,6 @@ namespace JewelrySalesSystem.Domain.Repositories.ConfiguredEntity
 {
     public interface IRoleRepository : IEFRepository<RoleEntity, RoleEntity>
     {
+        Task<RoleEntity> GetByNameAsync(string roleName);
     }
 }
