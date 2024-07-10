@@ -12,5 +12,7 @@ namespace JewelrySalesSystem.Domain.Entities.Configured
     public class CategoryEntity : ConfiguredEntity
     {
         public virtual ICollection<ProductEntity> Products { get; set;}
+
+
     }
 }

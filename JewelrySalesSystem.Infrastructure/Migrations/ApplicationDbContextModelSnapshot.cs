@@ -199,6 +199,20 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("PaymentMethod");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            CreatedAt = new DateTime(2024, 7, 7, 8, 25, 9, 725, DateTimeKind.Utc).AddTicks(1020),
+                            Name = "VnPay"
+                        },
+                        new
+                        {
+                            ID = 2,
+                            CreatedAt = new DateTime(2024, 7, 7, 8, 25, 9, 725, DateTimeKind.Utc).AddTicks(1021),
+                            Name = "COD"
+                        });
                 });
 
             modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.Configured.RoleEntity", b =>
@@ -235,6 +249,32 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                         .HasName("RoleID");
 
                     b.ToTable("Role");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            CreatedAt = new DateTime(2024, 7, 7, 8, 25, 9, 725, DateTimeKind.Utc).AddTicks(848),
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            ID = 2,
+                            CreatedAt = new DateTime(2024, 7, 7, 8, 25, 9, 725, DateTimeKind.Utc).AddTicks(855),
+                            Name = "Manager"
+                        },
+                        new
+                        {
+                            ID = 3,
+                            CreatedAt = new DateTime(2024, 7, 7, 8, 25, 9, 725, DateTimeKind.Utc).AddTicks(857),
+                            Name = "Customer"
+                        },
+                        new
+                        {
+                            ID = 4,
+                            CreatedAt = new DateTime(2024, 7, 7, 8, 25, 9, 725, DateTimeKind.Utc).AddTicks(861),
+                            Name = "Staff"
+                        });
                 });
 
             modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.FormEntity", b =>
@@ -370,6 +410,9 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     b.Property<int>("PaymentMethodID")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("PickupDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("PromotionID")
                         .HasColumnType("nvarchar(450)")
                         .HasColumnName("VoucherCode");
@@ -424,10 +467,10 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("DiamonType")
+                    b.Property<int?>("DiamondID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("GoldType")
+                    b.Property<int?>("GoldID")
                         .HasColumnType("int");
 
                     b.Property<float?>("GoldWeight")
@@ -438,6 +481,10 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
 
                     b.Property<DateTime?>("LastestUpdateAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -452,9 +499,9 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
 
                     b.HasIndex("CategoryID");
 
-                    b.HasIndex("DiamonType");
+                    b.HasIndex("DiamondID");
 
-                    b.HasIndex("GoldType");
+                    b.HasIndex("GoldID");
 
                     b.ToTable("Product");
                 });
@@ -496,6 +543,9 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     b.Property<decimal>("MaximumReduce")
                         .HasColumnType("decimal(18, 2)");
 
+                    b.Property<string>("OrderID")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<float>("ReducedPercent")
                         .HasColumnType("real");
 
@@ -510,6 +560,8 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("OrderID");
 
                     b.HasIndex("UserID");
 
@@ -590,6 +642,38 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     b.HasIndex("RoleID");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = "1208b53c37ff4ef7af58f09a0ce6d64a",
+                            Address = "123 Admin St.",
+                            CreatedAt = new DateTime(2024, 7, 7, 15, 25, 9, 886, DateTimeKind.Local).AddTicks(1401),
+                            Email = "admin@gmail.com",
+                            FullName = "Administrator",
+                            LastestUpdateAt = new DateTime(2024, 7, 7, 15, 25, 9, 725, DateTimeKind.Local).AddTicks(1087),
+                            PasswordHash = "$2a$11$76ZctgQARUzS1xnNb0OE6e3cxUAze.8ZbNLoD2ZSmt1TsCYu8q.zK",
+                            PhoneNumber = "1234567890",
+                            Point = 0,
+                            RoleID = 1,
+                            Status = "VERIFIED",
+                            Username = "admin"
+                        },
+                        new
+                        {
+                            ID = "34bb034371604ab5b3065d0c8cb3217d",
+                            Address = "123 Manager St.",
+                            CreatedAt = new DateTime(2024, 7, 7, 15, 25, 10, 57, DateTimeKind.Local).AddTicks(7698),
+                            Email = "manager@gmail.com",
+                            FullName = "Manager",
+                            LastestUpdateAt = new DateTime(2024, 7, 7, 15, 25, 9, 886, DateTimeKind.Local).AddTicks(1475),
+                            PasswordHash = "$2a$11$EAzAFrXCt4O1tyisYBU0dOW3wSL2AtOZ8OtD6Eq/RqM89gVHIk9FS",
+                            PhoneNumber = "2234567890",
+                            Point = 0,
+                            RoleID = 2,
+                            Status = "VERIFIED",
+                            Username = "manager"
+                        });
                 });
 
             modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.Configured.CounterEntity", b =>
@@ -641,7 +725,7 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("JewelrySalesSystem.Domain.Entities.PromotionEntity", "Promotion")
-                        .WithMany("Orders")
+                        .WithMany()
                         .HasForeignKey("PromotionID");
 
                     b.Navigation("Counter");
@@ -663,11 +747,11 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
 
                     b.HasOne("JewelrySalesSystem.Domain.Entities.Configured.DiamondEntity", "Diamond")
                         .WithMany("Products")
-                        .HasForeignKey("DiamonType");
+                        .HasForeignKey("DiamondID");
 
                     b.HasOne("JewelrySalesSystem.Domain.Entities.Configured.GoldEntity", "Gold")
                         .WithMany("Products")
-                        .HasForeignKey("GoldType");
+                        .HasForeignKey("GoldID");
 
                     b.Navigation("Category");
 
@@ -678,9 +762,15 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
 
             modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.PromotionEntity", b =>
                 {
+                    b.HasOne("JewelrySalesSystem.Domain.Entities.OrderEntity", "Order")
+                        .WithMany()
+                        .HasForeignKey("OrderID");
+
                     b.HasOne("JewelrySalesSystem.Domain.Entities.UserEntity", "User")
                         .WithMany("Promotions")
                         .HasForeignKey("UserID");
+
+                    b.Navigation("Order");
 
                     b.Navigation("User");
                 });
@@ -742,11 +832,6 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
             modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.ProductEntity", b =>
                 {
                     b.Navigation("OrderDetails");
-                });
-
-            modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.PromotionEntity", b =>
-                {
-                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.UserEntity", b =>

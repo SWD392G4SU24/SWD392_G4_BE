@@ -13,14 +13,15 @@ namespace JewelrySalesSystem.Domain.Entities
     [Table("Product")]
     public class ProductEntity : BaseEntity
     {
+        public required string Name {  get; set; }
         public required decimal WageCost {  get; set; }
         public float? GoldWeight {  get; set; }
         //Product: vàng thuần, kc thuần, vàng đính kc -> tùy theo đó để tính giá sản phẩm
-        public int? GoldType {  get; set; }
-        [ForeignKey(nameof(GoldType))]
+        public int? GoldID {  get; set; }
+        [ForeignKey(nameof(GoldID))]
         public virtual GoldEntity? Gold { get; set; }
-        public int? DiamonType { get; set; }
-        [ForeignKey(nameof(DiamonType))]
+        public int? DiamondID { get; set; }
+        [ForeignKey(nameof(DiamondID))]
         public virtual DiamondEntity? Diamond { get; set; }
         public string? ImageURL { get; set; }
         public required int Quantity { get; set; }

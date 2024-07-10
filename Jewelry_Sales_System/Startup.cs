@@ -2,7 +2,12 @@
 using Jewelry_Sales_System.Configuration;
 using JewelrySalesSystem.Application;
 using JewelrySalesSystem.Infrastructure;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
+using JewelrySalesSystem.Infrastructure.Persistence;
 using Serilog;
+using JewelrySalesSystem.Domain.Repositories.ConfiguredEntity;
+using JewelrySalesSystem.Infrastructure.Repositories.ConfiguredEntity;
 
 namespace Jewelry_Sales_System.API
 {
@@ -36,7 +41,37 @@ namespace Jewelry_Sales_System.API
                 .AllowAnyHeader()
                 );
             });
+            
+            //services.AddControllersWithViews();
+
+            // Add Session
+            //services.AddSession(options =>
+            //{
+            //    options.IdleTimeout = TimeSpan.FromMinutes(30);
+            //    options.Cookie.HttpOnly = true;
+            //    options.Cookie.IsEssential = true;
+            //});
+
+            //services.AddAuthentication(options =>
+            //{
+            //    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            //    options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            //    options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+            //})
+            //    .AddCookie(options =>
+            //    {
+            //        options.Cookie.SameSite = SameSiteMode.None;
+            //    })
+            //    .AddGoogle(options =>
+            //    {
+            //        IConfigurationSection googleAuthNSection = Configuration.GetSection("Authentication:Google");
+            //        options.ClientId = googleAuthNSection["ClientId"];
+            //        options.ClientSecret = googleAuthNSection["ClientSecret"];
+            //        options.CallbackPath = "/signin-google-callback";
+            //        options.SaveTokens = true;
+            //    });
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,9 +89,12 @@ namespace Jewelry_Sales_System.API
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+
+            // Use Session
+            //app.UseSession();
+
             app.UseEndpoints(endpoints =>
             {
-                //endpoints.MapDefaultHealthChecks();
                 endpoints.MapControllers();
             });
             app.UseSwashbuckle(Configuration);

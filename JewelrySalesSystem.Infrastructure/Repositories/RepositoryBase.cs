@@ -78,6 +78,13 @@ namespace JewelrySalesSystem.Infrastructure.Repositories
         {
             return await QueryInternal(filterExpression).ToListAsync<TDomain>(cancellationToken);
         }
+        public virtual async Task<List<TDomain>> FindAllAsync(
+            Expression<Func<TPersistence, bool>> filterExpression,
+            Func<IQueryable<TPersistence>, IQueryable<TPersistence>> queryOptions,
+            CancellationToken cancellationToken = default)
+        {
+            return await QueryInternal(filterExpression, queryOptions).ToListAsync<TDomain>(cancellationToken);
+        }
         public virtual async Task<IPagedResult<TDomain>> FindAllAsync(
             int pageNo,
             int pageSize,
@@ -109,6 +116,13 @@ namespace JewelrySalesSystem.Infrastructure.Repositories
             return await QueryInternal(filterExpression).SingleOrDefaultAsync<TDomain>(cancellationToken);
         }
 
+        public virtual async Task<TDomain?> FindAsync(
+            Expression<Func<TPersistence, bool>> filterExpression,
+            Func<IQueryable<TPersistence>, IQueryable<TPersistence>> queryOptions,
+            CancellationToken cancellationToken = default)
+        {
+            return await QueryInternal(filterExpression, queryOptions).SingleOrDefaultAsync<TDomain>(cancellationToken);
+        }
         protected virtual IQueryable<TPersistence> QueryInternal(Expression<Func<TPersistence, bool>>? filterExpression)
         {
             var queryable = CreateQuery();
@@ -118,5 +132,25 @@ namespace JewelrySalesSystem.Infrastructure.Repositories
             }
             return queryable;
         }
+        protected virtual IQueryable<TResult> QueryInternal<TResult>(
+            Expression<Func<TPersistence, bool>> filterExpression,
+            Func<IQueryable<TPersistence>, IQueryable<TResult>> queryOptions)
+        {
+            var queryable = CreateQuery();
+            queryable = queryable.Where(filterExpression);
+            var result = queryOptions(queryable);
+            return result;
+        }
+
+        public async Task<Dictionary<TKey, TValue>> FindAllToDictionaryAsync<TKey, TValue>(
+            Expression<Func<TPersistence, bool>> filterExpression,
+            Expression<Func<TPersistence, TKey>> keySelector,
+            Expression<Func<TPersistence, TValue>> valueSelector,
+            CancellationToken cancellationToken = default)
+        {
+            IQueryable<TPersistence> query = _dbContext.Set<TPersistence>().Where(filterExpression);
+            return await query.ToDictionaryAsync(keySelector.Compile(), valueSelector.Compile(), cancellationToken);
+        }
+
     }
 }

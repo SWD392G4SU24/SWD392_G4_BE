@@ -1,0 +1,27 @@
+﻿@Jewelry_Sales_System.API_HostAddress = https://localhost:7223
+
+POST {{Jewelry_Sales_System.API_HostAddress}}/register
+Content-Type: application/json
+
+{
+  //RegisterCommand
+}
+
+###
+
+GET {{Jewelry_Sales_System.API_HostAddress}}/GetAllPromotions
+
+###
+
+GET {{Jewelry_Sales_System.API_HostAddress}}/GetAllPromotions
+
+###
+
+POST {{Jewelry_Sales_System.API_HostAddress}}/register
+Content-Type: application/json
+
+{
+  //RegisterCommand
+}
+
+###

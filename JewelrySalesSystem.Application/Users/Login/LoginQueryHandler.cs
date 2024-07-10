@@ -24,23 +24,23 @@ namespace JewelrySalesSystem.Application.Users.Login
         }
         public async Task<UserLoginDto> Handle(LoginQuery query, CancellationToken cancellationToken)
         {
-            var user = await _repository.FindAsync(x => x.Email == query.user.Email && x.DeletedAt == null, cancellationToken);
+            var user = await _repository.FindAsync(x => x.Username == query.user.Username && x.DeletedAt == null, cancellationToken);
             if (user == null)
             {
-                throw new NotFoundException($"Không tìm thấy tài khoản nào với email - {query.user.Email}");
+                throw new NotFoundException($"Không tìm thấy tài khoản nào với username - {query.user.Username}");
             }
             if(user != null)
             {
                 var role = await _roleRepository.FindAsync(x => x.ID == user.RoleID && x.DeletedAt == null, cancellationToken);
                 if (role == null)
                 {
-                    throw new NotFoundException($"Không tìm thấy tài khoản với role - {query.user.Email}");
+                    throw new NotFoundException($"Không tìm thấy tài khoản với role - {query.user.Username}");
                 }
 
                 var checkPassword = _repository.VerifyPassword(query.user.Password, user.PasswordHash);
                 if (checkPassword)
                 {
-                    return UserLoginDto.Create(user.Email, user.ID, role.Name);
+                    return UserLoginDto.Create(user.Username, user.ID, role.Name);
                 }
             }
             throw new NotFoundException("Tài khoản hoặc mật khẩu không đúng.");
