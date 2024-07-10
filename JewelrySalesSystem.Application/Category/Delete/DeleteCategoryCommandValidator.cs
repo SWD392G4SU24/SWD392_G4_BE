@@ -6,10 +6,10 @@ namespace JewelrySalesSystem.Application.Category.Delete
     {
         public DeleteCategoryCommandValidator()
         {
-            OnValidate();
+            ConfigureValidationRule();
         }
 
-        private void OnValidate()
+        private void ConfigureValidationRule()
         {
             RuleFor(x => x.Id)
                 .NotNull().WithMessage("ID không được để trống");

@@ -1,33 +1,32 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using AutoMapper;
+﻿using AutoMapper;
 using JewelrySalesSystem.Application.Common.Pagination;
-using JewelrySalesSystem.Application.Users.CreateNewUser;
+using JewelrySalesSystem.Application.Counter;
+using JewelrySalesSystem.Application.Counter.CreateCounter;
+using JewelrySalesSystem.Application.Counter.Delete;
+using JewelrySalesSystem.Application.Counter.GetAll;
+using JewelrySalesSystem.Application.Counter.GetById;
+using JewelrySalesSystem.Application.Counter.GetByPagination;
+using JewelrySalesSystem.Application.Counter.Update;
+using JewelrySalesSystem.Application.Role;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
-using JewelrySalesSystem.Application.Category.Create;
-using JewelrySalesSystem.Application.Category;
-using JewelrySalesSystem.Application.Category.GetByPagination;
-using JewelrySalesSystem.Application.Category.Update;
-using JewelrySalesSystem.Application.Category.Delete;
-using JewelrySalesSystem.Application.Category.GetAll;
-using JewelrySalesSystem.Application.Category.GetByID;
 
 namespace Jewelry_Sales_System.API.Controllers
 {
     [Authorize]
     [ApiController]
-    public class CategoryController : Controller
+    public class CounterController : Controller
     {
         private readonly IMediator _mediator;
-        public CategoryController(IMediator mediator)
+        public CounterController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
         [HttpPost]
-        [Route("category/create")]
+        [Route("counter/create")]
         [Authorize(Roles = "Admin")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(bool), StatusCodes.Status201Created)]
@@ -35,8 +34,8 @@ namespace Jewelry_Sales_System.API.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<JsonResponse<string>>> CreateCategory(
-            [FromBody] CreateCategoryCommand command,
+        public async Task<ActionResult<JsonResponse<string>>> CreateCounter(
+            [FromBody] CreateCounterCommand command,
             CancellationToken cancellationToken = default)
         {
             var result = await _mediator.Send(command, cancellationToken);
@@ -47,43 +46,39 @@ namespace Jewelry_Sales_System.API.Controllers
             return Ok(new JsonResponse<string>(result));
         }
 
-        [HttpGet("category/pagination")]
+        [HttpGet("counter/pagination")]
         [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(JsonResponse<PagedResult<CategoryDto>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(JsonResponse<PagedResult<RoleDto>>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<JsonResponse<PagedResult<CategoryDto>>>> GetPagination([FromQuery] GetCategoryByPaginationQuery query
+        public async Task<ActionResult<JsonResponse<PagedResult<CounterDto>>>> GetPagination([FromQuery] GetCounterByPaginationQuery query
             , CancellationToken cancellationToken = default)
         {
             var result = await _mediator.Send(query, cancellationToken);
             return Ok(result);
         }
 
-        [HttpGet("category/{id}")]
-        [ProducesResponseType(typeof(JsonResponse<CategoryDto>), StatusCodes.Status200OK)]
+        [HttpGet("counter/{id}")]
+        [ProducesResponseType(typeof(JsonResponse<CounterDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<JsonResponse<CategoryDto>>> GetByID(
-            [FromRoute] int id,
-            CancellationToken cancellationToken = default)
+        public async Task<ActionResult<JsonResponse<CounterDto>>> GetByID([FromRoute] int id, CancellationToken cancellationToken = default)
         {
-            var result = await _mediator.Send(new GetCategoryByIDQuery(id: id), cancellationToken);
-            return result != null ? Ok(new JsonResponse<CategoryDto>(result)) : NotFound();
-        } 
-        
+            var result = await _mediator.Send(new GetCounterByIdQuery(id: id), cancellationToken);
+            return result != null ? Ok(new JsonResponse<CounterDto>(result)) : NotFound();
+        }
 
-        [HttpPut("category/update")]
+        [HttpPut("counter/update")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<JsonResponse<string>>> UpdateRole(UpdateCategoryCommand command
-            , CancellationToken cancellationToken)
+        public async Task<ActionResult<JsonResponse<string>>> UpdateCounter(UpdateCounterCommand command, CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(command, cancellationToken);
             if (!result.Contains("thành công"))
@@ -93,16 +88,16 @@ namespace Jewelry_Sales_System.API.Controllers
             return Ok(new JsonResponse<string>(result));
         }
 
-        [HttpDelete("category/delete/{id}")]
+        [HttpDelete("counter/delete/{id}")]
         [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<JsonResponse<string>>> DeleteCategory([FromRoute] int id, CancellationToken cancellationToken = default)
+        public async Task<ActionResult<JsonResponse<string>>> DeleteCounter([FromRoute] int id, CancellationToken cancellationToken = default)
         {
-            var result = await _mediator.Send(new DeleteCategoryCommand(id: id), cancellationToken);
+            var result = await _mediator.Send(new DeleteCounterCommand(id: id), cancellationToken);
             if (!result.Contains("thành công"))
             {
                 return BadRequest(new JsonResponse<string>(result));
@@ -110,18 +105,17 @@ namespace Jewelry_Sales_System.API.Controllers
             return Ok(new JsonResponse<string>(result));
         }
 
-        [HttpGet("category")]
-        [ProducesResponseType(typeof(JsonResponse<List<CategoryDto>>), StatusCodes.Status200OK)]
+        [HttpGet("counter")]
+        [ProducesResponseType(typeof(JsonResponse<List<CounterDto>>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<JsonResponse<List<CategoryDto>>>> GetAllCategory(
-            CancellationToken cancellationToken = default)
+        public async Task<ActionResult<JsonResponse<List<CounterDto>>>> GetAllCounter(CancellationToken cancellationToken = default)
         {
-            var result = await this._mediator.Send(new GetAllCategoryQuery(), cancellationToken);
-            return result != null ? Ok(new JsonResponse<List<CategoryDto>>(result)) : NotFound();
+            var result = await this._mediator.Send(new GetAllCounterQuery(), cancellationToken);
+            return result != null ? Ok(new JsonResponse<List<CounterDto>>(result)) : NotFound();
         }
     }
 }

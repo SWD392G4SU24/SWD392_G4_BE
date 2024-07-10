@@ -11,8 +11,6 @@ namespace JewelrySalesSystem.Application.Category.Update
 
         private void OnValidate()
         {
-            RuleFor(x => x.Id)
-                .NotEmpty().WithMessage("ID không được để trống");
             RuleFor(x => x.Name)
                 .NotEmpty().WithMessage("Tên không được để trống");
         }

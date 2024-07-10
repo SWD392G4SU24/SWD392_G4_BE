@@ -41,7 +41,7 @@ namespace Jewelry_Sales_System.API
                 .AllowAnyHeader()
                 );
             });
-            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+            
             //services.AddControllersWithViews();
 
             // Add Session
@@ -70,6 +70,8 @@ namespace Jewelry_Sales_System.API
             //        options.CallbackPath = "/signin-google-callback";
             //        options.SaveTokens = true;
             //    });
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
