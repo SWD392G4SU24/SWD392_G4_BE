@@ -11,6 +11,7 @@ using JewelrySalesSystem.Application.Order.GetByID;
 using JewelrySalesSystem.Application.Role;
 using JewelrySalesSystem.Application.Role.CreateRole;
 using JewelrySalesSystem.Application.Order.CustomerCreate;
+using JewelrySalesSystem.Application.Order.StaffCreate;
 
 namespace Jewelry_Sales_System.API.Controllers
 {
@@ -73,7 +74,7 @@ namespace Jewelry_Sales_System.API.Controllers
         }
 
         [HttpPost]
-        [Route("order/create")]
+        [Route("order/customer-create")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(bool), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -82,6 +83,25 @@ namespace Jewelry_Sales_System.API.Controllers
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<JsonResponse<string>>> CreateOrder(
             [FromBody] CreateOrderByCustomerCommand command,
+            CancellationToken cancellationToken = default)
+        {
+            var result = await _mediator.Send(command, cancellationToken);
+            if (!result.Contains("thành công"))
+            {
+                return BadRequest(new JsonResponse<string>(result));
+            }
+            return Ok(new JsonResponse<string>(result));
+        }
+
+        [HttpPost("order/staff-create")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<string>>> CreateOrderByStaff(
+            [FromBody] CreateOrderByStaffCommand command,
             CancellationToken cancellationToken = default)
         {
             var result = await _mediator.Send(command, cancellationToken);

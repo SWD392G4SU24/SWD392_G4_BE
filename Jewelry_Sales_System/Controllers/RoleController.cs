@@ -1,5 +1,5 @@
-﻿using AutoMapper;
-using JewelrySalesSystem.Application.Common.Pagination;
+﻿using JewelrySalesSystem.Application.Common.Pagination;
+using JewelrySalesSystem.Application.Common.Security;
 using JewelrySalesSystem.Application.Role;
 using JewelrySalesSystem.Application.Role.CreateRole;
 using JewelrySalesSystem.Application.Role.Delete;
@@ -7,9 +7,7 @@ using JewelrySalesSystem.Application.Role.GetAll;
 using JewelrySalesSystem.Application.Role.GetById;
 using JewelrySalesSystem.Application.Role.GetByPagination;
 using JewelrySalesSystem.Application.Role.Update;
-using JewelrySalesSystem.Application.Users.CreateNewUser;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 

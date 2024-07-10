@@ -5,18 +5,18 @@ using System.Net.Mime;
 using JewelrySalesSystem.Application.Product;
 using JewelrySalesSystem.Application.Product.GetProduct;
 using JewelrySalesSystem.Application.Product.Create;
-using Microsoft.AspNetCore.Authorization;
-using AuthorizeAttribute = JewelrySalesSystem.Application.Common.Security.AuthorizeAttribute;
 using JewelrySalesSystem.Application.Product.Update;
 using JewelrySalesSystem.Application.Product.Delete;
 using JewelrySalesSystem.Application.Product.GetByID;
 using JewelrySalesSystem.Application.Role;
+using Microsoft.AspNetCore.Authorization;
+using AuthorizeAttribute = JewelrySalesSystem.Application.Common.Security.AuthorizeAttribute;
 
 
 namespace Jewelry_Sales_System.API.Controllers
 {
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class ProductController : ControllerBase
     {
         private readonly IMediator _mediator;

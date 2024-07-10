@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using JewelrySalesSystem.Application.Common.Pagination;
+using JewelrySalesSystem.Application.Common.Security;
 using JewelrySalesSystem.Application.PaymentMethod;
 using JewelrySalesSystem.Application.PaymentMethod.CreatePaymentMethod;
 using JewelrySalesSystem.Application.PaymentMethod.Delete;
@@ -8,7 +9,6 @@ using JewelrySalesSystem.Application.PaymentMethod.GetById;
 using JewelrySalesSystem.Application.PaymentMethod.GetByPagination;
 using JewelrySalesSystem.Application.PaymentMethod.Update;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 

@@ -1,18 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using AutoMapper;
-using JewelrySalesSystem.Application.Common.Pagination;
-using JewelrySalesSystem.Application.Users.CreateNewUser;
-using MediatR;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System.Net.Mime;
+﻿using JewelrySalesSystem.Application.Category;
 using JewelrySalesSystem.Application.Category.Create;
-using JewelrySalesSystem.Application.Category;
-using JewelrySalesSystem.Application.Category.GetByPagination;
-using JewelrySalesSystem.Application.Category.Update;
 using JewelrySalesSystem.Application.Category.Delete;
 using JewelrySalesSystem.Application.Category.GetAll;
 using JewelrySalesSystem.Application.Category.GetByID;
+using JewelrySalesSystem.Application.Category.GetByPagination;
+using JewelrySalesSystem.Application.Category.Update;
+using JewelrySalesSystem.Application.Common.Pagination;
+using JewelrySalesSystem.Application.Common.Security;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using System.Net.Mime;
+
 
 namespace Jewelry_Sales_System.API.Controllers
 {
