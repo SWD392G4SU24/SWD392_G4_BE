@@ -41,7 +41,7 @@ namespace Jewelry_Sales_System.API
                 .AllowAnyHeader()
                 );
             });
-
+            
             //services.AddControllersWithViews();
 
             // Add Session

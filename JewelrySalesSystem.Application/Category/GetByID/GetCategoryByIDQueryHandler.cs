@@ -3,6 +3,7 @@ using JewelrySalesSystem.Application.Category;
 using JewelrySalesSystem.Domain.Repositories;
 using JewelrySalesSystem.Domain.Repositories.ConfiguredEntity;
 using MediatR;
+using JewelrySalesSystem.Domain.Commons.Exceptions;
 
 namespace JewelrySalesSystem.Application.Category.GetByID
 {
@@ -17,10 +18,14 @@ namespace JewelrySalesSystem.Application.Category.GetByID
             _mapper = mapper;
         }
 
-        public async Task<CategoryDto> Handle(GetCategoryByIDQuery request, CancellationToken cancellationToken)
+        public async Task<CategoryDto> Handle(GetCategoryByIDQuery query, CancellationToken cancellationToken)
         {
-            var category = await _categoryRepository.FindAsync(c => c.ID == request.Id && c.DeletedAt == null, cancellationToken);
-            return category == null ? null : _mapper.Map<CategoryDto>(category);
+            var existEntity = await _categoryRepository.FindAsync(c => c.ID == query.Id && c.DeletedAt == null, cancellationToken);
+            if (existEntity == null)
+            {
+                throw new NotFoundException("ID không tồn tại");
+            }
+            return existEntity.MapToCategoryDto(_mapper);
         }
     }
 }

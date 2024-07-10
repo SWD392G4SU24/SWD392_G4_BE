@@ -6,13 +6,13 @@ namespace JewelrySalesSystem.Application.Category.Create
     {
         public CreateCategoryCommandValidator()
         {
-            OnValidate();
+            ConfigureValidationRule();
         }
 
-        private void OnValidate()
+        private void ConfigureValidationRule()
         {
             RuleFor(x => x.Name)
-                .NotEmpty().WithMessage("Tên không được để trống");
+                .NotEmpty().WithMessage("Name không được để trống");
         }
     }
 }

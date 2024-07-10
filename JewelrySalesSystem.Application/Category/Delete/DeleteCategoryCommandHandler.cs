@@ -17,16 +17,19 @@ namespace JewelrySalesSystem.Application.Category.Delete
             _currentUserService = currentUserService;
         }
 
-        public async Task<string> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(DeleteCategoryCommand command, CancellationToken cancellationToken)
         {
-            var category = await _categoryRepository.FindAsync(c => c.ID == request.Id && c.DeletedAt == null, cancellationToken)
-                ?? throw new NotFoundException("Category không tồn tại");
+            var existEntity = await _categoryRepository.FindAsync(c => c.ID == command.Id && c.DeletedAt == null, cancellationToken);
+            if (existEntity == null)
+            {
+                throw new NotFoundException("ID không tồn tại");
+            }
 
-            category.DeletedAt = DateTime.Now;
-            category.DeleterID = _currentUserService.UserId;
+            existEntity.DeletedAt = DateTime.Now;
+            existEntity.DeleterID = _currentUserService.UserId;
 
-            _categoryRepository.Update(category);
-            return await _categoryRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? "Xóa category thành công" : "Xóa category thất bại";
+            _categoryRepository.Update(existEntity);
+            return await _categoryRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? "Xóa thành công" : "Xóa thất bại";
         }
     }
 }
