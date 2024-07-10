@@ -27,8 +27,6 @@ namespace Jewelry_Sales_System.API
                 {
                     opt.Filters.Add<ExceptionFilter>();
                 });
-            services.AddScoped<IRoleRepository, RoleRepository>();
-            services.AddScoped<IPaymentMethodRepository, PaymentMethodRepository>();
             services.AddApplication(Configuration);
             services.ConfigureApplicationSecurity(Configuration);
             services.ConfigureProblemDetails();

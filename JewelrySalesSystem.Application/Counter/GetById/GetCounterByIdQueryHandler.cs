@@ -22,12 +22,12 @@ namespace JewelrySalesSystem.Application.Counter.GetById
 
         public async Task<CounterDto> Handle(GetCounterByIdQuery request, CancellationToken cancellationToken)
         {
-            var query = await _counterRepository.FindAsync(x => x.DeletedAt == null && x.ID == request.ID, cancellationToken);
-            if (query == null)
+            var existEntity = await _counterRepository.FindAsync(x => x.DeletedAt == null && x.ID == request.ID, cancellationToken);
+            if (existEntity == null)
             {
                 throw new NotFoundException("ID không tồn tại");
             }
-            return query.MapToCounterDto(_mapper);
+            return existEntity.MapToCounterDto(_mapper);
         }
     }
 }

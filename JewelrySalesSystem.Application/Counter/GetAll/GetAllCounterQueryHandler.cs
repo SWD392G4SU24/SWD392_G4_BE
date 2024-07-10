@@ -29,7 +29,7 @@ namespace JewelrySalesSystem.Application.Counter.GetAll
             var query = await _counterRepository.FindAllAsync(x => x.DeletedAt == null, cancellationToken);
             if (query == null)
             {
-                throw new NotFoundException("Không tìm thấy Role nào");
+                throw new NotFoundException("Không tìm thấy Counter nào");
             }
             return query.MapToCounterDtoList(_mapper);
         }
