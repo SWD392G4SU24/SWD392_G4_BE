@@ -20,26 +20,24 @@ namespace JewelrySalesSystem.Application.Counter.Update
             _currentUserService = currentUserService;
         }
 
-        public async Task<string> Handle(UpdateCounterCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(UpdateCounterCommand command, CancellationToken cancellationToken)
         {
-            var existCounter = await _counterRepository.FindAsync(x => x.DeletedAt == null && x.ID == request.ID, cancellationToken);
-            if (existCounter == null)
-            {
-                throw new NotFoundException("Không tìm thấy Counter");
-            }
-
-            var checkExistName = await _counterRepository.AnyAsync(x => x.DeletedAt == null && x.Name == request.Name && x.ID != request.ID, cancellationToken);
-            if (checkExistName)
+            var checkExist = await _counterRepository.AnyAsync(x => x.Name == command.Name && x.DeletedAt == null, cancellationToken);
+            if (checkExist)
             {
                 throw new DuplicationException("Counter đã tồn tại");
             }
 
-            existCounter.Name = request.Name;
-            existCounter.CategoryID = request.CategoryID;
-            existCounter.LastestUpdateAt = DateTime.Now;
-            existCounter.UpdaterID = _currentUserService.UserId;
+            var existEntity = await _counterRepository.FindAsync(x => x.ID == command.ID && x.DeletedAt == null, cancellationToken);
+            if (existEntity == null)
+            {
+                throw new NotFoundException("ID không tồn tại");
+            }
+            existEntity.Name = command.Name;
+            existEntity.LastestUpdateAt = DateTime.Now;
+            existEntity.UpdaterID = _currentUserService.UserId;
 
-            _counterRepository.Update(existCounter);
+            _counterRepository.Update(existEntity);
             return await _counterRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? "Cập nhật thành công" : "Cập nhật thất bại";
         }
     }

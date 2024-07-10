@@ -21,17 +21,16 @@ namespace JewelrySalesSystem.Application.Counter.Delete
 
         public async Task<string> Handle(DeleteCounterCommand request, CancellationToken cancellationToken)
         {
-            var counter = await _counterRepository.FindAsync(x => x.ID == request.ID && x.DeletedAt == null, cancellationToken);
+            var existEntity = await _counterRepository.FindAsync(x => x.ID == request.ID && x.DeletedAt == null, cancellationToken);
 
-            if (counter == null)
+            if (existEntity == null)
             {
-                throw new NotFoundException("Không tồn tại quầy hàng");
+                throw new NotFoundException("Counter không tồn tại");
             }
 
-            counter.DeletedAt = DateTime.Now;
-            counter.DeleterID = _currentUser.UserId;
-
-            _counterRepository.Update(counter);
+            existEntity.DeletedAt = DateTime.Now;
+            existEntity.DeleterID = _currentUser.UserId;
+            _counterRepository.Update(existEntity);
             return await _counterRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? "Xóa thành công" : "Xóa thất bại";
         }
     }
