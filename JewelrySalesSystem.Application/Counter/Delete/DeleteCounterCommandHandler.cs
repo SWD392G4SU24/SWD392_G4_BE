@@ -25,7 +25,7 @@ namespace JewelrySalesSystem.Application.Counter.Delete
 
             if (existEntity == null)
             {
-                throw new NotFoundException("Counter tồn tại");
+                throw new NotFoundException("Counter không tồn tại");
             }
 
             existEntity.DeletedAt = DateTime.Now;
