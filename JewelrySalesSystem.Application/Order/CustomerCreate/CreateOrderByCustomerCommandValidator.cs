@@ -20,8 +20,6 @@ namespace JewelrySalesSystem.Application.Order.CustomerCreate
                 .NotEmpty().WithMessage("Không có sản phẩm nào được đặt");
             RuleFor(v => v.PaymentMethodID)
                 .NotNull().WithMessage("PaymentMethodID không được để trống");
-            RuleFor(v => v.BuyerID)
-                .NotEmpty().WithMessage("BuyerID không được để trống");
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿
+﻿using JewelrySalesSystem.Application.Common.Security;
 using JewelrySalesSystem.Application.Product;
 using JewelrySalesSystem.Application.Promotion;
 using JewelrySalesSystem.Application.Promotion.CreatePromotion;
@@ -9,10 +9,8 @@ using JewelrySalesSystem.Application.Promotion.GetByUser;
 using JewelrySalesSystem.Application.Promotion.NewFolder;
 using JewelrySalesSystem.Application.Promotion.UpdatePromotion;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
-using AuthorizeAttribute = JewelrySalesSystem.Application.Common.Security.AuthorizeAttribute;
 
 namespace Jewelry_Sales_System.API.Controllers
 {
@@ -74,7 +72,6 @@ namespace Jewelry_Sales_System.API.Controllers
             return result != null ? Ok(new JsonResponse<PromotionDto>(result)) : NotFound();
         }
 
-        [AllowAnonymous]
         [HttpPost]
         [Route("[controller]/create")]
         [Produces(MediaTypeNames.Application.Json)]
@@ -91,7 +88,6 @@ namespace Jewelry_Sales_System.API.Controllers
             return Ok(new JsonResponse<string>(result));
         }
         
-        [AllowAnonymous]
         [HttpPost]
         [Route("[controller]/create-random")]
         [Produces(MediaTypeNames.Application.Json)]
@@ -108,7 +104,6 @@ namespace Jewelry_Sales_System.API.Controllers
             return Ok(new JsonResponse<List<string>>(result));
         }
 
-        [AllowAnonymous]
         [HttpPut]
         [Route("[controller]/update")]
         [Produces(MediaTypeNames.Application.Json)]
@@ -129,7 +124,6 @@ namespace Jewelry_Sales_System.API.Controllers
             return Ok(new JsonResponse<string>(result));
         }
 
-        [AllowAnonymous]
         [HttpDelete]
         [Route("[controller]/delete/{id}")]
         [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status200OK)]

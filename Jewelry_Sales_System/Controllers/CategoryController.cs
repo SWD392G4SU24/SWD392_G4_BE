@@ -1,65 +1,125 @@
-﻿using JewelrySalesSystem.Application.Category.Create;
+﻿using JewelrySalesSystem.Application.Category;
+using JewelrySalesSystem.Application.Category.Create;
 using JewelrySalesSystem.Application.Category.Delete;
+using JewelrySalesSystem.Application.Category.GetAll;
 using JewelrySalesSystem.Application.Category.GetByID;
-using JewelrySalesSystem.Application.Category.GetCategory;
+using JewelrySalesSystem.Application.Category.GetByPagination;
 using JewelrySalesSystem.Application.Category.Update;
+using JewelrySalesSystem.Application.Common.Pagination;
+using JewelrySalesSystem.Application.Common.Security;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Mime;
 
-namespace JewelrySalesSystem.API.Controllers
+
+namespace Jewelry_Sales_System.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
-    public class CategoryController : ControllerBase
+    public class CategoryController : Controller
     {
         private readonly IMediator _mediator;
-
         public CategoryController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
-        [HttpPost("create")]
-        public async Task<IActionResult> Create([FromBody] CreateCategoryCommand command)
+        [HttpPost]
+        [Route("category/create")]
+        [Authorize(Roles = "Admin")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<string>>> CreateCategory(
+            [FromBody] CreateCategoryCommand command,
+            CancellationToken cancellationToken = default)
         {
-            var result = await _mediator.Send(command);
-            return Ok(result);
-        }
-
-        [HttpPut("update/{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] UpdateCategoryCommand command)
-        {
-            if (id != command.Id)
+            var result = await _mediator.Send(command, cancellationToken);
+            if (!result.Contains("thành công"))
             {
-                return BadRequest("ID trong đường dẫn không khớp với ID trong thân");
+                return BadRequest(new JsonResponse<string>(result));
             }
+            return Ok(new JsonResponse<string>(result));
+        }
 
-            var result = await _mediator.Send(command);
+        [HttpGet("category/pagination")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(JsonResponse<PagedResult<CategoryDto>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<PagedResult<CategoryDto>>>> GetPagination([FromQuery] GetCategoryByPaginationQuery query
+            , CancellationToken cancellationToken = default)
+        {
+            var result = await _mediator.Send(query, cancellationToken);
             return Ok(result);
         }
 
-        [HttpDelete("delete/{id}")]
-        public async Task<IActionResult> Delete(int id)
+        [HttpGet("category/{id}")]
+        [ProducesResponseType(typeof(JsonResponse<CategoryDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<CategoryDto>>> GetByID(
+            [FromRoute] int id,
+            CancellationToken cancellationToken = default)
         {
-            var command = new DeleteCategoryCommand(id);
-            var result = await _mediator.Send(command);
-            return Ok(result);
+            var result = await _mediator.Send(new GetCategoryByIDQuery(id: id), cancellationToken);
+            return result != null ? Ok(new JsonResponse<CategoryDto>(result)) : NotFound();
+        } 
+        
+
+        [HttpPut("category/update")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<string>>> UpdateRole(UpdateCategoryCommand command
+            , CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(command, cancellationToken);
+            if (!result.Contains("thành công"))
+            {
+                return BadRequest(new JsonResponse<string>(result));
+            }
+            return Ok(new JsonResponse<string>(result));
         }
 
-        [HttpGet("get_by/{id}")]
-        public async Task<IActionResult> GetById(int id)
+        [HttpDelete("category/delete/{id}")]
+        [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<string>>> DeleteCategory([FromRoute] int id, CancellationToken cancellationToken = default)
         {
-            var query = new GetCategoryByIDQuery(id);
-            var result = await _mediator.Send(query);
-            return Ok(result);
+            var result = await _mediator.Send(new DeleteCategoryCommand(id: id), cancellationToken);
+            if (!result.Contains("thành công"))
+            {
+                return BadRequest(new JsonResponse<string>(result));
+            }
+            return Ok(new JsonResponse<string>(result));
         }
 
-        [HttpGet("Get All")]
-        public async Task<IActionResult> Get()
+        [HttpGet("category")]
+        [ProducesResponseType(typeof(JsonResponse<List<CategoryDto>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<List<CategoryDto>>>> GetAllCategory(
+            CancellationToken cancellationToken = default)
         {
-            var query = new GetCategoryQuery();
-            var result = await _mediator.Send(query);
-            return Ok(result);
+            var result = await this._mediator.Send(new GetAllCategoryQuery(), cancellationToken);
+            return result != null ? Ok(new JsonResponse<List<CategoryDto>>(result)) : NotFound();
         }
     }
 }

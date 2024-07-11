@@ -1,5 +1,4 @@
-﻿
-using JewelrySalesSystem.Application.Common.Security;
+﻿using JewelrySalesSystem.Application.Common.Security;
 using JewelrySalesSystem.Application.Form;
 using JewelrySalesSystem.Application.Form.CreateForm;
 using JewelrySalesSystem.Application.Form.Delete;

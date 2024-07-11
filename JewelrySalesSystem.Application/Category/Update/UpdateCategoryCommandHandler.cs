@@ -17,16 +17,25 @@ namespace JewelrySalesSystem.Application.Category.Update
             _currentUserService = currentUserService;
         }
 
-        public async Task<string> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(UpdateCategoryCommand command, CancellationToken cancellationToken)
         {
-            var category = await _categoryRepository.FindAsync(c => c.ID == request.Id && c.DeletedAt == null, cancellationToken)
-                ?? throw new NotFoundException("Không tồn tại Category với ID: " + request.Id);
+            var checkExist = await _categoryRepository.AnyAsync(c => c.Name == command.Name && c.DeletedAt == null, cancellationToken);
+                if(checkExist)
+            {
+                throw new DuplicationException("Category đã tồn tại");
+            }
 
-            category.Name = request.Name;
-            category.LastestUpdateAt = DateTime.Now;
-            category.UpdaterID = _currentUserService.UserId;
+            var existEntity = await _categoryRepository.FindAsync(x => x.ID == command.Id && x.DeletedAt == null, cancellationToken);
+                if(existEntity == null)
+            {
+                throw new NotFoundException("ID không tồn tại");
+            }
 
-            _categoryRepository.Update(category);
+            existEntity.Name = command.Name;
+            existEntity.LastestUpdateAt = DateTime.Now;
+            existEntity.UpdaterID = _currentUserService.UserId;
+
+            _categoryRepository.Update(existEntity);
             return await _categoryRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? "Cập nhật thành công" : "Cập nhật thất bại";
         }
     }

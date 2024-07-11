@@ -11,6 +11,9 @@ using JewelrySalesSystem.Application.Order.GetByID;
 using JewelrySalesSystem.Application.Role;
 using JewelrySalesSystem.Application.Role.CreateRole;
 using JewelrySalesSystem.Application.Order.CustomerCreate;
+using JewelrySalesSystem.Application.Order.StaffCreate;
+using JewelrySalesSystem.Application.Product.Update;
+using JewelrySalesSystem.Application.Order.UpdateOrder;
 
 namespace Jewelry_Sales_System.API.Controllers
 {
@@ -73,7 +76,7 @@ namespace Jewelry_Sales_System.API.Controllers
         }
 
         [HttpPost]
-        [Route("order/create")]
+        [Route("order/customer-create")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(bool), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -86,6 +89,42 @@ namespace Jewelry_Sales_System.API.Controllers
         {
             var result = await _mediator.Send(command, cancellationToken);
             if (!result.Contains("thành công"))
+            {
+                return BadRequest(new JsonResponse<string>(result));
+            }
+            return Ok(new JsonResponse<string>(result));
+        }
+
+        [HttpPost("order/staff-create")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<string>>> CreateOrderByStaff(
+            [FromBody] CreateOrderByStaffCommand command,
+            CancellationToken cancellationToken = default)
+        {
+            var result = await _mediator.Send(command, cancellationToken);
+            if (!result.Contains("thành công"))
+            {
+                return BadRequest(new JsonResponse<string>(result));
+            }
+            return Ok(new JsonResponse<string>(result));
+        }
+
+        [HttpPut("order/update")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<string>>> UpdateOrder(
+           [FromBody] UpdateOrderCommand command,
+           CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(command, cancellationToken);
+            if (result.Contains("thất bại"))
             {
                 return BadRequest(new JsonResponse<string>(result));
             }

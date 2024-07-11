@@ -1,16 +1,11 @@
 ﻿
+using JewelrySalesSystem.Application.Common.Security;
 using JewelrySalesSystem.Application.OrderDetail;
 using JewelrySalesSystem.Application.OrderDetail.Delete;
 using JewelrySalesSystem.Application.OrderDetail.GetAll;
 using JewelrySalesSystem.Application.OrderDetail.GetByID;
 using MediatR;
-using AuthorizeAttribute = JewelrySalesSystem.Application.Common.Security.AuthorizeAttribute;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Net.Mime;
-using Microsoft.AspNetCore.Authorization;
-using JewelrySalesSystem.Application.Role;
-using JewelrySalesSystem.Application.Order;
 
 namespace Jewelry_Sales_System.API.Controllers
 {
@@ -57,7 +52,6 @@ namespace Jewelry_Sales_System.API.Controllers
             return result != null ? Ok(new JsonResponse<OrderDetailDto>(result)) : NotFound();
         }
 
-        [AllowAnonymous]
         [HttpDelete]
         [Route("[controller]/delete/{id}")]
         [ProducesResponseType(typeof(JsonResponse<OrderDetailDto>), StatusCodes.Status200OK)]

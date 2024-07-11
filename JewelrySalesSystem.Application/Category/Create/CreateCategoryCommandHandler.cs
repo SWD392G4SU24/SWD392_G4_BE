@@ -1,4 +1,5 @@
 ﻿using JewelrySalesSystem.Application.Common.Interfaces;
+using JewelrySalesSystem.Domain.Commons.Exceptions;
 using JewelrySalesSystem.Domain.Entities;
 using JewelrySalesSystem.Domain.Entities.Configured;
 using JewelrySalesSystem.Domain.Repositories;
@@ -20,7 +21,12 @@ namespace JewelrySalesSystem.Application.Category.Create
 
         public async Task<string> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
         {
-            var category = new CategoryEntity
+            var existCategory = await _categoryRepository.AnyAsync(x => x.Name == request.Name && x.DeletedAt == null, cancellationToken);
+            if (existCategory)
+            {
+                throw new DuplicationException("Category đã tồn tại");
+            }
+            CategoryEntity category = new CategoryEntity
             {
                 Name = request.Name,
                 CreatedAt = DateTime.Now,
