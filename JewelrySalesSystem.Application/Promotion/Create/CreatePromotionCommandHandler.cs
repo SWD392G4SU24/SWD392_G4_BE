@@ -34,7 +34,7 @@ namespace JewelrySalesSystem.Application.Promotion.CreatePromotion
             {
                 ConditionsOfUse = request.ConditionsOfUse,
                 ExchangePoint = request.ExchangePoint,
-                Description = request.Description == "NULL" ? null : request.Description,
+                Description = request.Description.IsNullOrEmpty() ? null : request.Description,
                 ExpiresTime = request.ExpiresTime,
                 MaximumReduce = request.MaximumReduce,
                 ReducedPercent = request.ReducedPercent,

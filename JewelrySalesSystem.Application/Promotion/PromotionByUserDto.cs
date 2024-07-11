@@ -17,6 +17,11 @@ namespace JewelrySalesSystem.Application.Promotion
         }
         //public string Description { get; set; }
         public int Quantity { get; set; }
-        public List<PromotionDto> promotions { get; set; }
+        public required string? Description { get; set; }
+        public required decimal ConditionsOfUse { get; set; }
+        public required float ReducedPercent { get; set; }
+        public required decimal MaximumReduce { get; set; }
+        public required int ExchangePoint { get; set; }
+        public required DateTime ExpiresTime { get; set; }
     }
 }

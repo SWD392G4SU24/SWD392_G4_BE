@@ -38,7 +38,7 @@ namespace JewelrySalesSystem.Application.Form.CreateForm
             {
                 return result;
             }
-            throw new NotFoundException("Invalid form type");
+            return 0;
         }
     }
 }

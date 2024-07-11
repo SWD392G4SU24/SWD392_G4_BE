@@ -32,7 +32,7 @@ namespace JewelrySalesSystem.Application.Form.UpdateStatus
             {
                 return result;
             }
-            throw new NotFoundException("Invalid FormStatus");
+            return 0;
         }
     }
 }

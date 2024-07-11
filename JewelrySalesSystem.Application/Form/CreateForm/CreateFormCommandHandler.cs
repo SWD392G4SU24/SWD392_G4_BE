@@ -3,6 +3,7 @@ using JewelrySalesSystem.Domain.Commons.Exceptions;
 using JewelrySalesSystem.Domain.Entities;
 using JewelrySalesSystem.Domain.Repositories;
 using MediatR;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,11 +34,32 @@ namespace JewelrySalesSystem.Application.Form.CreateForm
                 throw new NotFoundException("Đơn hàng không tồn tại");
             }
 
-            if (request.Type.Equals(FormType.REFUND) && (order.Status.Equals(OrderStatus.PAID) || order.Status.Equals(OrderStatus.COMPLETED)))
+            if (request.Type.Equals(FormType.REFUND) &&
+                (order.Status.Equals(OrderStatus.PAID) || order.Status.Equals(OrderStatus.COMPLETED)) &&
+                 (DateTime.Now - (DateTime)order.LastestUpdateAt).TotalDays > 45)
             {
-                if((DateTime.Now - (DateTime)order.LastestUpdateAt).TotalDays > 45)
                 throw new NotFoundException("Đơn hàng đã thanh toán quá 45 ngày sẽ không được chọn REFUND");
             }
+
+            if (request.Type.Equals(FormType.REFUND) &&
+                !order.Status.Equals(OrderStatus.PAID) && !order.Status.Equals(OrderStatus.COMPLETED))
+            {
+                throw new NotFoundException("Đơn hàng vẫn còn đang trong tình trạng" + order.Status + "sẽ không được chọn REFUND");
+            }
+
+            if (request.Type.Equals(FormType.MAINTENANCE) &&
+                 order.Status.Equals(OrderStatus.COMPLETED) &&
+                 (DateTime.Now - (DateTime)order.LastestUpdateAt).TotalDays > 750)
+            {
+                throw new NotFoundException("Đơn hàng đã thanh toán quá 2 năm sẽ không được chọn MAINTENANCE");
+            }
+
+            if (request.Type.Equals(FormType.REFUND) &&
+                  !order.Status.Equals(OrderStatus.COMPLETED))
+            {
+                throw new NotFoundException("Đơn hàng vẫn còn đang trong tình trạng" + order.Status +  "sẽ không được chọn MAINTENANCE");
+            }
+
             if (request.Type.Equals(FormType.MAINTENANCE) && order.Status.Equals(OrderStatus.COMPLETED))
             {
                 if((DateTime.Now - (DateTime)order.LastestUpdateAt).TotalDays > 730)
@@ -47,7 +69,7 @@ namespace JewelrySalesSystem.Application.Form.CreateForm
             var form = new FormEntity
                 {
                     AppoinmentDate = DateTime.Now,
-                    Content = request.Content == "NULL" ? null : request.Content,
+                    Content = request.Content.IsNullOrEmpty() ? null : request.Content,
                     Status = FormStatus.PENDING,
                     Type = request.Type,
                     CreatedAt = DateTime.Now,

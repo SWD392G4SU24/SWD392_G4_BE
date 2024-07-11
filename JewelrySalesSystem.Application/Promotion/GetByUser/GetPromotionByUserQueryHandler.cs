@@ -25,12 +25,11 @@ namespace JewelrySalesSystem.Application.Promotion.GetByUser
 
         public async Task<List<PromotionByUserDto>> Handle(GetPromotionByUserQuery request, CancellationToken cancellationToken)
         {
-            var promotion = await _promotionRepository.FindAllAsync(x => x.DeletedAt == null, cancellationToken);
-            if (!promotion.Any()) throw new NotFoundException("Không tìm thấy promtion nào");
-            //promotion.MapToPromotionDtoList(_mapper);
+            var promotionList = await _promotionRepository.FindAllAsync(x => x.UserID == request.UserId, cancellationToken);
+            if (!promotionList.Any()) throw new NotFoundException("Không tìm thấy promtion nào với UserID:" + request.UserId);
             var user = await _userRepository.FindAsync(x=> x.ID == request.UserId && x.DeletedAt == null, cancellationToken)
             ?? throw new NotFoundException("User không tồn tại");
-            return promotion.MapToPromotionByUserDtoList(_mapper);
+            return promotionList.MapToPromotionByUserDtoList(_mapper);
             
         }
     }

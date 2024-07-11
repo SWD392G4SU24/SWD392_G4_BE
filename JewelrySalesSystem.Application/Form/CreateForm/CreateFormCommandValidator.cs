@@ -25,8 +25,8 @@ namespace JewelrySalesSystem.Application.Form.CreateForm
                 .Must(NotBeInPast).WithMessage("AppointmentDate không được là năm cũ hay cùng ngày tháng năm");
             RuleFor(x => x.TypeString)
                 .NotNull().WithMessage("TypeString không được để trống");
-            RuleFor(x => x.Type).
-                Must(BeValidType).WithMessage("Type chỉ được nhập theo 3 dạng:EXCHANGE, MAINTENANCE, REFUND");
+            RuleFor(x => x.TypeString).
+                Must(BeValidTypeString).WithMessage("Type chỉ được nhập theo 3 dạng:EXCHANGE, MAINTENANCE, REFUND");
         }
         private bool NotBeInPast(DateTime time)
         {
@@ -35,6 +35,16 @@ namespace JewelrySalesSystem.Application.Form.CreateForm
         private bool BeValidType(FormType type)
         {
             return type.Equals(FormType.EXCHANGE) || type.Equals(FormType.MAINTENANCE) || type.Equals(FormType.REFUND);
+        }
+
+        private bool BeValidTypeString(string typeString)
+        {
+            // Kiểm tra xem typeString có thể parse thành FormType và hợp lệ
+            if (Enum.TryParse(typeString, true, out FormType result))
+            {
+                return BeValidType(result);
+            }
+            return false;
         }
     }
 }
