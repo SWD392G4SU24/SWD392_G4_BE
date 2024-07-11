@@ -78,7 +78,7 @@ namespace Jewelry_Sales_System.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<JsonResponse<string>>> UpdateRole(UpdateRoleCommand command
+        public async Task<ActionResult<JsonResponse<string>>> UpdateRole([FromBody] UpdateRoleCommand command
             , CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(command, cancellationToken);

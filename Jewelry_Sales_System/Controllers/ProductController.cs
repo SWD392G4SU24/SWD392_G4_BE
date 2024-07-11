@@ -57,7 +57,6 @@ namespace Jewelry_Sales_System.API.Controllers
             return result != null ? Ok(result) : NotFound();
         }
 
-        [AllowAnonymous]
         [HttpPost]
         [Route("[controller]/create")]
         [Produces(MediaTypeNames.Application.Json)]
@@ -73,8 +72,7 @@ namespace Jewelry_Sales_System.API.Controllers
             var result = await _mediator.Send(command, cancellationToken);
             return Ok(new JsonResponse<string>(result));
         }
-
-        [AllowAnonymous]
+       
         [HttpPut]
         [Route("[controller]/update")]
         [Produces(MediaTypeNames.Application.Json)]
@@ -84,7 +82,7 @@ namespace Jewelry_Sales_System.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<JsonResponse<string>>> UpdateProduct(
-            UpdateProductCommand command,
+           [FromBody] UpdateProductCommand command,
            CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(command, cancellationToken);
@@ -95,7 +93,6 @@ namespace Jewelry_Sales_System.API.Controllers
             return Ok(new JsonResponse<string>(result));
         }
 
-        [AllowAnonymous]
         [HttpDelete]
         [Route("[controller]/delete/{id}")]
         [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status200OK)]
