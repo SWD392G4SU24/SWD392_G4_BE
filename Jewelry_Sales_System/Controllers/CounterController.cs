@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using JewelrySalesSystem.Application.Common.Pagination;
+using JewelrySalesSystem.Application.Common.Security;
 using JewelrySalesSystem.Application.Counter;
 using JewelrySalesSystem.Application.Counter.CreateCounter;
 using JewelrySalesSystem.Application.Counter.Delete;
@@ -9,7 +10,6 @@ using JewelrySalesSystem.Application.Counter.GetByPagination;
 using JewelrySalesSystem.Application.Counter.Update;
 using JewelrySalesSystem.Application.Role;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 

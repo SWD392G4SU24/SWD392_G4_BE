@@ -48,10 +48,10 @@ namespace JewelrySalesSystem.Application.Order.CustomerCreate
         }
         public async Task<string> Handle(CreateOrderByCustomerCommand command, CancellationToken cancellationToken)
         {
-            var existUser = await _userRepository.AnyAsync(x => x.ID == command.BuyerID && x.DeleterID == null, cancellationToken);
-            if (!existUser)
+            var existUser = await _userRepository.FindAsync(x => x.ID == _currentUserService.UserId && x.DeleterID == null && x.Status != UserStatus.BANNED, cancellationToken);
+            if (existUser == null)
             {
-                throw new NotFoundException("Không tìm thấy người mua với ID: " + command.BuyerID);
+                throw new NotFoundException("Người dùng không tồn tại hoặc đã bị BAN");
             }
             
             var existMethod = await _paymentMethodRepository.AnyAsync(x => x.ID == command.PaymentMethodID && x.DeleterID == null, cancellationToken);
@@ -68,8 +68,8 @@ namespace JewelrySalesSystem.Application.Order.CustomerCreate
 
             OrderEntity order = new OrderEntity 
             {
-                BuyerID = command.BuyerID,
-                Note = command.BuyerID + "thanh toán online",
+                BuyerID = existUser.ID,
+                Note = existUser.ID + " thanh toán online",
                 PaymentMethodID = command.PaymentMethodID,
                 Status = OrderStatus.PENDING,
                 TotalCost = 0,
@@ -91,6 +91,7 @@ namespace JewelrySalesSystem.Application.Order.CustomerCreate
                 {
                     return "Sản phẩm trong kho không đủ";
                 }
+
                 decimal gCost = 0;
                 if (existProduct.GoldID != null)
                 {
@@ -99,14 +100,17 @@ namespace JewelrySalesSystem.Application.Order.CustomerCreate
                 decimal dCost = 0;
                 if (existProduct.DiamondID != null)
                 {
-                    gCost = _diamondService.GetDiamondPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == existProduct.Diamond.Name).BuyCost;
+                    dCost = _diamondService.GetDiamondPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == existProduct.Diamond.Name).BuyCost;
                 }
+
                 orderDetails.Add(new OrderDetailEntity
                 {
                     OrderID = order.ID,
                     ProductID = item.ProductID,
                     ProductCost = (existProduct.WageCost + gCost + dCost) * item.Quantity,
-                    Quantity = item.Quantity
+                    Quantity = item.Quantity,
+                    CreatedAt = DateTime.Now,
+                    CreatorID = _currentUserService.UserId,
                 });               
             }
             _orderRepository.Add(order);
@@ -116,7 +120,25 @@ namespace JewelrySalesSystem.Application.Order.CustomerCreate
                 _orderDetailRepository.Add(orderDetail);
                 order.TotalCost += orderDetail.ProductCost;
             }
-            
+
+            if (existPromotion != null)
+            {
+                // check xem sử dụng được promotion không
+                if (order.TotalCost < existPromotion.ConditionsOfUse)
+                {
+                    return "Không đủ điều kiện sử dụng ưu đãi";
+                }
+                // cập nhật lại giá tiền order
+                if (order.TotalCost * (decimal)existPromotion.ReducedPercent / 100 > existPromotion.ConditionsOfUse)
+                {
+                    order.TotalCost -= existPromotion.MaximumReduce;
+                }
+                else
+                {
+                    order.TotalCost -= order.TotalCost * (decimal)existPromotion.ReducedPercent / 100;
+                }
+            }
+
             return await _orderRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? "Tạo thành công" : "Tạo thất bại";
         }
     }

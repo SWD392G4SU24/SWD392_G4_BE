@@ -5,18 +5,18 @@ using System.Net.Mime;
 using JewelrySalesSystem.Application.Product;
 using JewelrySalesSystem.Application.Product.GetProduct;
 using JewelrySalesSystem.Application.Product.Create;
-using Microsoft.AspNetCore.Authorization;
-using AuthorizeAttribute = JewelrySalesSystem.Application.Common.Security.AuthorizeAttribute;
 using JewelrySalesSystem.Application.Product.Update;
 using JewelrySalesSystem.Application.Product.Delete;
 using JewelrySalesSystem.Application.Product.GetByID;
 using JewelrySalesSystem.Application.Role;
+using Microsoft.AspNetCore.Authorization;
+using AuthorizeAttribute = JewelrySalesSystem.Application.Common.Security.AuthorizeAttribute;
 
 
 namespace Jewelry_Sales_System.API.Controllers
 {
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class ProductController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -57,7 +57,6 @@ namespace Jewelry_Sales_System.API.Controllers
             return result != null ? Ok(result) : NotFound();
         }
 
-        [AllowAnonymous]
         [HttpPost]
         [Route("[controller]/create")]
         [Produces(MediaTypeNames.Application.Json)]
@@ -73,8 +72,7 @@ namespace Jewelry_Sales_System.API.Controllers
             var result = await _mediator.Send(command, cancellationToken);
             return Ok(new JsonResponse<string>(result));
         }
-
-        [AllowAnonymous]
+       
         [HttpPut]
         [Route("[controller]/update")]
         [Produces(MediaTypeNames.Application.Json)]
@@ -84,7 +82,7 @@ namespace Jewelry_Sales_System.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<JsonResponse<string>>> UpdateProduct(
-            UpdateProductCommand command,
+           [FromBody] UpdateProductCommand command,
            CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(command, cancellationToken);
@@ -95,7 +93,6 @@ namespace Jewelry_Sales_System.API.Controllers
             return Ok(new JsonResponse<string>(result));
         }
 
-        [AllowAnonymous]
         [HttpDelete]
         [Route("[controller]/delete/{id}")]
         [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status200OK)]
