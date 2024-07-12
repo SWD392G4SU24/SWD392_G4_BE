@@ -1,4 +1,3 @@
-﻿using JewelrySalesSystem.Application.Common.Security;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
@@ -8,9 +7,10 @@ using JewelrySalesSystem.Application.Product.Create;
 using JewelrySalesSystem.Application.Product.Update;
 using JewelrySalesSystem.Application.Product.Delete;
 using JewelrySalesSystem.Application.Product.GetByID;
-using AuthorizeAttribute = JewelrySalesSystem.Application.Common.Security.AuthorizeAttribute;
 using JewelrySalesSystem.Application.Common.Pagination;
 using JewelrySalesSystem.Application.Product.FliterProduct;
+using Microsoft.AspNetCore.Authorization;
+
 
 
 namespace Jewelry_Sales_System.API.Controllers
