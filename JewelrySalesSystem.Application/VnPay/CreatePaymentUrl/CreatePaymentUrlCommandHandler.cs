@@ -21,10 +21,10 @@ namespace JewelrySalesSystem.Application.VnPay.CreatePaymentUrl
             _vnPayService = vnPayService;
         }
 
-        public Task<string> Handle(CreatePaymentUrlCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(CreatePaymentUrlCommand request, CancellationToken cancellationToken)
         {
             var paymentUrl = _vnPayService.CreatePaymentUrl(request.Model, request.Context);
-            return Task.FromResult(paymentUrl);
+            return paymentUrl;
         }
     }
 }

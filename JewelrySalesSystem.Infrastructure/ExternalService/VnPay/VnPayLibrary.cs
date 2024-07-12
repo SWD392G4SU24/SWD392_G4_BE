@@ -128,7 +128,7 @@ namespace JewelrySalesSystem.Infrastructure.ExternalService.VnPay
 
             return baseUrl;
         }
-
+        
         public bool ValidateSignature(string inputHash, string secretKey)
         {
             var rspRaw = GetResponseData();

@@ -14,6 +14,7 @@ using JewelrySalesSystem.Application.Order.CustomerCreate;
 using JewelrySalesSystem.Application.Order.StaffCreate;
 using JewelrySalesSystem.Application.Product.Update;
 using JewelrySalesSystem.Application.Order.UpdateOrder;
+using JewelrySalesSystem.Application.Order.AfterPayment;
 
 namespace Jewelry_Sales_System.API.Controllers
 {
@@ -125,6 +126,23 @@ namespace Jewelry_Sales_System.API.Controllers
         {
             var result = await _mediator.Send(command, cancellationToken);
             if (result.Contains("thất bại"))
+            {
+                return BadRequest(new JsonResponse<string>(result));
+            }
+            return Ok(new JsonResponse<string>(result));
+        }
+
+        [HttpPut("order/callback-after-payment")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<string>>> UpdateOrderAfterPayment(
+           [FromBody] UpdatePaymentSuccessOrderCommand command,
+           CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(command, cancellationToken);
+            if (!result.Contains("thành công"))
             {
                 return BadRequest(new JsonResponse<string>(result));
             }
