@@ -1,20 +1,18 @@
 ﻿using JewelrySalesSystem.Application.Common.Interfaces;
 using JewelrySalesSystem.Application.Common.Pagination;
-using JewelrySalesSystem.Application.Counter.CreateCounter;
 using MediatR;
 
-namespace JewelrySalesSystem.Application.Counter.FilterCounter
+namespace JewelrySalesSystem.Application.PaymentMethod.FilterPaymentMethod
 {
-    public class FilterCounterQuery : IRequest<PagedResult<CounterDto>>, IQuery
+    public class FilterPaymentMethodQuery : IRequest<PagedResult<PaymentMethodDto>>, IQuery
     {
-        public FilterCounterQuery() { }
+        public FilterPaymentMethodQuery() { }
 
         public int PageNumber { get; set; }
         public int PageSize { get; set; }
         public string? Name { get; set; }
-        public int? CategoryID { get; set; } = 0;
 
-        public FilterCounterQuery(int pageNumber, int pageSize)
+        public FilterPaymentMethodQuery(int pageNumber, int pageSize)
         {
             PageNumber = pageNumber;
             PageSize = pageSize;
