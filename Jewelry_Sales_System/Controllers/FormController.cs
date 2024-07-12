@@ -1,8 +1,8 @@
-﻿using JewelrySalesSystem.Application.Common.Security;
-using JewelrySalesSystem.Application.Form;
+﻿using JewelrySalesSystem.Application.Form;
 using JewelrySalesSystem.Application.Form.GetAll;
 using JewelrySalesSystem.Application.Form.GetByID;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
