@@ -17,6 +17,7 @@ namespace JewelrySalesSystem.Domain.Repositories
         Task<List<TDomain>> FindAllAsync(Expression<Func<TPersistance, bool>> filterExpression, CancellationToken cancellationToken = default);
         Task<List<TDomain>> FindAllAsync(Expression<Func<TPersistance, bool>> filterExpression, Func<IQueryable<TPersistance>, IQueryable<TPersistance>> queryOptions, CancellationToken cancellationToken = default);
         Task<IPagedResult<TDomain>> FindAllAsync(int pageNo, int pageSize, CancellationToken cancellationToken = default);
+        Task<IPagedResult<TDomain>> FindAllAsync(int pageNo, int pageSize, Func<IQueryable<TPersistance>, IQueryable<TPersistance>> queryOptions, CancellationToken cancellationToken = default);
         Task<IPagedResult<TDomain>> FindAllAsync(Expression<Func<TPersistance, bool>> filterExpression, int pageNo, int pageSize, CancellationToken cancellationToken = default);
         Task<int> CountAsync(Expression<Func<TPersistance, bool>> filterExpression, CancellationToken cancellationToken = default);
         Task<bool> AnyAsync(Expression<Func<TPersistance, bool>> filterExpression, CancellationToken cancellationToken = default);

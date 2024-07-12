@@ -136,9 +136,9 @@ namespace JewelrySalesSystem.Application.Order.UpdateOrder
                     order.TotalCost += item.ProductCost;
             }
 
+            // check xem sử dụng được promotion không
             if (existPromotion != null)
-            {
-                // check xem sử dụng được promotion không
+            {               
                 if (order.TotalCost < existPromotion.ConditionsOfUse)
                 {
                     return "Không đủ điều kiện sử dụng ưu đãi";
@@ -153,6 +153,7 @@ namespace JewelrySalesSystem.Application.Order.UpdateOrder
                     order.TotalCost -= order.TotalCost * (decimal)existPromotion.ReducedPercent / 100;
                 }
             }
+
             order.UpdaterID = _currentUserService.UserId;
             order.LastestUpdateAt = DateTime.Now;
             _orderRepository.Update(order);

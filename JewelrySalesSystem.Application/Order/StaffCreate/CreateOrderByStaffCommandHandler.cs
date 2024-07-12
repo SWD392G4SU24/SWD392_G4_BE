@@ -32,6 +32,7 @@ namespace JewelrySalesSystem.Application.Order.StaffCreate
         private readonly IUserRepository _userRepository;
         private readonly IVnPayService _vnPayService;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ICounterRepository _counterRepository;
 
 
         public CreateOrderByStaffCommandHandler(ICurrentUserService currentUserService
@@ -44,7 +45,8 @@ namespace JewelrySalesSystem.Application.Order.StaffCreate
             , IDiamondService diamondService
             , IUserRepository userRepository
             , IVnPayService vnPayService
-            , IHttpContextAccessor httpContextAccessor)
+            , IHttpContextAccessor httpContextAccessor
+            , ICounterRepository counterRepository)
         {
             _currentUserService = currentUserService;
             _productRepository = productRepository;
@@ -57,6 +59,7 @@ namespace JewelrySalesSystem.Application.Order.StaffCreate
             _userRepository = userRepository;
             _vnPayService = vnPayService;
             _httpContextAccessor = httpContextAccessor;
+            _counterRepository = counterRepository;
         }
         public async Task<string> Handle(CreateOrderByStaffCommand command, CancellationToken cancellationToken)
         {
@@ -78,6 +81,13 @@ namespace JewelrySalesSystem.Application.Order.StaffCreate
                 throw new NotFoundException("Không tìm thấy ưu đãi với ID: " + command.PromotionID);
             }
 
+            var staff = await _userRepository.FindAsync(x => x.ID == _currentUserService.UserId && x.DeletedAt == null, cancellationToken);
+            if (staff == null || staff.Status == UserStatus.BANNED)
+            {
+                throw new NotFoundException("Staff không tồn tại hoặc đã bị BAN");
+            }            
+
+
             OrderEntity order = new OrderEntity
             {
                 BuyerID = command.BuyerID,
@@ -86,6 +96,7 @@ namespace JewelrySalesSystem.Application.Order.StaffCreate
                 Status = existMethod.Name == "COD" ? OrderStatus.COMPLETED : OrderStatus.PENDING,
                 TotalCost = 0,
                 Type = OrderType.AT_SHOP_ORDER,
+                CounterID = staff.CounterID,
                 CreatedAt = DateTime.Now,
                 CreatorID = _currentUserService.UserId,
                 PromotionID = command.PromotionID.IsNullOrEmpty() ? null : existPromotion.ID,
