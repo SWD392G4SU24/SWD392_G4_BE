@@ -23,6 +23,10 @@ namespace JewelrySalesSystem.Application.Users
         {
             profile.CreateMap<UserEntity, UserDto>();
         }
+        public UserDto()
+        {
+            
+        }
         public UserDto(string id, string fullName, string email, string phoneNumber, string address, int roleID, string role, int point)
         {
             ID = id;
