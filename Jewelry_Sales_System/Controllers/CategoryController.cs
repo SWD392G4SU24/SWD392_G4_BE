@@ -6,8 +6,8 @@ using JewelrySalesSystem.Application.Category.GetByID;
 using JewelrySalesSystem.Application.Category.GetByPagination;
 using JewelrySalesSystem.Application.Category.Update;
 using JewelrySalesSystem.Application.Common.Pagination;
-using JewelrySalesSystem.Application.Common.Security;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 
@@ -16,7 +16,7 @@ namespace Jewelry_Sales_System.API.Controllers
 {
     [Authorize]
     [ApiController]
-    public class CategoryController : Controller
+    public class CategoryController : ControllerBase
     {
         private readonly IMediator _mediator;
         public CategoryController(IMediator mediator)

@@ -1,6 +1,4 @@
-﻿using JewelrySalesSystem.Application.Common.Security;
-using JewelrySalesSystem.Application.Product;
-using JewelrySalesSystem.Application.Promotion;
+﻿using JewelrySalesSystem.Application.Promotion;
 using JewelrySalesSystem.Application.Promotion.CreatePromotion;
 using JewelrySalesSystem.Application.Promotion.DeletePromotion;
 using JewelrySalesSystem.Application.Promotion.GetAll;
@@ -8,6 +6,7 @@ using JewelrySalesSystem.Application.Promotion.GetById;
 using JewelrySalesSystem.Application.Promotion.NewFolder;
 using JewelrySalesSystem.Application.Promotion.UpdatePromotion;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 

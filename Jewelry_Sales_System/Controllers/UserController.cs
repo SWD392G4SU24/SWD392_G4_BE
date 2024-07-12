@@ -1,6 +1,5 @@
 ﻿using JewelrySalesSystem.Application.Common.Interfaces;
 using JewelrySalesSystem.Application.Common.Pagination;
-using JewelrySalesSystem.Application.Common.Security;
 using JewelrySalesSystem.Application.Users;
 using JewelrySalesSystem.Application.Users.CreateNewUser;
 using JewelrySalesSystem.Application.Users.CurrrentUser;
@@ -15,7 +14,6 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
-using AuthorizeAttribute = JewelrySalesSystem.Application.Common.Security.AuthorizeAttribute;
 
 namespace Jewelry_Sales_System.API.Controllers
 {
