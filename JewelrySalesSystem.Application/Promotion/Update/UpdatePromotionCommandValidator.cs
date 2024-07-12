@@ -16,6 +16,8 @@ namespace JewelrySalesSystem.Application.Promotion.UpdatePromotion
 
         private void OnValidate()
         {
+            RuleFor(x => x.ID)
+                .NotNull().WithMessage("ID không được để trống");
             RuleFor(x => x.ReducedPercent)
                 .NotNull().
                 WithMessage("ReducedPercent không được để trống");
@@ -25,12 +27,6 @@ namespace JewelrySalesSystem.Application.Promotion.UpdatePromotion
             RuleFor(x => x.ReducedPercent)
                 .LessThan(100).
                 WithMessage("ReducedPercent phải nhỏ hơn 100");
-            RuleFor(x => x.ExpiresTime)
-                .NotNull().
-                WithMessage("ExpiresTime không được để trống");
-            RuleFor(x => x.ExpiresTime)
-                .Must(NotBeInPast).
-                WithMessage("ExpiresTime không được là năm cũ");
             RuleFor(x => x.ConditionsOfUse)
                 .NotNull().
                 WithMessage("ConditionsOfUse không được để trống");

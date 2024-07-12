@@ -23,8 +23,8 @@ namespace JewelrySalesSystem.Application.Form.GetAll
 
         public async Task<List<FormDto>> Handle(GetAllFormQuery request, CancellationToken cancellationToken)
         {
-            var responseList = await _formRepository.FindAllAsync(x => x.DeletedAt == null, cancellationToken)
-                ?? throw new NotFoundException("Không tìm thấy form nào!");
+            var responseList = await _formRepository.FindAllAsync(x => x.DeletedAt == null, cancellationToken);
+            if(!responseList.Any()) throw new NotFoundException("Không tìm thấy form nào!");
             return responseList.MapToFormDtoList(_mapper);
         }
     }

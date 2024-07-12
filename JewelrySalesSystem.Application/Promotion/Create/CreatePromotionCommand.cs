@@ -20,7 +20,8 @@ namespace JewelrySalesSystem.Application.Promotion.CreatePromotion
         public  float ReducedPercent { get; set; }
         public  decimal MaximumReduce { get; set; }
         public  int ExchangePoint { get; set; }
-        public  DateTime ExpiresTime { get; set; }
+        public  DateTime ExpiresTime { get; set; }  
+
 
     }
 

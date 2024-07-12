@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using JewelrySalesSystem.Domain.Repositories.ConfiguredEntity;
+using JewelrySalesSystem.Domain.Commons.Exceptions;
 
 namespace JewelrySalesSystem.Application.Diamond.Db_GetAll
 {
@@ -27,7 +28,7 @@ namespace JewelrySalesSystem.Application.Diamond.Db_GetAll
         {
              var listDiamond = await _diamondRepository
                             .FindAllAsync(cancellationToken);
-    
+            if (!listDiamond.Any()) throw new NotFoundException("Không tìm thấy Diamond nào");    
             var mostRecentDiamonds = listDiamond.GroupBy(x => x.Name)
                             .Select(g => g.OrderByDescending(d => d.CreatedAt).First())
                             .ToList();
