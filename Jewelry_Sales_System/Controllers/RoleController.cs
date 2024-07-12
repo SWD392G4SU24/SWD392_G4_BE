@@ -1,5 +1,5 @@
-﻿using AutoMapper;
-using JewelrySalesSystem.Application.Common.Pagination;
+﻿using JewelrySalesSystem.Application.Common.Pagination;
+using JewelrySalesSystem.Application.Common.Security;
 using JewelrySalesSystem.Application.Role;
 using JewelrySalesSystem.Application.Role.CreateRole;
 using JewelrySalesSystem.Application.Role.Delete;
@@ -7,9 +7,7 @@ using JewelrySalesSystem.Application.Role.GetAll;
 using JewelrySalesSystem.Application.Role.GetById;
 using JewelrySalesSystem.Application.Role.GetByPagination;
 using JewelrySalesSystem.Application.Role.Update;
-using JewelrySalesSystem.Application.Users.CreateNewUser;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 
@@ -17,7 +15,7 @@ namespace Jewelry_Sales_System.API.Controllers
 {
     [Authorize]
     [ApiController]
-    public class RoleController : Controller
+    public class RoleController : ControllerBase
     {
         private readonly IMediator _mediator;
         public RoleController(IMediator mediator)
@@ -80,7 +78,7 @@ namespace Jewelry_Sales_System.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<JsonResponse<string>>> UpdateRole(UpdateRoleCommand command
+        public async Task<ActionResult<JsonResponse<string>>> UpdateRole([FromBody] UpdateRoleCommand command
             , CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(command, cancellationToken);

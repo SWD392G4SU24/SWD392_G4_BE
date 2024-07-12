@@ -31,7 +31,7 @@ namespace Jewelry_Sales_System.API.Controllers
 
         [AllowAnonymous]
         [HttpGet("signin-google-callback")]
-        public async Task<IActionResult> SignInGoogleCallback(string returnUrl = "/")
+        public async Task<IActionResult> SignInGoogleCallback([FromQuery] string returnUrl = "/")
         {
             var query = new SignInGoogleCallbackQuery(HttpContext);
             var result = await _mediator.Send(query);

@@ -16,10 +16,27 @@ namespace JewelrySalesSystem.Application.Users
         public string Email { get; set; }
         public string PhoneNumber {  get; set; }
         public string Address { get; set; }
+        public int RoleID {  get; set; }
+        public string Role { get; set; }
         public int Point {  get; set; }
         public void Mapping(Profile profile)
         {
             profile.CreateMap<UserEntity, UserDto>();
+        }
+        public UserDto()
+        {
+            
+        }
+        public UserDto(string id, string fullName, string email, string phoneNumber, string address, int roleID, string role, int point)
+        {
+            ID = id;
+            FullName = fullName;
+            Email = email;
+            PhoneNumber = phoneNumber;
+            Address = address;
+            RoleID = roleID;
+            Role = role;
+            Point = point;
         }
     }
 }
