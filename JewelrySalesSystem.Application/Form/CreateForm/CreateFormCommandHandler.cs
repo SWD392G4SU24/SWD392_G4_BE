@@ -3,6 +3,7 @@ using JewelrySalesSystem.Domain.Commons.Exceptions;
 using JewelrySalesSystem.Domain.Entities;
 using JewelrySalesSystem.Domain.Repositories;
 using MediatR;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -36,39 +37,34 @@ namespace JewelrySalesSystem.Application.Form.CreateForm
 
             if (request.Type.Equals(FormType.REFUND) &&
                 (order.Status.Equals(OrderStatus.PAID) || order.Status.Equals(OrderStatus.COMPLETED)) &&
-                 (DateTime.Now - (DateTime)order.LastestUpdateAt).TotalDays > 45)
+                 (DateTime.Now - (DateTime)order.LastestUpdateAt).TotalDays > 2)
             {
-                throw new NotFoundException("Đơn hàng đã thanh toán quá 45 ngày sẽ không được chọn REFUND");
+                return "Đơn hàng đã thanh toán quá 2 ngày sẽ không được chọn REFUND, Vui lòng chọn lại Type";
             }
 
             if (request.Type.Equals(FormType.REFUND) &&
                 !order.Status.Equals(OrderStatus.PAID) && !order.Status.Equals(OrderStatus.COMPLETED))
             {
-                throw new NotFoundException("Đơn hàng vẫn còn đang trong tình trạng" + order.Status + "sẽ không được chọn REFUND");
+                return "Đơn hàng vẫn còn đang trong tình trạng " + order.Status + " sẽ không được chọn REFUND, Vui lòng chọn lại Type";
             }
 
             if (request.Type.Equals(FormType.MAINTENANCE) &&
                  order.Status.Equals(OrderStatus.COMPLETED) &&
                  (DateTime.Now - (DateTime)order.LastestUpdateAt).TotalDays > 750)
             {
-                throw new NotFoundException("Đơn hàng đã thanh toán quá 2 năm sẽ không được chọn MAINTENANCE");
+                return "Đơn hàng đã thanh toán quá 2 năm sẽ không được chọn MAINTENANCE, Vui lòng chọn lại Type";
             }
 
-            if (request.Type.Equals(FormType.REFUND) &&
+            if (request.Type.Equals(FormType.MAINTENANCE) &&
                   !order.Status.Equals(OrderStatus.COMPLETED))
             {
-                throw new NotFoundException("Đơn hàng vẫn còn đang trong tình trạng" + order.Status +  "sẽ không được chọn MAINTENANCE");
+                return "Đơn hàng vẫn còn đang trong tình trạng " + order.Status + " sẽ không được chọn MAINTENANCE, Vui lòng chọn lại Type";
             }
 
-            if (request.Type.Equals(FormType.MAINTENANCE) && order.Status.Equals(OrderStatus.COMPLETED))
-            {
-                if((DateTime.Now - (DateTime)order.LastestUpdateAt).TotalDays > 730)
-                throw new NotFoundException("Đơn hàng đã thanh toán quá 2 năm sẽ không được chọn MAINTENANCE");
-            }
 
             var form = new FormEntity
                 {
-                    AppoinmentDate = DateTime.Now,
+                    AppoinmentDate = DateTime.Today.AddDays(2),
                     Content = request.Content.IsNullOrEmpty() ? null : request.Content,
                     Status = FormStatus.PENDING,
                     Type = request.Type,

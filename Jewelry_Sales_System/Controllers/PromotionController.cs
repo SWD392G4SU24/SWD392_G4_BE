@@ -1,4 +1,5 @@
-﻿using JewelrySalesSystem.Application.Common.Security;
+﻿using JewelrySalesSystem.Application.Common.Pagination;
+using JewelrySalesSystem.Application.Common.Security;
 using JewelrySalesSystem.Application.Product;
 using JewelrySalesSystem.Application.Promotion;
 using JewelrySalesSystem.Application.Promotion.CreatePromotion;
@@ -40,19 +41,19 @@ namespace Jewelry_Sales_System.API.Controllers
         }  
         
         [HttpGet]
-        [Route("[controller]/user")]
-        [ProducesResponseType(typeof(JsonResponse<List<PromotionByUserDto>>), StatusCodes.Status200OK)]
+        [Route("[controller]/get-user")]
+        [ProducesResponseType(typeof(JsonResponse<PagedResult<PromotionDto>>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<List<PromotionByUserDto>>> GetPromotionByUser(
+        public async Task<ActionResult<PagedResult<PromotionDto>>> GetPromotionByUser(
             [FromQuery] GetPromotionByUserQuery query,
             CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(query, cancellationToken);
-            return result != null ? Ok(new JsonResponse<List<PromotionByUserDto>>(result)) : NotFound();
+            return result != null ? Ok(new JsonResponse<PagedResult<PromotionDto>>(result)) : NotFound();
         }
 
 

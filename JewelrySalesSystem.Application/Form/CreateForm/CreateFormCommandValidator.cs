@@ -19,10 +19,6 @@ namespace JewelrySalesSystem.Application.Form.CreateForm
         {
             RuleFor(x => x.Content)
                 .MaximumLength(255);
-            RuleFor(x => x.AppointmentDate)
-                .NotNull().WithMessage("AppointmentDate không được để trống");
-            RuleFor(x => x.AppointmentDate)
-                .Must(NotBeInPast).WithMessage("AppointmentDate không được là năm cũ hay cùng ngày tháng năm");
             RuleFor(x => x.TypeString)
                 .NotNull().WithMessage("TypeString không được để trống");
             RuleFor(x => x.TypeString).

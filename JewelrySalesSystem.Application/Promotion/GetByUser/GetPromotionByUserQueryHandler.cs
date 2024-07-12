@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using JewelrySalesSystem.Application.Common.Pagination;
+using JewelrySalesSystem.Application.Role;
 using JewelrySalesSystem.Domain.Commons.Exceptions;
 using JewelrySalesSystem.Domain.Repositories;
 using MediatR;
@@ -7,10 +9,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace JewelrySalesSystem.Application.Promotion.GetByUser
 {
-    public class GetPromotionByUserQueryHandler : IRequestHandler<GetPromotionByUserQuery, List<PromotionByUserDto>>
+    public class GetPromotionByUserQueryHandler : IRequestHandler<GetPromotionByUserQuery, PagedResult<PromotionDto>>
     {
         private readonly IUserRepository _userRepository;
         private readonly IPromotionRepository _promotionRepository;
@@ -23,14 +26,21 @@ namespace JewelrySalesSystem.Application.Promotion.GetByUser
             _mapper = mapper;
         }
 
-        public async Task<List<PromotionByUserDto>> Handle(GetPromotionByUserQuery request, CancellationToken cancellationToken)
+        public async Task<PagedResult<PromotionDto>> Handle(GetPromotionByUserQuery query, CancellationToken cancellationToken)
         {
-            var promotionList = await _promotionRepository.FindAllAsync(x => x.UserID == request.UserId, cancellationToken);
-            if (!promotionList.Any()) throw new NotFoundException("Không tìm thấy promtion nào với UserID:" + request.UserId);
-            var user = await _userRepository.FindAsync(x=> x.ID == request.UserId && x.DeletedAt == null, cancellationToken)
-            ?? throw new NotFoundException("User không tồn tại");
-            return promotionList.MapToPromotionByUserDtoList(_mapper);
-            
+            var user = await _userRepository.FindAsync(x => x.ID == query.UserId && x.DeletedAt == null, cancellationToken)
+           ?? throw new NotFoundException("User không tồn tại");
+            var promotionList = await _promotionRepository.FindAsync(x => x.UserID == query.UserId, cancellationToken)
+            ?? throw new NotFoundException("Không tìm thấy promtion nào với UserID:" + query.UserId);
+            var list = await _promotionRepository.FindAllAsync(x => x.DeletedAt == null, query.PageNumber, query.PageSize, cancellationToken);
+            return PagedResult<PromotionDto>.Create
+            (
+                totalCount: list.TotalCount,
+                pageCount: list.PageCount,
+                pageSize: list.PageSize,
+                pageNumber: list.PageNo,
+                data: list.MapToPromotionDtoList(_mapper)
+                );
         }
     }
 }

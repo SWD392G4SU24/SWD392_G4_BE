@@ -13,10 +13,10 @@ namespace JewelrySalesSystem.Application.Form.CreateForm
 {
     public class CreateFormCommand : IRequest<string>, ICommand
     {
-        public CreateFormCommand(string content, DateTime appointmentDate, string typeString, string orderId)
+        public CreateFormCommand(string content, string typeString, string orderId)
         {
             Content = content;
-            AppointmentDate = appointmentDate;
+
             Type = ParseFormType(typeString);
             OrderId = orderId;
             TypeString = typeString; // Set TypeString after parsing to FormType
@@ -30,7 +30,6 @@ namespace JewelrySalesSystem.Application.Form.CreateForm
         public string TypeString { get; set; }
 
         public string Content { get; set; }
-        public DateTime AppointmentDate { get; set; }
 
         private FormType ParseFormType(string type)
         {

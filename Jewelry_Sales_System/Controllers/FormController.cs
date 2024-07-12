@@ -71,6 +71,10 @@ namespace Jewelry_Sales_System.API.Controllers
           CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(command, cancellationToken);
+            if(result.Contains("Vui lòng chọn lại Type"))
+                {
+                return BadRequest(new JsonResponse<string>(result));
+                }
             return Ok(new JsonResponse<string>(result));
         }
 
