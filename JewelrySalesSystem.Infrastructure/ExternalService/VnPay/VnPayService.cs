@@ -52,6 +52,6 @@ namespace JewelrySalesSystem.Infrastructure.ExternalService.VnPay
             var response = pay.GetFullResponseData(collections, _configuration["Vnpay:HashSecret"]);
 
             return response;
-        }
+        }        
     }
 }
