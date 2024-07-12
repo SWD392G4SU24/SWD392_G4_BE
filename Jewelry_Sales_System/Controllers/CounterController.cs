@@ -2,6 +2,7 @@
 using JewelrySalesSystem.Application.Counter;
 using JewelrySalesSystem.Application.Counter.CreateCounter;
 using JewelrySalesSystem.Application.Counter.Delete;
+using JewelrySalesSystem.Application.Counter.FilterCounter;
 using JewelrySalesSystem.Application.Counter.FilterRevenue;
 using JewelrySalesSystem.Application.Counter.GetAll;
 using JewelrySalesSystem.Application.Counter.GetById;
@@ -44,6 +45,19 @@ namespace Jewelry_Sales_System.API.Controllers
                 return BadRequest(new JsonResponse<string>(result));
             }
             return Ok(new JsonResponse<string>(result));
+        }
+
+        [HttpGet("filter-counter")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(JsonResponse<PagedResult<CounterDto>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<PagedResult<CounterDto>>>> GetByFilter([FromQuery] FilterCounterQuery query, CancellationToken cancellationToken = default)
+        {
+            var result = await _mediator.Send(query, cancellationToken);
+            return Ok(result);
         }
 
         [HttpGet("counter/pagination")]
