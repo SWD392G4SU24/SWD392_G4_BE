@@ -31,4 +31,9 @@
     <ProjectReference Include="..\JewelrySalesSystem.Infrastructure\JewelrySalesSystem.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Category\CurrentCategory\" />
+    <Folder Include="Counter\CurrentCounter\" />
+  </ItemGroup>
+
 </Project>
