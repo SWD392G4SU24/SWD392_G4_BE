@@ -98,6 +98,20 @@ namespace JewelrySalesSystem.Infrastructure.Repositories
                 cancellationToken);
         }
         public virtual async Task<IPagedResult<TDomain>> FindAllAsync(
+            int pageNo,
+            int pageSize,
+            Func<IQueryable<TPersistence>, IQueryable<TPersistence>> queryOptions,
+            CancellationToken cancellationToken = default)
+        {
+            var query = QueryInternal(queryOptions);
+            return await PagedList<TDomain>.CreateAsync(
+                query,
+                pageNo,
+                pageSize,
+                cancellationToken);
+        }
+
+        public virtual async Task<IPagedResult<TDomain>> FindAllAsync(
             Expression<Func<TPersistence, bool>> filterExpression,
             int pageNo,
             int pageSize,
@@ -123,6 +137,7 @@ namespace JewelrySalesSystem.Infrastructure.Repositories
         {
             return await QueryInternal(filterExpression, queryOptions).SingleOrDefaultAsync<TDomain>(cancellationToken);
         }
+
         protected virtual IQueryable<TPersistence> QueryInternal(Expression<Func<TPersistence, bool>>? filterExpression)
         {
             var queryable = CreateQuery();
@@ -140,6 +155,15 @@ namespace JewelrySalesSystem.Infrastructure.Repositories
             queryable = queryable.Where(filterExpression);
             var result = queryOptions(queryable);
             return result;
+        }
+        protected virtual IQueryable<TPersistence> QueryInternal(Func<IQueryable<TPersistence>, IQueryable<TPersistence>>? queryOptions)
+        {
+            var queryable = CreateQuery();
+            if (queryOptions != null)
+            {
+                queryable = queryOptions(queryable);
+            }
+            return queryable;
         }
 
         public async Task<Dictionary<TKey, TValue>> FindAllToDictionaryAsync<TKey, TValue>(
