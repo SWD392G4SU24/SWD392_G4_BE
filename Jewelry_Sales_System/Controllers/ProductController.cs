@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 using JewelrySalesSystem.Application.Product;
@@ -7,7 +7,10 @@ using JewelrySalesSystem.Application.Product.Create;
 using JewelrySalesSystem.Application.Product.Update;
 using JewelrySalesSystem.Application.Product.Delete;
 using JewelrySalesSystem.Application.Product.GetByID;
+using JewelrySalesSystem.Application.Common.Pagination;
+using JewelrySalesSystem.Application.Product.FliterProduct;
 using Microsoft.AspNetCore.Authorization;
+
 
 
 namespace Jewelry_Sales_System.API.Controllers
@@ -53,6 +56,21 @@ namespace Jewelry_Sales_System.API.Controllers
             var result = await _mediator.Send(new GetProductByIDQuery(iD : id), cancellationToken);
             return result != null ? Ok(result) : NotFound();
         }
+        [HttpGet]
+        [Route("[controller]/filter-user")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(JsonResponse<PagedResult<ProductDto>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<PagedResult<ProductDto>>>> GetByFilter([FromQuery] FilterProductQuery query
+            , CancellationToken cancellationToken = default)
+        {
+            var result = await _mediator.Send(query, cancellationToken);
+            return Ok(result);
+        }
+
 
         [HttpPost]
         [Route("[controller]/create")]

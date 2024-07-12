@@ -35,7 +35,6 @@ namespace JewelrySalesSystem.Application.Product.Update
 
         public async Task<string> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
-            //categoryEntity đức anh làm, nên tui thêm để tượng trưng là có checkExist r
             var category = await _categoryRepository.FindAsync(c => c.ID == request.CategoryID && c.DeletedAt == null, cancellationToken)
                 ?? throw new NotFoundException("Category không tồn tại");
 
