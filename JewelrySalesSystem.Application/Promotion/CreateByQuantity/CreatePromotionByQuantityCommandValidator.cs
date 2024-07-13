@@ -24,7 +24,7 @@ namespace JewelrySalesSystem.Application.Promotion.CreateByQuantity
 
             RuleFor(x => x.ExpiresTime)
                 .NotNull().WithMessage("ExpiresTime không được để trống")
-                .Must(NotBeInPast).WithMessage("ExpiresTime không được là năm cũ");
+                .Must(NotBeInPast).WithMessage("ExpiresTime không hợp lệ");
 
             RuleFor(x => x.ConditionsOfUse)
                 .NotNull().WithMessage("ConditionsOfUse không được để trống")
@@ -36,16 +36,14 @@ namespace JewelrySalesSystem.Application.Promotion.CreateByQuantity
                 .LessThan(100). WithMessage("MaximumReduce không được nhỏ hơn 100");
 
             RuleFor(x => x.ExchangePoint)
-                .NotNull().
-                WithMessage("ExchangePoint không được để trống")
-                .GreaterThanOrEqualTo(1).
-                WithMessage("ExchangePoint không được bằng 0");
+                .NotNull().WithMessage("ExchangePoint không được để trống")
+                .GreaterThanOrEqualTo(1).WithMessage("ExchangePoint không được bằng 0");
 
             RuleFor(x => x.Description).MaximumLength(255);
         }
         private bool NotBeInPast(DateTime time)
         {
-            return time.DayOfYear > DateTime.Now.DayOfYear;
+            return time.Date >= DateTime.Now.Date;
         }
     }
 }
