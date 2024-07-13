@@ -17,11 +17,13 @@ namespace JewelrySalesSystem.Application.Order.GetByID
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IMapper _mapper;
+        private readonly IProductRepository _productRepository;
 
-        public GetByOrderIDQueryHandler(IOrderRepository orderRepository, IMapper mapper)
+        public GetByOrderIDQueryHandler(IOrderRepository orderRepository, IMapper mapper, IProductRepository productRepository)
         {
             _orderRepository = orderRepository;
             _mapper = mapper;
+            _productRepository = productRepository;
         }
 
         public async Task<OrderDto> Handle(GetByOrderIDQuery request, CancellationToken cancellationToken)
@@ -29,7 +31,10 @@ namespace JewelrySalesSystem.Application.Order.GetByID
 
             var order = await _orderRepository.FindAsync(s => s.ID == request.Id && s.DeletedAt == null, cancellationToken)
                 ?? throw new NotFoundException("Order không tồn tại");
-            return order.MapToOrderDto(_mapper, order.Counter?.Name, order.User.FullName, order.PaymentMethod.Name);
+            var productNames = await _productRepository.FindAllToDictionaryAsync(x => x.DeletedAt == null, x => x.ID, x => x.Name, cancellationToken);
+            var productImgUrl = await _productRepository.FindAllToDictionaryAsync(x => x.DeletedAt == null, x => x.ID, x => x.ImageURL, cancellationToken);
+
+            return order.MapToOrderDto(_mapper, order.Counter?.Name, order.User.FullName, order.PaymentMethod.Name, productNames, productImgUrl);
 
         }
     }

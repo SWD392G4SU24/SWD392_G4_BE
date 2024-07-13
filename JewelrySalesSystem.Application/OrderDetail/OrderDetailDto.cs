@@ -13,18 +13,37 @@ namespace JewelrySalesSystem.Application.OrderDetail
 {
     public class OrderDetailDto : IMapFrom<OrderDetailEntity>
     {
+        public OrderDetailDto()
+        {
+            
+        }
         public void Mapping(Profile profile)
         {
             profile.CreateMap<OrderDetailEntity, OrderDetailDto>();
         }
-        public required string ID { get; set; }
-        public required string OrderID { get; set; }
-        public required string ProductID { get; set; }
-        public required int Quantity { get; set; }
-        public required decimal ProductCost { get; set; } // TotalCost của detail
+        public string ID { get; set; }
+        public string OrderID { get; set; }
+        public string ProductID { get; set; }
+        public string Product {  get; set; }
+        public string? ProductImgUrl {  get; set; }
+        public int Quantity { get; set; }
+        public decimal ProductCost { get; set; } // TotalCost của detail
         public decimal? GoldSellCost { get; set; } // Gía bán cho customer
         public decimal? GoldBuyCost { get; set; } // Gía mua lại từ customer
         public decimal? DiamondSellCost { get; set; }
 
+        public OrderDetailDto(string id, string orderID, string productID, string product, string productImgUrl, int quantity
+            , decimal productCost, decimal? goldSellCost, decimal? diamondSellCost)
+        {
+            ID = id;
+            OrderID = orderID;
+            ProductID = productID;
+            Product = product;
+            ProductImgUrl = productImgUrl;
+            Quantity = quantity;
+            ProductCost = productCost;
+            GoldSellCost = goldSellCost;
+            DiamondSellCost = diamondSellCost;
+        }
     }
 }
