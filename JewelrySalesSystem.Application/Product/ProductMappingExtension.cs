@@ -27,5 +27,6 @@ namespace JewelrySalesSystem.Application.Product
                 x.DiamondID.HasValue && diamondType != null && diamondType.ContainsKey(x.DiamondID.Value) ? diamondType[x.DiamondID.Value] : null,
                 category.ContainsKey(x.CategoryID) ? category[x.CategoryID] : "Lỗi"
             )).ToList();
+
     }
 }

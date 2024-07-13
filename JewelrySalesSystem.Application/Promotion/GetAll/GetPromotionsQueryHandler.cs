@@ -24,8 +24,8 @@ namespace JewelrySalesSystem.Application.Promotion.GetPromotion
         public async Task<List<PromotionDto>> Handle(GetPromotionsQuery request, CancellationToken cancellationToken)
         {
             // Logic to retrieve promotions base on query parameters(if any)
-            var promotions = await _promotionRepository.FindAllAsync(x => x.DeletedAt == null, cancellationToken)
-                ?? throw new NotFoundException("Không tìm thấy promtion nào");
+            var promotions = await _promotionRepository.FindAllAsync(x => x.DeletedAt == null, cancellationToken);
+               if(!promotions.Any()) throw new NotFoundException("Không tìm thấy promtion nào");
             return promotions.MapToPromotionDtoList(_mapper);
         }
     }

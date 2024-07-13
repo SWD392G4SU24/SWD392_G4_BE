@@ -1,15 +1,16 @@
-﻿using AutoMapper;
-using JewelrySalesSystem.Application.Common.Pagination;
-using JewelrySalesSystem.Application.Common.Security;
+﻿using JewelrySalesSystem.Application.Common.Pagination;
 using JewelrySalesSystem.Application.Counter;
 using JewelrySalesSystem.Application.Counter.CreateCounter;
 using JewelrySalesSystem.Application.Counter.Delete;
+using JewelrySalesSystem.Application.Counter.FilterCounter;
+using JewelrySalesSystem.Application.Counter.FilterRevenue;
 using JewelrySalesSystem.Application.Counter.GetAll;
 using JewelrySalesSystem.Application.Counter.GetById;
 using JewelrySalesSystem.Application.Counter.GetByPagination;
 using JewelrySalesSystem.Application.Counter.Update;
 using JewelrySalesSystem.Application.Role;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 
@@ -46,9 +47,22 @@ namespace Jewelry_Sales_System.API.Controllers
             return Ok(new JsonResponse<string>(result));
         }
 
+        [HttpGet("filter-counter")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(JsonResponse<PagedResult<CounterDto>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<PagedResult<CounterDto>>>> GetByFilter([FromQuery] FilterCounterQuery query, CancellationToken cancellationToken = default)
+        {
+            var result = await _mediator.Send(query, cancellationToken);
+            return Ok(result);
+        }
+
         [HttpGet("counter/pagination")]
         [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(JsonResponse<PagedResult<RoleDto>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(JsonResponse<PagedResult<CounterDto>>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -116,6 +130,21 @@ namespace Jewelry_Sales_System.API.Controllers
         {
             var result = await this._mediator.Send(new GetAllCounterQuery(), cancellationToken);
             return result != null ? Ok(new JsonResponse<List<CounterDto>>(result)) : NotFound();
+        }
+
+        [HttpGet("counter/filter-revenue")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(JsonResponse<PagedResult<CounterRevenueDto>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<PagedResult<CounterRevenueDto>>>> FilterRevenue(
+            [FromQuery] FilterCounterRevenueQuery query
+            , CancellationToken cancellationToken = default)
+        {
+            var result = await _mediator.Send(query, cancellationToken);
+            return Ok(result);
         }
     }
 }

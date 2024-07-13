@@ -80,23 +80,28 @@ namespace JewelrySalesSystem.Application.Order.UpdateOrder
                         throw new NotFoundException("Không tìm thấy sản phẩm với ID: " + updatedOrderDetail.Value.ProductID);
                     }
 
-                    decimal gCost = 0;
+                    decimal gbCost = 0;
+                    decimal gsCost = 0;
                     if (existProduct.GoldID != null)
                     {
-                        gCost = _goldService.GetGoldPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == existProduct.Gold.Name).BuyCost;
+                        gbCost = _goldService.GetGoldPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == existProduct.Gold.Name).BuyCost;
+                        gsCost = _goldService.GetGoldPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == existProduct.Gold.Name).SellCost;
                     }
-                    decimal dCost = 0;
+                    decimal dsCost = 0;
                     if (existProduct.DiamondID != null)
                     {
-                        dCost = _diamondService.GetDiamondPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == existProduct.Diamond.Name).BuyCost;
+                        dsCost = _diamondService.GetDiamondPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == existProduct.Diamond.Name).SellCost;
                     }
 
                     OrderDetailEntity newOrderDetail = new OrderDetailEntity
                     {
                         OrderID = order.ID,
-                        ProductID = updatedOrderDetail.Value.ProductID,
+                        ProductID = updatedOrderDetail.Key,
+                        ProductCost = (existProduct.WageCost + (gsCost == 0 ? gbCost : gsCost) + dsCost) * updatedOrderDetail.Value.Quantity,
+                        GoldBuyCost = existProduct.GoldID != null ? gbCost : null,
+                        GoldSellCost = existProduct.GoldID != null ? gsCost : null,
+                        DiamondSellCost = existProduct.DiamondID != null ? dsCost : null,
                         Quantity = updatedOrderDetail.Value.Quantity,
-                        ProductCost = (existProduct.WageCost + gCost + dCost) * updatedOrderDetail.Value.Quantity,
                         CreatedAt = DateTime.Now,
                         CreatorID = _currentUserService.UserId,
                     };
@@ -110,18 +115,23 @@ namespace JewelrySalesSystem.Application.Order.UpdateOrder
                     var orderDetail = existingOrderDetails[updatedOrderDetail.Key];
                     orderDetail.Quantity = updatedOrderDetail.Value.Quantity;
 
-                    decimal gCost = 0;
+                    decimal gbCost = 0;
+                    decimal gsCost = 0;
                     if (orderDetail.Product.GoldID != null)
                     {
-                        gCost = _goldService.GetGoldPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == orderDetail.Product.Gold.Name).BuyCost;
+                        gbCost = _goldService.GetGoldPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == orderDetail.Product.Gold.Name).BuyCost;
+                        gsCost = _goldService.GetGoldPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == orderDetail.Product.Gold.Name).SellCost;
                     }
-                    decimal dCost = 0;
+                    decimal dsCost = 0;
                     if (orderDetail.Product.DiamondID != null)
                     {
-                        dCost = _diamondService.GetDiamondPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == orderDetail.Product.Diamond.Name).BuyCost;
+                        dsCost = _diamondService.GetDiamondPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == orderDetail.Product.Diamond.Name).SellCost;
                     }
 
-                    orderDetail.ProductCost = (orderDetail.Product.WageCost + gCost + dCost) * updatedOrderDetail.Value.Quantity;
+                    orderDetail.ProductCost = (orderDetail.Product.WageCost + (gsCost == 0 ? gbCost : gsCost) + dsCost) * updatedOrderDetail.Value.Quantity;
+                    orderDetail.GoldBuyCost = orderDetail.Product.GoldID != null ? gbCost : null;
+                    orderDetail.GoldSellCost = orderDetail.Product.GoldID != null ? gsCost : null;
+                    orderDetail.DiamondSellCost = orderDetail.Product.DiamondID != null ? dsCost : null;
                     orderDetail.UpdaterID = _currentUserService.UserId;
                     orderDetail.LastestUpdateAt = DateTime.Now;
                     _orderDetailRepository.Update(orderDetail);

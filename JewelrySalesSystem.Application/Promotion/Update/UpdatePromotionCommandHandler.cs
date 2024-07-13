@@ -33,7 +33,6 @@ namespace JewelrySalesSystem.Application.Promotion.UpdatePromotion
             promotion.ConditionsOfUse = request.ConditionsOfUse;
             promotion.Description = request.Description ?? request.Description;
             promotion.ReducedPercent = request.ReducedPercent;
-            promotion.ExpiresTime = request.ExpiresTime;
             promotion.ExchangePoint = request.ExchangePoint;
             promotion.MaximumReduce = request.MaximumReduce;
             promotion.UpdaterID = _currentUserService.UserId;

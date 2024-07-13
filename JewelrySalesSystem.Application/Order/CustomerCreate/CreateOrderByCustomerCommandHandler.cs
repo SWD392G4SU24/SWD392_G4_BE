@@ -92,22 +92,28 @@ namespace JewelrySalesSystem.Application.Order.CustomerCreate
                     return "Sản phẩm trong kho không đủ";
                 }
 
-                decimal gCost = 0;
+                // lấy giá vàng và giá kc ( khách hàng mua -> SellCost, 1 số loại vàng sellCost = buyCost ) mới nhất
+                decimal gbCost = 0;
+                decimal gsCost = 0;
                 if (existProduct.GoldID != null)
                 {
-                    gCost =  _goldService.GetGoldPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == existProduct.Gold.Name).BuyCost;
+                    gbCost = _goldService.GetGoldPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == existProduct.Gold.Name).BuyCost;
+                    gsCost = _goldService.GetGoldPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == existProduct.Gold.Name).SellCost;
                 }
-                decimal dCost = 0;
+                decimal dsCost = 0;
                 if (existProduct.DiamondID != null)
                 {
-                    dCost = _diamondService.GetDiamondPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == existProduct.Diamond.Name).BuyCost;
+                    dsCost = _diamondService.GetDiamondPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == existProduct.Diamond.Name).SellCost;
                 }
 
                 orderDetails.Add(new OrderDetailEntity
                 {
                     OrderID = order.ID,
                     ProductID = item.ProductID,
-                    ProductCost = (existProduct.WageCost + gCost + dCost) * item.Quantity,
+                    ProductCost = (existProduct.WageCost + (gsCost == 0 ? gbCost : gsCost) + dsCost) * item.Quantity,
+                    GoldBuyCost = existProduct.GoldID != null ? gbCost : null,
+                    GoldSellCost = existProduct.GoldID != null ? gsCost : null,
+                    DiamondSellCost = existProduct.DiamondID != null ? dsCost : null,
                     Quantity = item.Quantity,
                     CreatedAt = DateTime.Now,
                     CreatorID = _currentUserService.UserId,

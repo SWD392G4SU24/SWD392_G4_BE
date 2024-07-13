@@ -1,13 +1,14 @@
 ﻿using JewelrySalesSystem.Application.Category;
 using JewelrySalesSystem.Application.Category.Create;
 using JewelrySalesSystem.Application.Category.Delete;
+using JewelrySalesSystem.Application.Category.FilterCategory;
 using JewelrySalesSystem.Application.Category.GetAll;
 using JewelrySalesSystem.Application.Category.GetByID;
 using JewelrySalesSystem.Application.Category.GetByPagination;
 using JewelrySalesSystem.Application.Category.Update;
 using JewelrySalesSystem.Application.Common.Pagination;
-using JewelrySalesSystem.Application.Common.Security;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 
@@ -16,7 +17,7 @@ namespace Jewelry_Sales_System.API.Controllers
 {
     [Authorize]
     [ApiController]
-    public class CategoryController : Controller
+    public class CategoryController : ControllerBase
     {
         private readonly IMediator _mediator;
         public CategoryController(IMediator mediator)
@@ -43,6 +44,19 @@ namespace Jewelry_Sales_System.API.Controllers
                 return BadRequest(new JsonResponse<string>(result));
             }
             return Ok(new JsonResponse<string>(result));
+        }
+
+        [HttpGet("filter-category")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(JsonResponse<PagedResult<CategoryDto>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<PagedResult<CategoryDto>>>> GetByFilter([FromQuery] FilterCategoryQuery query, CancellationToken cancellationToken = default)
+        {
+            var result = await _mediator.Send(query, cancellationToken);
+            return Ok(result);
         }
 
         [HttpGet("category/pagination")]

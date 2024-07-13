@@ -27,7 +27,7 @@ namespace Jewelry_Sales_System.API.Controllers
             var paymentUrl = await _mediator.Send(command);
             return Ok(paymentUrl);
         }
-
+       
         [HttpGet("payment-callback")]
         public async Task<IActionResult> PaymentCallback()
         {
