@@ -27,7 +27,8 @@ namespace JewelrySalesSystem.Application.OrderDetail.GetByID
         {
             var orderDetail = await _orderDetailRepository.FindAsync(s => s.ID == request.Id && s.DeletedAt == null, cancellationToken)
                 ?? throw new NotFoundException("OrderDetail không tồi tại");
-            return orderDetail.MapToOrderDetailDto(_mapper);
+
+            return orderDetail.MapToOrderDetailDto(_mapper, orderDetail.Product.Name, orderDetail.Product.ImageURL);
 
         }
     }
