@@ -45,8 +45,8 @@ namespace JewelrySalesSystem.Application.Order.GetByUserID
             {
                 { user.ID, user.FullName }
             };
-            var counters = await _counterRepository.FindAllToDictionaryAsync(x => x.DeletedAt != null, x => x.ID, x => x.Name, cancellationToken);
-            var paymentMethods = await _paymentMethodRepository.FindAllToDictionaryAsync(x => x.DeletedAt != null, x => x.ID, x => x.Name, cancellationToken);
+            var counters = await _counterRepository.FindAllToDictionaryAsync(x => x.DeletedAt == null, x => x.ID, x => x.Name, cancellationToken);
+            var paymentMethods = await _paymentMethodRepository.FindAllToDictionaryAsync(x => x.DeletedAt == null, x => x.ID, x => x.Name, cancellationToken);
 
 
             return PagedResult<OrderDto>.Create(
