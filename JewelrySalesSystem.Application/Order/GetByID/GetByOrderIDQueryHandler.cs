@@ -29,7 +29,7 @@ namespace JewelrySalesSystem.Application.Order.GetByID
 
             var order = await _orderRepository.FindAsync(s => s.ID == request.Id && s.DeletedAt == null, cancellationToken)
                 ?? throw new NotFoundException("Order không tồn tại");
-            return order.MapToOrderDto(_mapper);
+            return order.MapToOrderDto(_mapper, order.Counter?.Name, order.User.FullName, order.PaymentMethod.Name);
 
         }
     }
