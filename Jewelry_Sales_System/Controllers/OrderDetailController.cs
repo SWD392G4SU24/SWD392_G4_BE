@@ -1,10 +1,9 @@
-﻿
-using JewelrySalesSystem.Application.Common.Security;
-using JewelrySalesSystem.Application.OrderDetail;
+﻿using JewelrySalesSystem.Application.OrderDetail;
 using JewelrySalesSystem.Application.OrderDetail.Delete;
 using JewelrySalesSystem.Application.OrderDetail.GetAll;
 using JewelrySalesSystem.Application.OrderDetail.GetByID;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Jewelry_Sales_System.API.Controllers

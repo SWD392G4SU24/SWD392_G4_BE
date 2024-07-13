@@ -1,4 +1,3 @@
-﻿using JewelrySalesSystem.Application.Common.Security;
 using JewelrySalesSystem.Application.Form;
 using JewelrySalesSystem.Application.Form.CreateForm;
 using JewelrySalesSystem.Application.Form.Delete;
@@ -12,7 +11,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
-using AuthorizeAttribute = JewelrySalesSystem.Application.Common.Security.AuthorizeAttribute;
 
 namespace Jewelry_Sales_System.API.Controllers
 {

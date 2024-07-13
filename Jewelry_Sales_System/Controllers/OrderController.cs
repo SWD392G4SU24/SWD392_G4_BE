@@ -1,20 +1,15 @@
-﻿
+﻿using JewelrySalesSystem.Application.Order;
+using JewelrySalesSystem.Application.Order.AfterPayment;
+using JewelrySalesSystem.Application.Order.CustomerCreate;
+using JewelrySalesSystem.Application.Order.DeleteOrder;
+using JewelrySalesSystem.Application.Order.GetAll;
+using JewelrySalesSystem.Application.Order.GetByID;
+using JewelrySalesSystem.Application.Order.StaffCreate;
+using JewelrySalesSystem.Application.Order.UpdateOrder;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
-using JewelrySalesSystem.Application.Order;
-using AuthorizeAttribute = JewelrySalesSystem.Application.Common.Security.AuthorizeAttribute;
-using JewelrySalesSystem.Application.Order.GetAll;
-using JewelrySalesSystem.Application.Order.DeleteOrder;
-using JewelrySalesSystem.Application.Order.GetByID;
-using JewelrySalesSystem.Application.Role;
-using JewelrySalesSystem.Application.Role.CreateRole;
-using JewelrySalesSystem.Application.Order.CustomerCreate;
-using JewelrySalesSystem.Application.Order.StaffCreate;
-using JewelrySalesSystem.Application.Product.Update;
-using JewelrySalesSystem.Application.Order.UpdateOrder;
-using JewelrySalesSystem.Application.Order.AfterPayment;
 
 namespace Jewelry_Sales_System.API.Controllers
 {
