@@ -20,18 +20,21 @@ namespace JewelrySalesSystem.Application.Order.GetAll
         private readonly IUserRepository _userRepository;
         private readonly IPaymentMethodRepository _paymentMethodRepository;
         private readonly ICounterRepository _counterRepository;
+        private readonly IProductRepository _productRepository;
 
         public GetAllOrderQueryHandler(IOrderRepository orderRepository
             , IMapper mapper
             , ICounterRepository counterRepository
             , IUserRepository userRepository
-            , IPaymentMethodRepository paymentMethodRepository)
+            , IPaymentMethodRepository paymentMethodRepository
+            , IProductRepository productRepository)
         {
             _orderRepository = orderRepository;
             _mapper = mapper;
             _counterRepository = counterRepository;
             _paymentMethodRepository = paymentMethodRepository;
             _userRepository = userRepository;
+            _productRepository = productRepository;
         }
 
         public async Task<List<OrderDto>> Handle(GetAllOrderQuery request, CancellationToken cancellationToken)
@@ -42,9 +45,11 @@ namespace JewelrySalesSystem.Application.Order.GetAll
             var users = await _userRepository.FindAllToDictionaryAsync(x => x.DeletedAt == null, x => x.ID, x => x.FullName, cancellationToken);
             var counters = await _counterRepository.FindAllToDictionaryAsync(x => x.DeletedAt == null, x => x.ID, x => x.Name, cancellationToken);
             var paymentMethods = await _paymentMethodRepository.FindAllToDictionaryAsync(x => x.DeletedAt == null, x => x.ID, x => x.Name, cancellationToken);
+            var productNames = await _productRepository.FindAllToDictionaryAsync(x => x.DeletedAt == null, x => x.ID, x => x.Name, cancellationToken);
+            var productImgUrl = await _productRepository.FindAllToDictionaryAsync(x => x.DeletedAt == null, x => x.ID, x => x.ImageURL, cancellationToken);
 
 
-            return repostList.MapToOrderDtoList(_mapper, counters, users, paymentMethods);
+            return repostList.MapToOrderDtoList(_mapper, counters, users, paymentMethods, productNames, productImgUrl);
         }
     }
 }

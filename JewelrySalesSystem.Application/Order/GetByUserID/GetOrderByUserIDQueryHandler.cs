@@ -15,17 +15,20 @@ namespace JewelrySalesSystem.Application.Order.GetByUserID
         private readonly IOrderRepository _orderRepository;
         private readonly IPaymentMethodRepository _paymentMethodRepository;
         private readonly ICounterRepository _counterRepository;
+        private readonly IProductRepository _productRepository;
         public GetOrderByUserIDQueryHandler(IOrderRepository orderRepository
             , IUserRepository userRepository
             , IMapper mapper
             , ICounterRepository counterRepository
-            , IPaymentMethodRepository paymentMethodRepository)
+            , IPaymentMethodRepository paymentMethodRepository
+            , IProductRepository productRepository)
         {
             _mapper = mapper;
             _orderRepository = orderRepository;
             _userRepository = userRepository;
             _counterRepository = counterRepository;
             _paymentMethodRepository = paymentMethodRepository;
+            _productRepository = productRepository;
         }
         public async Task<PagedResult<OrderDto>> Handle(GetOrderByUserIDQuery request, CancellationToken cancellationToken)
         {
@@ -47,6 +50,8 @@ namespace JewelrySalesSystem.Application.Order.GetByUserID
             };
             var counters = await _counterRepository.FindAllToDictionaryAsync(x => x.DeletedAt == null, x => x.ID, x => x.Name, cancellationToken);
             var paymentMethods = await _paymentMethodRepository.FindAllToDictionaryAsync(x => x.DeletedAt == null, x => x.ID, x => x.Name, cancellationToken);
+            var productNames = await _productRepository.FindAllToDictionaryAsync(x => x.DeletedAt == null, x => x.ID, x => x.Name, cancellationToken);
+            var productImgUrl = await _productRepository.FindAllToDictionaryAsync(x => x.DeletedAt == null, x => x.ID, x => x.ImageURL, cancellationToken);
 
 
             return PagedResult<OrderDto>.Create(
@@ -54,7 +59,7 @@ namespace JewelrySalesSystem.Application.Order.GetByUserID
                 pageCount: result.PageCount,
                 pageSize: result.PageSize,
                 pageNumber: result.PageNo,
-                data: result.MapToOrderDtoList(_mapper, counters, userDictionary, paymentMethods)
+                data: result.MapToOrderDtoList(_mapper, counters, userDictionary, paymentMethods, productNames, productImgUrl)
                 );
         }
     }
