@@ -57,7 +57,10 @@ namespace JewelrySalesSystem.Application.Order.AfterPayment
                 var existProduct = await _productRepository.FindAsync(x => x.ID == orderDetail.ProductID && x.DeletedAt == null, cancellationToken);
                 if (existProduct == null)
                 {
-                    throw new NotFoundException("Product " + orderDetail.ProductID + " không tồn tại");
+                    order.Status = OrderStatus.REFUNDED;
+                    _orderRepository.Update(order);
+                    await _orderRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
+                    throw new NotFoundException("REFUNDED, Product " + orderDetail.ProductID + " không tồn tại");
                 }
 
                 if (existProduct.Quantity < orderDetail.Quantity)
@@ -85,10 +88,19 @@ namespace JewelrySalesSystem.Application.Order.AfterPayment
                 existPromotion.UpdaterID = _currentUserService.UserId;
                 existPromotion.LastestUpdateAt = DateTime.UtcNow;
                 _promotionRepository.Update(existPromotion);
-            }
+            }           
             
-            order.Status = OrderStatus.PAID;
-            order.PickupDate = DateTime.Now.AddDays(2);
+            if(order.BuyerID != order.CreatorID)
+            {
+                order.Status = OrderStatus.COMPLETED;
+                order.PickupDate = DateTime.UtcNow;
+            }
+            else
+            {
+                order.Status = OrderStatus.PAID;
+                order.PickupDate = DateTime.Now.AddDays(2);
+            }          
+
             order.LastestUpdateAt = DateTime.UtcNow;
             order.UpdaterID = _currentUserService.UserId;
             _orderRepository.Update(order);

@@ -97,6 +97,7 @@ namespace JewelrySalesSystem.Application.Order.StaffCreate
                 TotalCost = 0,
                 Type = OrderType.AT_SHOP_ORDER,
                 CounterID = staff.CounterID,
+                PickupDate = existMethod.Name == "COD" ? DateTime.Now : null,
                 CreatedAt = DateTime.Now,
                 CreatorID = _currentUserService.UserId,
                 PromotionID = command.PromotionID.IsNullOrEmpty() ? null : existPromotion.ID,
@@ -141,18 +142,22 @@ namespace JewelrySalesSystem.Application.Order.StaffCreate
 
             //COD
             if(existMethod.Name == "COD")
-            {
+            {                             
                 _orderRepository.Add(order);
                 foreach (var orderDetail in orderDetails)
                 {
                     _orderDetailRepository.Add(orderDetail);
+
                     // này là update lại stock product
                     orderDetail.Product.Quantity -= orderDetail.Quantity;
                     orderDetail.Product.LastestUpdateAt = DateTime.Now;
+                    orderDetail.Product.UpdaterID = _currentUserService.UserId;
                     _productRepository.Update(orderDetail.Product);
+
                     // này là + tiền vào order
                     order.TotalCost += orderDetail.ProductCost;              
                 }
+
                 if (existPromotion != null)
                 {
                     // check xem sử dụng được promotion không
@@ -204,15 +209,15 @@ namespace JewelrySalesSystem.Application.Order.StaffCreate
                     order.TotalCost -= order.TotalCost * (decimal)existPromotion.ReducedPercent / 100;
                 }
             }
+            await _orderRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
+
             PaymentInformationModel paymentInformationModel = new PaymentInformationModel
             {
                 Amount = (double)order.TotalCost,
                 OrderType = order.ID,
                 OrderDescription = order.Note,
                 Name = order.BuyerID
-            };
-            await _orderRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
-
+            };            
             //pass httpContext vô service
             var httpContext = _httpContextAccessor.HttpContext;
             var paymentUrl = _vnPayService.CreatePaymentUrl(paymentInformationModel, httpContext);
