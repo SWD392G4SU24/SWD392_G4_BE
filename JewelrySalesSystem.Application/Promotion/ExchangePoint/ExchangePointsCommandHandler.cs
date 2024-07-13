@@ -13,29 +13,27 @@ using static JewelrySalesSystem.Domain.Commons.Enums.Enums;
 
 namespace JewelrySalesSystem.Application.Promotion.ExchangePoint
 {
-    public class UpdateUserIDByPromotionCommandHandler : IRequestHandler<UpdateUserIDByPromotionCommand, string>
+    public class ExchangePointsCommandHandler : IRequestHandler<ExchangePointsCommand, string>
     {
         private readonly IPromotionRepository _promotionRepository;
         private readonly IUserRepository _userRepository;
 
-        public UpdateUserIDByPromotionCommandHandler(IPromotionRepository promotionRepository, IUserRepository userRepository)
+        public ExchangePointsCommandHandler(IPromotionRepository promotionRepository, IUserRepository userRepository)
         {
             _promotionRepository = promotionRepository;
             _userRepository = userRepository;
         }
 
-        public async Task<string> Handle(UpdateUserIDByPromotionCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(ExchangePointsCommand request, CancellationToken cancellationToken)
         {
             var customer = await _userRepository.FindAsync(x => x.ID == request.CustomerID && x.DeletedAt == null, cancellationToken)
                   ?? throw new NotFoundException("Không tìm thấy Customer nào!");
 
-            var order = customer.Orders.FirstOrDefault(x => x.ID == request.OrderID && x.DeletedAt == null)
-                  ?? throw new NotFoundException("Không tìm thấy Order nào!");
+
 
             var promotion = await _promotionRepository.FindAsync(x => x.ID == request.VoucherCode && x.DeletedAt == null, cancellationToken)
                   ?? throw new NotFoundException("Không tìm thấy promotion nào!");
 
-            if (order.TotalCost < promotion.ConditionsOfUse) return "Bạn không đủ điều kiện để đổi thưởng";
 
             if (promotion.ExchangePoint > customer.Point) return "Bạn không đủ điểm để đổi thưởng";
 

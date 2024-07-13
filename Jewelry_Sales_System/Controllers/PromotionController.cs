@@ -135,7 +135,7 @@ namespace Jewelry_Sales_System.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<JsonResponse<string>>> UpdateExchangePoint(
-               UpdateUserIDByPromotionCommand command,
+               ExchangePointsCommand command,
                CancellationToken cancellationToken = default)
         {
             var result = await _mediator.Send(command, cancellationToken);
