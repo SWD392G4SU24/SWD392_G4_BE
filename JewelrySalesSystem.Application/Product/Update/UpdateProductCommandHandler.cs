@@ -19,18 +19,21 @@ namespace JewelrySalesSystem.Application.Product.Update
         private readonly IGoldRepository _goldRepository;
         private readonly ICurrentUserService _currentUserService;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly ICalculator _tools;
 
         public UpdateProductCommandHandler(IProductRepository productRepository
             , IDiamondRepository diamondRepository
             , IGoldRepository goldRepository
             , ICurrentUserService currentUserService
-            , ICategoryRepository categoryRepository)
+            , ICategoryRepository categoryRepository
+            , ICalculator tools)
         {
             _productRepository = productRepository;
             _diamondRepository = diamondRepository;
             _goldRepository = goldRepository;
             _currentUserService = currentUserService;
             _categoryRepository = categoryRepository;
+            _tools = tools;
         }
 
         public async Task<string> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
@@ -48,7 +51,7 @@ namespace JewelrySalesSystem.Application.Product.Update
                 ?? throw new NotFoundException("Gold không tồn tại");
 
             //Caculate wageCost
-            decimal wageCost = new WageCost().CalculateWageCost(request?.GoldWeight, diamond?.Name);
+            decimal wageCost = _tools.CalculateWageCost(request?.GoldWeight, diamond?.Name);
 
             // Update specific fields based on request properties
             product.Name = request.Name;

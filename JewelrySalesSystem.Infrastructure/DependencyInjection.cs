@@ -1,9 +1,11 @@
 ﻿using JewelrySalesSystem.Domain.Commons.Interfaces;
+using JewelrySalesSystem.Domain.Functions;
 using JewelrySalesSystem.Domain.Repositories;
 using JewelrySalesSystem.Domain.Repositories.ConfiguredEntity;
 using JewelrySalesSystem.Infrastructure.ExternalService.Diamond;
 using JewelrySalesSystem.Infrastructure.ExternalService.GoldBtmc;
 using JewelrySalesSystem.Infrastructure.ExternalService.VnPay;
+using JewelrySalesSystem.Infrastructure.Functions;
 using JewelrySalesSystem.Infrastructure.Persistence;
 using JewelrySalesSystem.Infrastructure.Repositories;
 using JewelrySalesSystem.Infrastructure.Repositories.ConfiguredEntity;
@@ -35,6 +37,7 @@ namespace JewelrySalesSystem.Infrastructure
             });
             services.AddScoped<IUnitOfWork>(provider => provider.GetRequiredService<ApplicationDbContext>());
             services.AddScoped<IVnPayService, VnPayService>();
+            services.AddScoped<ICalculator, Calculator>();
             services.AddHttpClient<IGoldService, GoldService>();
             services.AddHttpClient<IDiamondService, DiamondService>();
             
