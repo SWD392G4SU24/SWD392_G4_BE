@@ -23,18 +23,21 @@ namespace JewelrySalesSystem.Application.Product.Create
         private readonly IDiamondRepository _diamondRepository;
         private readonly IGoldRepository _goldRepository;
         private readonly ICurrentUserService _currentUserService;
+        private readonly ICalculator _tools;
 
         public CreateProductCommandHandler(IProductRepository productRepository
             , IDiamondRepository diamondRepository
             , IGoldRepository goldRepository
             , ICurrentUserService currentUserService
-            , ICategoryRepository categoryRepository)
+            , ICategoryRepository categoryRepository
+            , ICalculator tools)
         {
             _productRepository = productRepository;
             _diamondRepository = diamondRepository;
             _goldRepository = goldRepository;
             _currentUserService = currentUserService;
             _categoryRepository = categoryRepository;
+            _tools = tools;
         }
 
         public async Task<string> Handle(CreateProductCommand request, CancellationToken cancellationToken)
@@ -58,7 +61,7 @@ namespace JewelrySalesSystem.Application.Product.Create
                 throw new NotFoundException("Không tồn tại vàng với type: " + request.GoldType);
             }
 
-            decimal wageCost = new WageCost().CalculateWageCost(request?.GoldWeight, request?.DiamondType);
+            decimal wageCost = _tools.CalculateWageCost(request?.GoldWeight, request?.DiamondType);
 
             var product = new ProductEntity
             {

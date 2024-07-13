@@ -1,4 +1,5 @@
-﻿using JewelrySalesSystem.Application.Order;
+﻿using JewelrySalesSystem.Application.Common.Pagination;
+using JewelrySalesSystem.Application.Order;
 using JewelrySalesSystem.Application.Order.AfterPayment;
 using JewelrySalesSystem.Application.Order.CustomerCreate;
 using JewelrySalesSystem.Application.Order.DeleteOrder;
@@ -6,10 +7,13 @@ using JewelrySalesSystem.Application.Order.GetAll;
 using JewelrySalesSystem.Application.Order.GetByID;
 using JewelrySalesSystem.Application.Order.StaffCreate;
 using JewelrySalesSystem.Application.Order.UpdateOrder;
+using JewelrySalesSystem.Application.Users.GetByPagination;
+using JewelrySalesSystem.Application.Users;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
+using JewelrySalesSystem.Application.Order.GetByUserID;
 
 namespace Jewelry_Sales_System.API.Controllers
 {
@@ -142,6 +146,21 @@ namespace Jewelry_Sales_System.API.Controllers
                 return BadRequest(new JsonResponse<string>(result));
             }
             return Ok(new JsonResponse<string>(result));
+        }
+
+        [HttpGet("order/get-by-userID")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(JsonResponse<PagedResult<OrderDto>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<PagedResult<OrderDto>>>> GetByUserID(
+            [FromQuery] GetOrderByUserIDQuery query
+            , CancellationToken cancellationToken = default)
+        {
+            var result = await _mediator.Send(query, cancellationToken);
+            return Ok(result);
         }
     }
 }

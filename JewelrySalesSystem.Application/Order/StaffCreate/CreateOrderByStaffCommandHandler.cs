@@ -3,6 +3,7 @@ using JewelrySalesSystem.Domain.Commons.Exceptions;
 using JewelrySalesSystem.Domain.Commons.Interfaces;
 using JewelrySalesSystem.Domain.Entities;
 using JewelrySalesSystem.Domain.Entities.VnPayModel;
+using JewelrySalesSystem.Domain.Functions;
 using JewelrySalesSystem.Domain.Repositories;
 using JewelrySalesSystem.Domain.Repositories.ConfiguredEntity;
 using JewelrySalesSystem.Infrastructure.Repositories;
@@ -33,7 +34,7 @@ namespace JewelrySalesSystem.Application.Order.StaffCreate
         private readonly IVnPayService _vnPayService;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ICounterRepository _counterRepository;
-
+        private readonly ICalculator _tools;
 
         public CreateOrderByStaffCommandHandler(ICurrentUserService currentUserService
             , IProductRepository productRepository
@@ -46,7 +47,8 @@ namespace JewelrySalesSystem.Application.Order.StaffCreate
             , IUserRepository userRepository
             , IVnPayService vnPayService
             , IHttpContextAccessor httpContextAccessor
-            , ICounterRepository counterRepository)
+            , ICounterRepository counterRepository
+            , ICalculator calculator)
         {
             _currentUserService = currentUserService;
             _productRepository = productRepository;
@@ -60,6 +62,7 @@ namespace JewelrySalesSystem.Application.Order.StaffCreate
             _vnPayService = vnPayService;
             _httpContextAccessor = httpContextAccessor;
             _counterRepository = counterRepository;
+            _tools = calculator;
         }
         public async Task<string> Handle(CreateOrderByStaffCommand command, CancellationToken cancellationToken)
         {
@@ -97,6 +100,7 @@ namespace JewelrySalesSystem.Application.Order.StaffCreate
                 TotalCost = 0,
                 Type = OrderType.AT_SHOP_ORDER,
                 CounterID = staff.CounterID,
+                PickupDate = existMethod.Name == "COD" ? DateTime.Now : null,
                 CreatedAt = DateTime.Now,
                 CreatorID = _currentUserService.UserId,
                 PromotionID = command.PromotionID.IsNullOrEmpty() ? null : existPromotion.ID,
@@ -115,24 +119,30 @@ namespace JewelrySalesSystem.Application.Order.StaffCreate
                 {
                     return "Sản phẩm trong kho không đủ";
                 }
-                
-                // lấy giá vàng và giá kc mới nhất
-                decimal gCost = 0;
+
+                // lấy giá vàng và giá kc ( khách hàng mua -> SellCost, 1 số loại vàng sellCost = buyCost ) mới nhất
+                decimal gbCost = 0;
+                decimal gsCost = 0;
                 if (existProduct.GoldID != null)
                 {
-                    gCost = _goldService.GetGoldPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == existProduct.Gold.Name).BuyCost;
+                    gbCost = _goldService.GetGoldPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == existProduct.Gold.Name).BuyCost;
+                    gsCost = _goldService.GetGoldPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == existProduct.Gold.Name).SellCost;
                 }
-                decimal dCost = 0;
+                decimal dsCost = 0;
                 if (existProduct.DiamondID != null)
                 {
-                    gCost = _diamondService.GetDiamondPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == existProduct.Diamond.Name).BuyCost;
+                    dsCost = _diamondService.GetDiamondPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == existProduct.Diamond.Name).SellCost;
                 }
 
                 orderDetails.Add(new OrderDetailEntity
                 {
                     OrderID = order.ID,
                     ProductID = item.ProductID,
-                    ProductCost = (existProduct.WageCost + gCost + dCost) * item.Quantity,
+                    ProductCost = _tools.CalculateSellCost(existProduct.GoldWeight, (gsCost == 0 ? gbCost : gsCost), dsCost, existProduct.WageCost)
+                    /*(existProduct.WageCost + (gsCost == 0 ? gbCost : gsCost) + dsCost) * item.Quantity*/,
+                    GoldBuyCost = existProduct.GoldID != null ? gbCost : null,
+                    GoldSellCost = existProduct.GoldID != null ? gsCost : null,
+                    DiamondSellCost = existProduct.DiamondID != null ? dsCost : null,
                     Quantity = item.Quantity,
                     CreatedAt = DateTime.Now,
                     CreatorID = _currentUserService.UserId
@@ -141,18 +151,22 @@ namespace JewelrySalesSystem.Application.Order.StaffCreate
 
             //COD
             if(existMethod.Name == "COD")
-            {
+            {                             
                 _orderRepository.Add(order);
                 foreach (var orderDetail in orderDetails)
                 {
                     _orderDetailRepository.Add(orderDetail);
+
                     // này là update lại stock product
                     orderDetail.Product.Quantity -= orderDetail.Quantity;
                     orderDetail.Product.LastestUpdateAt = DateTime.Now;
+                    orderDetail.Product.UpdaterID = _currentUserService.UserId;
                     _productRepository.Update(orderDetail.Product);
+
                     // này là + tiền vào order
                     order.TotalCost += orderDetail.ProductCost;              
                 }
+
                 if (existPromotion != null)
                 {
                     // check xem sử dụng được promotion không
@@ -204,15 +218,15 @@ namespace JewelrySalesSystem.Application.Order.StaffCreate
                     order.TotalCost -= order.TotalCost * (decimal)existPromotion.ReducedPercent / 100;
                 }
             }
+            await _orderRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
+
             PaymentInformationModel paymentInformationModel = new PaymentInformationModel
             {
                 Amount = (double)order.TotalCost,
                 OrderType = order.ID,
                 OrderDescription = order.Note,
                 Name = order.BuyerID
-            };
-            await _orderRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
-
+            };            
             //pass httpContext vô service
             var httpContext = _httpContextAccessor.HttpContext;
             var paymentUrl = _vnPayService.CreatePaymentUrl(paymentInformationModel, httpContext);

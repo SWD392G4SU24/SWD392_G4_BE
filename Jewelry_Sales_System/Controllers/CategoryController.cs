@@ -1,6 +1,7 @@
 ﻿using JewelrySalesSystem.Application.Category;
 using JewelrySalesSystem.Application.Category.Create;
 using JewelrySalesSystem.Application.Category.Delete;
+using JewelrySalesSystem.Application.Category.FilterCategory;
 using JewelrySalesSystem.Application.Category.GetAll;
 using JewelrySalesSystem.Application.Category.GetByID;
 using JewelrySalesSystem.Application.Category.GetByPagination;
@@ -43,6 +44,19 @@ namespace Jewelry_Sales_System.API.Controllers
                 return BadRequest(new JsonResponse<string>(result));
             }
             return Ok(new JsonResponse<string>(result));
+        }
+
+        [HttpGet("filter-category")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(JsonResponse<PagedResult<CategoryDto>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<PagedResult<CategoryDto>>>> GetByFilter([FromQuery] FilterCategoryQuery query, CancellationToken cancellationToken = default)
+        {
+            var result = await _mediator.Send(query, cancellationToken);
+            return Ok(result);
         }
 
         [HttpGet("category/pagination")]

@@ -2,6 +2,7 @@
 using JewelrySalesSystem.Domain.Commons.Exceptions;
 using JewelrySalesSystem.Domain.Commons.Interfaces;
 using JewelrySalesSystem.Domain.Entities;
+using JewelrySalesSystem.Domain.Functions;
 using JewelrySalesSystem.Domain.Repositories;
 using JewelrySalesSystem.Domain.Repositories.ConfiguredEntity;
 using MediatR;
@@ -26,6 +27,7 @@ namespace JewelrySalesSystem.Application.Order.CustomerCreate
         private readonly IPaymentMethodRepository _paymentMethodRepository;
         private readonly IGoldService _goldService;
         private readonly IDiamondService _diamondService;
+        private readonly ICalculator _tools;
         public CreateOrderByCustomerCommandHandler(IOrderRepository orderRepository
             , IOrderDetailRepository orderDetailRepository
             , IProductRepository productRepository
@@ -34,7 +36,8 @@ namespace JewelrySalesSystem.Application.Order.CustomerCreate
             , ICurrentUserService currentUserService
             , IPaymentMethodRepository paymentMethodRepository
             , IDiamondService diamondService
-            , IGoldService goldService)
+            , IGoldService goldService
+            , ICalculator tools)
         {
             _goldService = goldService;
             _orderRepository = orderRepository;
@@ -45,6 +48,7 @@ namespace JewelrySalesSystem.Application.Order.CustomerCreate
             _currentUserService = currentUserService;
             _paymentMethodRepository = paymentMethodRepository;
             _diamondService = diamondService;
+            _tools = tools;
         }
         public async Task<string> Handle(CreateOrderByCustomerCommand command, CancellationToken cancellationToken)
         {
@@ -92,22 +96,29 @@ namespace JewelrySalesSystem.Application.Order.CustomerCreate
                     return "Sản phẩm trong kho không đủ";
                 }
 
-                decimal gCost = 0;
+                // lấy giá vàng và giá kc ( khách hàng mua -> SellCost, 1 số loại vàng sellCost = buyCost ) mới nhất
+                decimal gbCost = 0;
+                decimal gsCost = 0;
                 if (existProduct.GoldID != null)
                 {
-                    gCost =  _goldService.GetGoldPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == existProduct.Gold.Name).BuyCost;
+                    gbCost = _goldService.GetGoldPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == existProduct.Gold.Name).BuyCost;
+                    gsCost = _goldService.GetGoldPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == existProduct.Gold.Name).SellCost;
                 }
-                decimal dCost = 0;
+                decimal dsCost = 0;
                 if (existProduct.DiamondID != null)
                 {
-                    dCost = _diamondService.GetDiamondPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == existProduct.Diamond.Name).BuyCost;
+                    dsCost = _diamondService.GetDiamondPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == existProduct.Diamond.Name).SellCost;
                 }
 
                 orderDetails.Add(new OrderDetailEntity
                 {
                     OrderID = order.ID,
                     ProductID = item.ProductID,
-                    ProductCost = (existProduct.WageCost + gCost + dCost) * item.Quantity,
+                    ProductCost = _tools.CalculateSellCost(existProduct.GoldWeight, (gsCost == 0 ? gbCost : gsCost), dsCost, existProduct.WageCost)
+                    /*(existProduct.WageCost + (gsCost == 0 ? gbCost : gsCost) + dsCost) * item.Quantity*/,
+                    GoldBuyCost = existProduct.GoldID != null ? gbCost : null,
+                    GoldSellCost = existProduct.GoldID != null ? gsCost : null,
+                    DiamondSellCost = existProduct.DiamondID != null ? dsCost : null,
                     Quantity = item.Quantity,
                     CreatedAt = DateTime.Now,
                     CreatorID = _currentUserService.UserId,
