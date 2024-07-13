@@ -102,7 +102,7 @@ namespace JewelrySalesSystem.Application.Order.UpdateOrder
                     {
                         OrderID = order.ID,
                         ProductID = updatedOrderDetail.Key,
-                        ProductCost = _tools.CalculateSellCost(existProduct.GoldWeight, (gsCost == 0 ? gbCost : gsCost), dsCost, existProduct.WageCost) 
+                        ProductCost = _tools.CalculateSellCost(existProduct.GoldWeight, (gsCost == 0 ? gbCost : gsCost), dsCost, existProduct.WageCost) * updatedOrderDetail.Value.Quantity
                         /*(existProduct.WageCost + (gsCost == 0 ? gbCost : gsCost) + dsCost) * updatedOrderDetail.Value.Quantity*/,
                         GoldBuyCost = existProduct.GoldID != null ? gbCost : null,
                         GoldSellCost = existProduct.GoldID != null ? gsCost : null,

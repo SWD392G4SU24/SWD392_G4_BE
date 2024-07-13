@@ -114,7 +114,7 @@ namespace JewelrySalesSystem.Application.Order.CustomerCreate
                 {
                     OrderID = order.ID,
                     ProductID = item.ProductID,
-                    ProductCost = _tools.CalculateSellCost(existProduct.GoldWeight, (gsCost == 0 ? gbCost : gsCost), dsCost, existProduct.WageCost)
+                    ProductCost = _tools.CalculateSellCost(existProduct.GoldWeight, (gsCost == 0 ? gbCost : gsCost), dsCost, existProduct.WageCost) * item.Quantity
                     /*(existProduct.WageCost + (gsCost == 0 ? gbCost : gsCost) + dsCost) * item.Quantity*/,
                     GoldBuyCost = existProduct.GoldID != null ? gbCost : null,
                     GoldSellCost = existProduct.GoldID != null ? gsCost : null,

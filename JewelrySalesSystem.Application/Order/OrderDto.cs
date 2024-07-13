@@ -33,10 +33,10 @@ namespace JewelrySalesSystem.Application.Order
         public string FullName {  get; set; }
         public int PaymentMethodID { get; set; }
         public string PaymentMethod {  get; set; }
-        public DateTime? LastestUpdateAt {  get; set; }
+        public DateTime? PickupDate {  get; set; }
         public OrderDto(string id, string note, string type, string status, decimal totalCost, string? promotionID
             , int? counterID, string? counter, List<OrderDetailDto> orderDetailsDto, string buyerID, string fullName
-            , int paymentMethodID, string paymentMethod, DateTime? lastestUpdateAt)
+            , int paymentMethodID, string paymentMethod, DateTime? pickupDate)
         {
             ID = id;
             Note = note;
@@ -51,7 +51,7 @@ namespace JewelrySalesSystem.Application.Order
             FullName = fullName;
             PaymentMethodID = paymentMethodID;
             PaymentMethod = paymentMethod;
-            LastestUpdateAt = lastestUpdateAt;
+            PickupDate = pickupDate;
         }
 
         public OrderDto()
