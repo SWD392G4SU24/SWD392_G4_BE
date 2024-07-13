@@ -17,19 +17,40 @@ namespace JewelrySalesSystem.Application.Order
     {
         public void Mapping(Profile profile)
         {
-
-            profile.CreateMap<OrderEntity, OrderDto>()
-                .ForMember(dest => dest.TypeString, opt => opt.MapFrom(src => src.Type.ToString()));
-
+            profile.CreateMap<OrderEntity, OrderDto>();
         }
-        public required string ID {  get; set; }
-        public required string Note { get; set; }
-        public string TypeString { get; set; }
-        public required decimal TotalCost { get; set; }
+        public string ID {  get; set; }
+        public string Note { get; set; }
+        public string Type { get; set; }
+        public string Status {  get; set; }
+        public decimal TotalCost { get; set; }
         public string? PromotionID { get; set; }
         public int? CounterID { get; set; }
-        public required string BuyerID { get; set; }
-        public required int PaymentMethodID { get; set; }
+        public string? Counter {  get; set; }
+        public string BuyerID { get; set; }
+        public string FullName {  get; set; }
+        public int PaymentMethodID { get; set; }
+        public string PaymentMethod {  get; set; }
+        public OrderDto(string id, string note, string type, string status, decimal totalCost, string? promotionID
+            , int? counterID, string? counter, string buyerID, string fullName, int paymentMethodID, string paymentMethod)
+        {
+            ID = id;
+            Note = note;
+            Type = type;
+            Status = status;
+            TotalCost = totalCost;
+            PromotionID = promotionID;
+            CounterID = counterID;
+            Counter = counter;
+            BuyerID = buyerID;
+            FullName = fullName;
+            PaymentMethodID = paymentMethodID;
+            PaymentMethod = paymentMethod;
+        }
 
+        public OrderDto()
+        {
+            
+        }
     }
 }
