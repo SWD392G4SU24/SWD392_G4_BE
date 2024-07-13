@@ -3,6 +3,7 @@ using JewelrySalesSystem.Domain.Commons.Exceptions;
 using JewelrySalesSystem.Domain.Commons.Interfaces;
 using JewelrySalesSystem.Domain.Entities;
 using JewelrySalesSystem.Domain.Entities.VnPayModel;
+using JewelrySalesSystem.Domain.Functions;
 using JewelrySalesSystem.Domain.Repositories;
 using JewelrySalesSystem.Domain.Repositories.ConfiguredEntity;
 using JewelrySalesSystem.Infrastructure.Repositories;
@@ -33,7 +34,7 @@ namespace JewelrySalesSystem.Application.Order.StaffCreate
         private readonly IVnPayService _vnPayService;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ICounterRepository _counterRepository;
-
+        private readonly ICalculator _tools;
 
         public CreateOrderByStaffCommandHandler(ICurrentUserService currentUserService
             , IProductRepository productRepository
@@ -46,7 +47,8 @@ namespace JewelrySalesSystem.Application.Order.StaffCreate
             , IUserRepository userRepository
             , IVnPayService vnPayService
             , IHttpContextAccessor httpContextAccessor
-            , ICounterRepository counterRepository)
+            , ICounterRepository counterRepository
+            , ICalculator calculator)
         {
             _currentUserService = currentUserService;
             _productRepository = productRepository;
@@ -60,6 +62,7 @@ namespace JewelrySalesSystem.Application.Order.StaffCreate
             _vnPayService = vnPayService;
             _httpContextAccessor = httpContextAccessor;
             _counterRepository = counterRepository;
+            _tools = calculator;
         }
         public async Task<string> Handle(CreateOrderByStaffCommand command, CancellationToken cancellationToken)
         {
@@ -135,7 +138,8 @@ namespace JewelrySalesSystem.Application.Order.StaffCreate
                 {
                     OrderID = order.ID,
                     ProductID = item.ProductID,
-                    ProductCost = (existProduct.WageCost + (gsCost == 0 ? gbCost : gsCost) + dsCost) * item.Quantity,
+                    ProductCost = _tools.CalculateSellCost(existProduct.GoldWeight, (gsCost == 0 ? gbCost : gsCost), dsCost, existProduct.WageCost)
+                    /*(existProduct.WageCost + (gsCost == 0 ? gbCost : gsCost) + dsCost) * item.Quantity*/,
                     GoldBuyCost = existProduct.GoldID != null ? gbCost : null,
                     GoldSellCost = existProduct.GoldID != null ? gsCost : null,
                     DiamondSellCost = existProduct.DiamondID != null ? dsCost : null,

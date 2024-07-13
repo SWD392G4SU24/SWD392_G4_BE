@@ -2,6 +2,7 @@
 using JewelrySalesSystem.Domain.Commons.Exceptions;
 using JewelrySalesSystem.Domain.Commons.Interfaces;
 using JewelrySalesSystem.Domain.Entities;
+using JewelrySalesSystem.Domain.Functions;
 using JewelrySalesSystem.Domain.Repositories;
 using JewelrySalesSystem.Domain.Repositories.ConfiguredEntity;
 using MediatR;
@@ -26,6 +27,7 @@ namespace JewelrySalesSystem.Application.Order.CustomerCreate
         private readonly IPaymentMethodRepository _paymentMethodRepository;
         private readonly IGoldService _goldService;
         private readonly IDiamondService _diamondService;
+        private readonly ICalculator _tools;
         public CreateOrderByCustomerCommandHandler(IOrderRepository orderRepository
             , IOrderDetailRepository orderDetailRepository
             , IProductRepository productRepository
@@ -34,7 +36,8 @@ namespace JewelrySalesSystem.Application.Order.CustomerCreate
             , ICurrentUserService currentUserService
             , IPaymentMethodRepository paymentMethodRepository
             , IDiamondService diamondService
-            , IGoldService goldService)
+            , IGoldService goldService
+            , ICalculator tools)
         {
             _goldService = goldService;
             _orderRepository = orderRepository;
@@ -45,6 +48,7 @@ namespace JewelrySalesSystem.Application.Order.CustomerCreate
             _currentUserService = currentUserService;
             _paymentMethodRepository = paymentMethodRepository;
             _diamondService = diamondService;
+            _tools = tools;
         }
         public async Task<string> Handle(CreateOrderByCustomerCommand command, CancellationToken cancellationToken)
         {
@@ -110,7 +114,8 @@ namespace JewelrySalesSystem.Application.Order.CustomerCreate
                 {
                     OrderID = order.ID,
                     ProductID = item.ProductID,
-                    ProductCost = (existProduct.WageCost + (gsCost == 0 ? gbCost : gsCost) + dsCost) * item.Quantity,
+                    ProductCost = _tools.CalculateSellCost(existProduct.GoldWeight, (gsCost == 0 ? gbCost : gsCost), dsCost, existProduct.WageCost)
+                    /*(existProduct.WageCost + (gsCost == 0 ? gbCost : gsCost) + dsCost) * item.Quantity*/,
                     GoldBuyCost = existProduct.GoldID != null ? gbCost : null,
                     GoldSellCost = existProduct.GoldID != null ? gsCost : null,
                     DiamondSellCost = existProduct.DiamondID != null ? dsCost : null,

@@ -3,6 +3,7 @@ using JewelrySalesSystem.Application.Common.Models;
 using JewelrySalesSystem.Domain.Commons.Exceptions;
 using JewelrySalesSystem.Domain.Commons.Interfaces;
 using JewelrySalesSystem.Domain.Entities;
+using JewelrySalesSystem.Domain.Functions;
 using JewelrySalesSystem.Domain.Repositories;
 using JewelrySalesSystem.Infrastructure.Repositories;
 using MediatR;
@@ -24,13 +25,16 @@ namespace JewelrySalesSystem.Application.Order.UpdateOrder
         private readonly IProductRepository _productRepository;
         private readonly IGoldService _goldService;
         private readonly IDiamondService _diamondService;
+        private readonly ICalculator _tools;
+
         public UpdateOrderCommandHandler(IOrderRepository orderRepository
             , IOrderDetailRepository orderDetailRepository
             , ICurrentUserService currentUserService
             , IPromotionRepository promotionRepository
             , IProductRepository productRepository
             , IDiamondService diamondService
-            , IGoldService goldService)
+            , IGoldService goldService
+            , ICalculator tools)
         {
             _currentUserService = currentUserService;
             _orderRepository = orderRepository;
@@ -39,6 +43,7 @@ namespace JewelrySalesSystem.Application.Order.UpdateOrder
             _productRepository = productRepository;
             _diamondService = diamondService;
             _goldService = goldService;
+            _tools = tools;
         }
         public async Task<string> Handle(UpdateOrderCommand command, CancellationToken cancellationToken)
         {
@@ -97,7 +102,8 @@ namespace JewelrySalesSystem.Application.Order.UpdateOrder
                     {
                         OrderID = order.ID,
                         ProductID = updatedOrderDetail.Key,
-                        ProductCost = (existProduct.WageCost + (gsCost == 0 ? gbCost : gsCost) + dsCost) * updatedOrderDetail.Value.Quantity,
+                        ProductCost = _tools.CalculateSellCost(existProduct.GoldWeight, (gsCost == 0 ? gbCost : gsCost), dsCost, existProduct.WageCost) 
+                        /*(existProduct.WageCost + (gsCost == 0 ? gbCost : gsCost) + dsCost) * updatedOrderDetail.Value.Quantity*/,
                         GoldBuyCost = existProduct.GoldID != null ? gbCost : null,
                         GoldSellCost = existProduct.GoldID != null ? gsCost : null,
                         DiamondSellCost = existProduct.DiamondID != null ? dsCost : null,
