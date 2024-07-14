@@ -5,7 +5,9 @@ using JewelrySalesSystem.Application.PaymentMethod.CreatePaymentMethod;
 using JewelrySalesSystem.Application.PaymentMethod.Delete;
 using JewelrySalesSystem.Application.PaymentMethod.FilterPaymentMethod;
 using JewelrySalesSystem.Application.PaymentMethod.GetAll;
+using JewelrySalesSystem.Application.PaymentMethod.GetByDateRange;
 using JewelrySalesSystem.Application.PaymentMethod.GetById;
+using JewelrySalesSystem.Application.PaymentMethod.GetByName;
 using JewelrySalesSystem.Application.PaymentMethod.GetByPagination;
 using JewelrySalesSystem.Application.PaymentMethod.Update;
 using MediatR;
@@ -68,6 +70,32 @@ namespace Jewelry_Sales_System.API.Controllers
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<JsonResponse<PagedResult<PaymentMethodDto>>>> GetByFilter([FromQuery] FilterPaymentMethodQuery query, CancellationToken cancellationToken = default)
+        {
+            var result = await _mediator.Send(query, cancellationToken);
+            return Ok(result);
+        }
+
+        [HttpGet("payment-method/by-date-range")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(JsonResponse<PagedResult<PaymentMethodDto>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<PagedResult<PaymentMethodDto>>>> GetPaymentMethodsByDateRange([FromQuery] GetPaymentMethodsByDateRangeQuery query, CancellationToken cancellationToken = default)
+        {
+            var result = await _mediator.Send(query, cancellationToken);
+            return Ok(result);
+        }
+
+        [HttpGet("payment-method/by-name")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(JsonResponse<PagedResult<PaymentMethodDto>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<PagedResult<PaymentMethodDto>>>> GetPaymentMethodsByName([FromQuery] GetPaymentMethodsByNameQuery query, CancellationToken cancellationToken = default)
         {
             var result = await _mediator.Send(query, cancellationToken);
             return Ok(result);
