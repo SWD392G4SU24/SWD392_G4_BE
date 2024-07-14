@@ -3,6 +3,7 @@ using JewelrySalesSystem.Application.Product;
 using JewelrySalesSystem.Application.Promotion;
 using JewelrySalesSystem.Application.Promotion.CreatePromotion;
 using JewelrySalesSystem.Application.Promotion.DeletePromotion;
+using JewelrySalesSystem.Application.Promotion.ExchangePoint;
 using JewelrySalesSystem.Application.Promotion.GetAll;
 using JewelrySalesSystem.Application.Promotion.GetById;
 using JewelrySalesSystem.Application.Promotion.GetByUser;
@@ -119,6 +120,26 @@ namespace Jewelry_Sales_System.API.Controllers
         {
             var result = await _mediator.Send(command, cancellationToken);
             if (result.Contains("thất bại"))
+            {
+                return BadRequest(new JsonResponse<string>(result));
+            }
+            return Ok(new JsonResponse<string>(result));
+        }
+
+        [HttpPatch]
+        [Route("[controller]/redeem-points")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<string>>> UpdateExchangePoint(
+               ExchangePointsCommand command,
+               CancellationToken cancellationToken = default)
+        {
+            var result = await _mediator.Send(command, cancellationToken);
+            if (result.Contains("thất bại") || result.Contains("không đủ"))
             {
                 return BadRequest(new JsonResponse<string>(result));
             }
