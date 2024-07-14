@@ -57,10 +57,11 @@ namespace JewelrySalesSystem.Application.Product.GetProduct
                 x => x.ID,
                 x =>
                 {
-                    var goldPrice = _goldService.GetGoldPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == x.Gold.Name);
+                    var goldPrice = _goldService.GetGoldPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == x.Gold?.Name);
                     var goldCost = goldPrice?.SellCost > 0 ? goldPrice.SellCost : goldPrice?.BuyCost;
 
-                    var dsCost = _diamondService.GetDiamondPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == x.Diamond.Name).SellCost;
+                    var diamondPrice = _diamondService.GetDiamondPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == x.Diamond?.Name);
+                    var dsCost = diamondPrice?.SellCost > 0 ? diamondPrice.SellCost : diamondPrice?.BuyCost;
                     return _tools.CalculateSellCost(x.GoldWeight, goldCost, dsCost, x.WageCost);
                 });
 
