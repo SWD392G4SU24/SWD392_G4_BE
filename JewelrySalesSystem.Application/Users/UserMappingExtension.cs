@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using JewelrySalesSystem.Application.Counter;
 using JewelrySalesSystem.Application.Product;
 using JewelrySalesSystem.Application.Role;
 using JewelrySalesSystem.Domain.Entities;
@@ -29,5 +30,22 @@ namespace JewelrySalesSystem.Application.Users
             x.MapToUserDto(mapper,              
                 role.ContainsKey(x.RoleID) ? role[x.RoleID] : "Lỗi"
             )).ToList();
+
+
+        public static StaffRevenueDto MapToStaffRevenueDto(this UserEntity projectForm, IMapper mapper)
+            => mapper.Map<StaffRevenueDto>(projectForm);
+        public static StaffRevenueDto MapToStaffRevenueDto(this UserEntity projectForm, IMapper mapper, decimal totalPrice, int ordersNumber)
+        {
+            var dto = mapper.Map<StaffRevenueDto>(projectForm);
+            dto.TotalPrice = totalPrice;
+            dto.OrdersNumber = ordersNumber;
+            return dto;
+        }
+        public static List<StaffRevenueDto> MapToStaffRevenueDtoList(this IEnumerable<UserEntity> entities, IMapper mapper, Dictionary<string, decimal> totalPrice, Dictionary<string, int> ordersNumber)
+           => entities.Select(x =>
+           x.MapToStaffRevenueDto(mapper,
+               totalPrice.ContainsKey(x.ID) ? totalPrice[x.ID] : 0,
+               ordersNumber.ContainsKey(x.ID) ? ordersNumber[x.ID] : 0
+           )).ToList();
     }
 }
