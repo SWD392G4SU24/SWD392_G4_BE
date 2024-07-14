@@ -4,6 +4,7 @@ using JewelrySalesSystem.Application.Category.Delete;
 using JewelrySalesSystem.Application.Category.FilterCategory;
 using JewelrySalesSystem.Application.Category.GetAll;
 using JewelrySalesSystem.Application.Category.GetByID;
+using JewelrySalesSystem.Application.Category.GetByName;
 using JewelrySalesSystem.Application.Category.GetByNameKeyword;
 using JewelrySalesSystem.Application.Category.GetByPagination;
 using JewelrySalesSystem.Application.Category.Update;
@@ -100,8 +101,21 @@ namespace Jewelry_Sales_System.API.Controllers
         {
             var result = await _mediator.Send(new GetCategoryByIDQuery(id: id), cancellationToken);
             return result != null ? Ok(new JsonResponse<CategoryDto>(result)) : NotFound();
-        } 
-        
+        }
+
+        [HttpGet("category/by-name")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(JsonResponse<PagedResult<CategoryDto>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<PagedResult<CategoryDto>>>> GetCategoriesByName([FromQuery] GetCategoriesByNameQuery query, CancellationToken cancellationToken = default)
+        {
+            var result = await _mediator.Send(query, cancellationToken);
+            return Ok(result);
+        }
+
 
         [HttpPut("category/update")]
         [Produces(MediaTypeNames.Application.Json)]
