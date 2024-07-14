@@ -134,12 +134,12 @@ namespace Jewelry_Sales_System.API.Controllers
 
         [HttpGet("counter/filter-revenue")]
         [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(JsonResponse<PagedResult<CounterRevenueDto>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(JsonResponse<List<CounterRevenueDto>>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<JsonResponse<PagedResult<CounterRevenueDto>>>> FilterRevenue(
+        public async Task<ActionResult<JsonResponse<List<CounterRevenueDto>>>> FilterRevenue(
             [FromQuery] FilterCounterRevenueQuery query
             , CancellationToken cancellationToken = default)
         {

@@ -59,10 +59,14 @@ namespace JewelrySalesSystem.Application.Product.GetByID
                 throw new NotFoundException("Category is not exist");
             }
 
-            var goldPrice = _goldService.GetGoldPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == product.Gold.Name);
+            var gService = await _goldService.GetGoldPricesAsync(cancellationToken);
+            var goldPrice = gService.FirstOrDefault(v => v.Name == product.Gold?.Name);
             var goldCost = goldPrice?.SellCost > 0 ? goldPrice.SellCost : goldPrice?.BuyCost;
 
-            var dsCost = _diamondService.GetDiamondPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == product.Diamond.Name).SellCost;
+            var dService = await _diamondService.GetDiamondPricesAsync(cancellationToken);
+            var diamondPrice = dService.FirstOrDefault(v => v.Name == product.Diamond?.Name);
+            var dsCost = diamondPrice?.SellCost > 0 ? diamondPrice.SellCost : diamondPrice?.BuyCost;
+            
             var productCost = _tools.CalculateSellCost(product.GoldWeight, goldCost, dsCost, product.WageCost);
             
             return product.MapToProductDto(_mapper, goldType?.Name, diamondType?.Name, category.Name, productCost);

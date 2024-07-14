@@ -36,7 +36,7 @@ namespace JewelrySalesSystem.Infrastructure
                 options.UseLazyLoadingProxies();
             });
             services.AddScoped<IUnitOfWork>(provider => provider.GetRequiredService<ApplicationDbContext>());
-            services.AddScoped<IVnPayService, VnPayService>();
+            services.AddScoped<IVnPayService, VnPayService>();          
             services.AddScoped<ICalculator, Calculator>();
             services.AddHttpClient<IGoldService, GoldService>();
             services.AddHttpClient<IDiamondService, DiamondService>();

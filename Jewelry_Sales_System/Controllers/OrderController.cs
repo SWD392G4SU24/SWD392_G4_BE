@@ -14,6 +14,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 using JewelrySalesSystem.Application.Order.GetByUserID;
+using JewelrySalesSystem.Application.Order.Re_order;
+using JewelrySalesSystem.Application.Order.GetTotalRevenue;
 
 namespace Jewelry_Sales_System.API.Controllers
 {
@@ -57,6 +59,21 @@ namespace Jewelry_Sales_System.API.Controllers
         {
             var result = await _mediator.Send(new GetByOrderIDQuery(id : id), cancellationToken);
             return result != null ? Ok(new JsonResponse<OrderDto>(result)) : NotFound();
+        }
+
+        [HttpGet("order/get-revenue")]
+        [ProducesResponseType(typeof(JsonResponse<Dictionary<int,OrderRevenueDto>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<Dictionary<int, OrderRevenueDto>>> GetOrderByID(
+                 [FromQuery] GetTotalOrderRevenueQuery query,
+           CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(query, cancellationToken);
+            return result != null ? Ok(result) : NotFound();
         }
 
         [HttpDelete]
@@ -104,6 +121,25 @@ namespace Jewelry_Sales_System.API.Controllers
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<JsonResponse<string>>> CreateOrderByStaff(
             [FromBody] CreateOrderByStaffCommand command,
+            CancellationToken cancellationToken = default)
+        {
+            var result = await _mediator.Send(command, cancellationToken);
+            if (!result.Contains("thành công"))
+            {
+                return BadRequest(new JsonResponse<string>(result));
+            }
+            return Ok(new JsonResponse<string>(result));
+        }
+
+        [HttpPost("re-order/staff-create")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<string>>> CreateReOrder(
+            [FromBody] CreateReOrderCommand command,
             CancellationToken cancellationToken = default)
         {
             var result = await _mediator.Send(command, cancellationToken);
