@@ -11,5 +11,6 @@ namespace JewelrySalesSystem.Domain.Functions
     {
         decimal CalculateWageCost(float? goldWeight, string? diamondType);
         decimal CalculateSellCost(float? goldWeight, decimal? gsCost, decimal? dsCost, decimal wageCost);
+        int CalculatePoint(decimal totalCost);
     }
 }

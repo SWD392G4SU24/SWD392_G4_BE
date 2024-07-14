@@ -1,5 +1,6 @@
 ﻿using JewelrySalesSystem.Application.Common.Interfaces;
 using JewelrySalesSystem.Domain.Commons.Exceptions;
+using JewelrySalesSystem.Domain.Functions;
 using JewelrySalesSystem.Domain.Repositories;
 using MediatR;
 using System;
@@ -18,17 +19,23 @@ namespace JewelrySalesSystem.Application.Order.AfterPayment
         private readonly ICurrentUserService _currentUserService;
         private readonly IPromotionRepository _promotionRepository;
         private readonly IProductRepository _productRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly ICalculator _tools;
         public UpdatePaymentSuccessOrderCommandHandler(IOrderRepository orderRepository
             , IOrderDetailRepository orderDetailRepository
             , ICurrentUserService currentUserService
             , IPromotionRepository promotionRepository
-            , IProductRepository productRepository)
+            , IProductRepository productRepository
+            , IUserRepository userRepository
+            , ICalculator tools)
         {
             _currentUserService = currentUserService;
             _orderRepository = orderRepository;
             _orderDetailRepository = orderDetailRepository;
             _productRepository = productRepository;
             _promotionRepository = promotionRepository;
+            _userRepository = userRepository;
+            _tools = tools;
         }
 
         public async Task<string> Handle(UpdatePaymentSuccessOrderCommand command, CancellationToken cancellationToken)
@@ -36,11 +43,16 @@ namespace JewelrySalesSystem.Application.Order.AfterPayment
             var order = await _orderRepository.FindAsync(x => x.ID == command.ID && x.DeletedAt == null, cancellationToken);
             if (order == null)
             {
-                throw new NotFoundException("Order không tồn tại");
+                throw new NotFoundException("REFUNDED, Order không tồn tại");
             }
             if (!order.Status.Equals(OrderStatus.PENDING))
             {
-                return "Order đang không trạng thái xử lý";
+                return "REFUNDED, Order đang không trạng thái xử lý";
+            }
+            var user = await _userRepository.FindAsync(x => x.ID == order.BuyerID && x.DeletedAt == null, cancellationToken);
+            if (user == null)
+            {
+                throw new NotFoundException("REFUNDED, Tài khoản người mua không tồn tại");
             }
             var existPromotion = await _promotionRepository.FindAsync(x => x.ID.Equals(order.PromotionID) && x.DeletedAt == null, cancellationToken);
             if (existPromotion?.Status == PromotionStatus.UNAVAILABLE)
@@ -103,6 +115,9 @@ namespace JewelrySalesSystem.Application.Order.AfterPayment
 
             order.LastestUpdateAt = DateTime.UtcNow;
             order.UpdaterID = _currentUserService.UserId;
+            user.Point += _tools.CalculatePoint(order.TotalCost);
+
+            _userRepository.Update(user);
             _orderRepository.Update(order);
             return await _orderRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? "Cập nhật thành công" : "Cập nhật thất bại";
         }

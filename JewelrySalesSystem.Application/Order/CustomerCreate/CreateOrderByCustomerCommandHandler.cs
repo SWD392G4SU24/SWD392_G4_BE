@@ -56,25 +56,19 @@ namespace JewelrySalesSystem.Application.Order.CustomerCreate
             if (existUser == null)
             {
                 throw new NotFoundException("Người dùng không tồn tại hoặc đã bị BAN");
-            }
-            
-            var existMethod = await _paymentMethodRepository.AnyAsync(x => x.ID == command.PaymentMethodID && x.DeleterID == null, cancellationToken);
-            if (!existMethod)
-            {
-                throw new NotFoundException("Không tìm thấy phương thức thanh toán với ID: " + command.PaymentMethodID);
-            }
+            }           
 
             var existPromotion = await _promotionRepository.FindAsync(x => x.ID == command.PromotionID && x.DeleterID == null, cancellationToken);
             if (existPromotion == null && !command.PromotionID.IsNullOrEmpty())
             {
                 throw new NotFoundException("Không tìm thấy ưu đãi với ID: " + command.PromotionID);
             }
-
+            var paymentMethod = await _paymentMethodRepository.FindAsync(x => x.Name.Equals("VnPay"), cancellationToken);
             OrderEntity order = new OrderEntity 
             {
                 BuyerID = existUser.ID,
                 Note = existUser.ID + " thanh toán online",
-                PaymentMethodID = command.PaymentMethodID,
+                PaymentMethodID = paymentMethod.ID,
                 Status = OrderStatus.PENDING,
                 TotalCost = 0,
                 Type = OrderType.ONLINE_ORDER,
@@ -138,6 +132,10 @@ namespace JewelrySalesSystem.Application.Order.CustomerCreate
                 if (order.TotalCost < existPromotion.ConditionsOfUse)
                 {
                     return "Không đủ điều kiện sử dụng ưu đãi";
+                }
+                if (existPromotion.Status != PromotionStatus.AVAILABLE)
+                {
+                    return "Ưu đãi không thể sử dụng";
                 }
                 // cập nhật lại giá tiền order
                 if (order.TotalCost * (decimal)existPromotion.ReducedPercent / 100 > existPromotion.ConditionsOfUse)

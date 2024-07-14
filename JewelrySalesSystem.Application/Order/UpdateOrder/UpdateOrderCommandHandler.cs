@@ -159,6 +159,10 @@ namespace JewelrySalesSystem.Application.Order.UpdateOrder
                 {
                     return "Không đủ điều kiện sử dụng ưu đãi";
                 }
+                if (existPromotion.ExpiresTime < DateTime.Now)
+                {
+                    return "Ưu đãi đã hết hạn sử dụng";
+                }
                 // cập nhật lại giá tiền order
                 if (order.TotalCost * (decimal)existPromotion.ReducedPercent / 100 > existPromotion.ConditionsOfUse)
                 {

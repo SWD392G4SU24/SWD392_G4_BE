@@ -49,5 +49,11 @@ namespace JewelrySalesSystem.Infrastructure.Functions
 
             return result;
         }
+
+        public int CalculatePoint(decimal totalCost)
+        {
+            int point = (int)(totalCost * 0.002m) / 100;
+            return point;
+        }
     }
 }
