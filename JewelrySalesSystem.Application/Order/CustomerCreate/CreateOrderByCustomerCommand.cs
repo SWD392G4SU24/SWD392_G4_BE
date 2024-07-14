@@ -12,15 +12,13 @@ namespace JewelrySalesSystem.Application.Order.CustomerCreate
 {
     public class CreateOrderByCustomerCommand : IRequest<string>, ICommand
     {
-        public CreateOrderByCustomerCommand(string? promotionID, int paymentMethodID, List<CreateOrderDetailCommand> orderDetails)
+        public CreateOrderByCustomerCommand(string? promotionID, List<CreateOrderDetailCommand> orderDetails)
         {
             PromotionID = promotionID;
-            PaymentMethodID = paymentMethodID;
             OrderDetails = orderDetails;
         }
         public List<CreateOrderDetailCommand> OrderDetails { get; set; }
         public string? PromotionID { get; set; }
-        public int PaymentMethodID { get; set; }
 
     }
 }

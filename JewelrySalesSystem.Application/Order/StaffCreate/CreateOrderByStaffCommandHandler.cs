@@ -66,8 +66,8 @@ namespace JewelrySalesSystem.Application.Order.StaffCreate
         }
         public async Task<string> Handle(CreateOrderByStaffCommand command, CancellationToken cancellationToken)
         {
-            var existUser = await _userRepository.AnyAsync(x => x.ID == command.BuyerID && x.DeleterID == null, cancellationToken);
-            if (!existUser)
+            var existUser = await _userRepository.FindAsync(x => x.ID == command.BuyerID && x.DeleterID == null, cancellationToken);
+            if (existUser == null)
             {
                 throw new NotFoundException("Không tìm thấy người mua với ID: " + command.BuyerID);
             }
@@ -93,7 +93,7 @@ namespace JewelrySalesSystem.Application.Order.StaffCreate
 
             OrderEntity order = new OrderEntity
             {
-                BuyerID = command.BuyerID,
+                BuyerID = existUser.ID,
                 Note = existMethod.Name == "COD" ? command.BuyerID + " thanh toán tiền mặt tại cửa hàng" : command.BuyerID + " thanh toán chuyển khoản tại cửa hàng",
                 PaymentMethodID = command.PaymentMethodID,
                 Status = existMethod.Name == "COD" ? OrderStatus.COMPLETED : OrderStatus.PENDING,
@@ -174,6 +174,10 @@ namespace JewelrySalesSystem.Application.Order.StaffCreate
                     {
                         return "Không đủ điều kiện sử dụng ưu đãi";
                     }
+                    if (existPromotion.Status != PromotionStatus.AVAILABLE)
+                    {
+                        return "Ưu đãi không thể sử dụng";
+                    }
 
                     // cập nhật nại status nếu được sử dụng
                     existPromotion.Status = PromotionStatus.USED;
@@ -191,8 +195,13 @@ namespace JewelrySalesSystem.Application.Order.StaffCreate
                         order.TotalCost -= order.TotalCost * (decimal)existPromotion.ReducedPercent / 100;
                     }                    
                 }
+                existUser.Point += _tools.CalculatePoint(order.TotalCost);
+                existUser.LastestUpdateAt = DateTime.UtcNow;
+                existUser.UpdaterID = existUser.ID;
+                _userRepository.Update(existUser);
                 return await _orderRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? "Tạo thành công" : "Tạo thất bại";
             }
+
             // flow này là thanh toán banking
             _orderRepository.Add(order);
             foreach (var orderDetail in orderDetails)
@@ -208,6 +217,11 @@ namespace JewelrySalesSystem.Application.Order.StaffCreate
                 {
                     return "Không đủ điều kiện sử dụng ưu đãi";
                 }
+                if (existPromotion.Status != PromotionStatus.AVAILABLE)
+                {
+                    return "Ưu đãi không thể sử dụng";
+                }
+
                 // cập nhật lại giá tiền order
                 if (order.TotalCost * (decimal)existPromotion.ReducedPercent / 100 > existPromotion.ConditionsOfUse)
                 {
