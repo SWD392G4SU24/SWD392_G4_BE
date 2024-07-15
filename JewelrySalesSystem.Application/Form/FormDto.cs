@@ -21,6 +21,8 @@ namespace JewelrySalesSystem.Application.Form
         public string Type { get; set; }
         public string Status {  get; set; }
         public string? Content { get; set; }
+        public string CreatorID {  get; set; }
+        public string FullName {  get; set; }
         public DateTime AppoinmentDate { get; set; }
         public FormDto()
         {
