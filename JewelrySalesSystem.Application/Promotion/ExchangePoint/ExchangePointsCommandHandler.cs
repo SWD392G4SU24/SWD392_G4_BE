@@ -30,7 +30,6 @@ namespace JewelrySalesSystem.Application.Promotion.ExchangePoint
                   ?? throw new NotFoundException("Không tìm thấy Customer nào!");
 
 
-
             var promotion = await _promotionRepository.FindAsync(x => x.ID == request.VoucherCode && x.DeletedAt == null, cancellationToken)
                   ?? throw new NotFoundException("Không tìm thấy promotion nào!");
 

@@ -4,8 +4,11 @@ using JewelrySalesSystem.Application.Promotion;
 using JewelrySalesSystem.Application.Promotion.CreatePromotion;
 using JewelrySalesSystem.Application.Promotion.DeletePromotion;
 using JewelrySalesSystem.Application.Promotion.ExchangePoint;
+using JewelrySalesSystem.Application.Promotion.ExchangeVoucher;
 using JewelrySalesSystem.Application.Promotion.GetAll;
+using JewelrySalesSystem.Application.Promotion.GetByDesciption;
 using JewelrySalesSystem.Application.Promotion.GetById;
+using JewelrySalesSystem.Application.Promotion.GetByPagination;
 using JewelrySalesSystem.Application.Promotion.GetByUser;
 using JewelrySalesSystem.Application.Promotion.NewFolder;
 using JewelrySalesSystem.Application.Promotion.UpdatePromotion;
@@ -42,7 +45,7 @@ namespace Jewelry_Sales_System.API.Controllers
         }  
         
         [HttpGet]
-        [Route("[controller]/get-user")]
+        [Route("[controller]/user-pagination")]
         [ProducesResponseType(typeof(JsonResponse<PagedResult<PromotionDto>>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -50,11 +53,43 @@ namespace Jewelry_Sales_System.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<PagedResult<PromotionDto>>> GetPromotionByUser(
-            [FromQuery] GetPromotionByUserQuery query,
+            [FromQuery] GetUserByPaginationQuery query,
             CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(query, cancellationToken);
             return result != null ? Ok(new JsonResponse<PagedResult<PromotionDto>>(result)) : NotFound();
+        }
+        
+        [HttpGet]
+        [Route("[controller]/pagination")]
+        [ProducesResponseType(typeof(JsonResponse<PagedResult<PromotionDto>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<PagedResult<PromotionDto>>> GetPromotionByPagination(
+            [FromQuery] GetPromotionByPaginationQuery query,
+            CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(query, cancellationToken);
+            return result != null ? Ok(new JsonResponse<PagedResult<PromotionDto>>(result)) : NotFound();
+        } 
+        
+        [HttpGet]
+        [Route("[controller]/filter")]
+        [ProducesResponseType(typeof(JsonResponse<PagedResult<PromotionQuantityDto>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<PagedResult<PromotionQuantityDto>>> GetPromotionQuantity(
+            [FromQuery] FilterPromotionQuery query,
+            CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(query, cancellationToken);
+            return result != null ? Ok(new JsonResponse<PagedResult<PromotionQuantityDto>>(result)) : NotFound();
         }
 
 
@@ -127,7 +162,7 @@ namespace Jewelry_Sales_System.API.Controllers
         }
 
         [HttpPatch]
-        [Route("[controller]/redeem-points")]
+        [Route("[controller]/Exchange-points")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -140,6 +175,26 @@ namespace Jewelry_Sales_System.API.Controllers
         {
             var result = await _mediator.Send(command, cancellationToken);
             if (result.Contains("thất bại") || result.Contains("không đủ"))
+            {
+                return BadRequest(new JsonResponse<string>(result));
+            }
+            return Ok(new JsonResponse<string>(result));
+        }
+
+        [HttpPatch]
+        [Route("[controller]/Exchange-voucher")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<string>>> UpdateExchangeVoucher(
+               ExchangeVoucherCommand command,
+               CancellationToken cancellationToken = default)
+        {
+            var result = await _mediator.Send(command, cancellationToken);
+            if (result.Contains("thất bại"))
             {
                 return BadRequest(new JsonResponse<string>(result));
             }
