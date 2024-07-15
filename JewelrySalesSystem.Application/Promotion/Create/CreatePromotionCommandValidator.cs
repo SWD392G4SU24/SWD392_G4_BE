@@ -43,9 +43,7 @@ namespace JewelrySalesSystem.Application.Promotion.CreatePromotion
             RuleFor(x => x.MaximumReduce)
                 .GreaterThanOrEqualTo(1).
                 WithMessage("MaximumReduce không phải lớn hơn 0");
-            RuleFor(x => x.MaximumReduce)
-                .LessThan(100).
-                WithMessage("MaximumReduce không được lớn hơn 100");
+
             RuleFor(x => x.ExchangePoint)
                 .NotNull().
                 WithMessage("ExchangePoint không được để trống");
