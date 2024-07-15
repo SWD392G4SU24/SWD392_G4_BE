@@ -45,7 +45,8 @@ namespace Jewelry_Sales_System.API.Controllers
         }  
         
         [HttpGet]
-        [Route("[controller]/user-pagination")]
+
+        [Route("[controller]/get-by-userID")]
         [ProducesResponseType(typeof(JsonResponse<PagedResult<PromotionDto>>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -174,7 +175,7 @@ namespace Jewelry_Sales_System.API.Controllers
                CancellationToken cancellationToken = default)
         {
             var result = await _mediator.Send(command, cancellationToken);
-            if (result.Contains("thất bại") || result.Contains("không đủ"))
+            if (!result.Contains("thành công"))
             {
                 return BadRequest(new JsonResponse<string>(result));
             }

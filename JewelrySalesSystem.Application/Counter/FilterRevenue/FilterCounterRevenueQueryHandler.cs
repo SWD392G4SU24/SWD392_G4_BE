@@ -15,7 +15,7 @@ using static JewelrySalesSystem.Domain.Commons.Enums.Enums;
 
 namespace JewelrySalesSystem.Application.Counter.FilterRevenue
 {
-    public class FilterCounterRevenueQueryHandler : IRequestHandler<FilterCounterRevenueQuery, PagedResult<CounterRevenueDto>>
+    public class FilterCounterRevenueQueryHandler : IRequestHandler<FilterCounterRevenueQuery, List<CounterRevenueDto>>
     {
         private readonly IMapper _mapper;
         private readonly ICounterRepository _counterRepository;
@@ -26,11 +26,10 @@ namespace JewelrySalesSystem.Application.Counter.FilterRevenue
             _mapper = mapper;
             _orderRepository = orderRepository;
         }
-        public async Task<PagedResult<CounterRevenueDto>> Handle(FilterCounterRevenueQuery request, CancellationToken cancellationToken)
+        public async Task<List<CounterRevenueDto>> Handle(FilterCounterRevenueQuery request, CancellationToken cancellationToken)
         {
             Func<IQueryable<CounterEntity>, IQueryable<CounterEntity>> queryoptions = query =>
             {
-                query = query.Where(x => x.DeletedAt == null);
                 if (request.CounterID != 0)
                 {
                     query = query.Where(x => x.ID == request.CounterID);
@@ -42,7 +41,7 @@ namespace JewelrySalesSystem.Application.Counter.FilterRevenue
                     ));
                 return query;
             };
-            var result = await _counterRepository.FindAllAsync(request.PageNumber, request.PageSize, queryoptions, cancellationToken);
+            var result = await _counterRepository.FindAllAsync(x => x.DeletedAt == null, queryoptions, cancellationToken);
 
             Dictionary<int, decimal> total = new Dictionary<int, decimal>();
             Dictionary<int, int> ordersCount = new Dictionary<int, int>();
@@ -74,12 +73,7 @@ namespace JewelrySalesSystem.Application.Counter.FilterRevenue
                 }
             }
 
-            return PagedResult<CounterRevenueDto>.Create(
-                totalCount: result.TotalCount,
-                pageCount: result.PageCount,
-                pageSize: result.PageSize,
-                pageNumber: result.PageNo,
-                data: result.MapToCounterRevenueDtoList(_mapper, total, ordersCount));
+            return result.MapToCounterRevenueDtoList(_mapper, total, ordersCount);
         }
     }
 }

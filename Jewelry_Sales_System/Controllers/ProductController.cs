@@ -57,7 +57,7 @@ namespace Jewelry_Sales_System.API.Controllers
             return result != null ? Ok(result) : NotFound();
         }
         [HttpGet]
-        [Route("[controller]/user-Pagination")]
+        [Route("[controller]/filter-product")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(JsonResponse<PagedResult<ProductDto>>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

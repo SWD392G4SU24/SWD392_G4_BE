@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using JewelrySalesSystem.Application.Promotion;
 using JewelrySalesSystem.Domain.Commons.Exceptions;
+using JewelrySalesSystem.Domain.Commons.Interfaces;
+using JewelrySalesSystem.Domain.Functions;
 using JewelrySalesSystem.Domain.Repositories;
 using JewelrySalesSystem.Domain.Repositories.ConfiguredEntity;
 using JewelrySalesSystem.Infrastructure.Repositories;
@@ -20,16 +22,25 @@ namespace JewelrySalesSystem.Application.Product.GetByID
         private readonly IGoldRepository _goldRepository;
         private readonly IDiamondRepository _diamondRepository;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly ICalculator _tools;
+        private readonly IGoldService _goldService;
+        private readonly IDiamondService _diamondService;
         public GetByProductIDQueryHandler(IProductRepository productRepository, IMapper mapper
             , IDiamondRepository diamondRepository
             , IGoldRepository goldRepository
-            , ICategoryRepository categoryRepository)
+            , ICategoryRepository categoryRepository
+            , ICalculator tools
+            , IDiamondService diamondService
+            , IGoldService goldService)
         {
             _categoryRepository = categoryRepository;
             _diamondRepository = diamondRepository;
             _goldRepository = goldRepository;
             _productRepository = productRepository;
             _mapper = mapper;
+            _tools = tools;
+            _goldService = goldService;
+            _diamondService = diamondService;
         }
 
         public async Task<ProductDto> Handle(GetProductByIDQuery request, CancellationToken cancellationToken)
@@ -47,7 +58,18 @@ namespace JewelrySalesSystem.Application.Product.GetByID
             {
                 throw new NotFoundException("Category is not exist");
             }
-            return product.MapToProductDto(_mapper, goldType?.Name, diamondType?.Name, category.Name);
+
+            var gService = await _goldService.GetGoldPricesAsync(cancellationToken);
+            var goldPrice = gService.FirstOrDefault(v => v.Name == product.Gold?.Name);
+            var goldCost = goldPrice?.SellCost > 0 ? goldPrice.SellCost : goldPrice?.BuyCost;
+
+            var dService = await _diamondService.GetDiamondPricesAsync(cancellationToken);
+            var diamondPrice = dService.FirstOrDefault(v => v.Name == product.Diamond?.Name);
+            var dsCost = diamondPrice?.SellCost > 0 ? diamondPrice.SellCost : diamondPrice?.BuyCost;
+            
+            var productCost = _tools.CalculateSellCost(product.GoldWeight, goldCost, dsCost, product.WageCost);
+            
+            return product.MapToProductDto(_mapper, goldType?.Name, diamondType?.Name, category.Name, productCost);
         }
     }
 }

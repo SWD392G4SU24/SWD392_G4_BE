@@ -102,7 +102,7 @@ namespace JewelrySalesSystem.Application.Order.UpdateOrder
                     {
                         OrderID = order.ID,
                         ProductID = updatedOrderDetail.Key,
-                        ProductCost = _tools.CalculateSellCost(existProduct.GoldWeight, (gsCost == 0 ? gbCost : gsCost), dsCost, existProduct.WageCost) 
+                        ProductCost = _tools.CalculateSellCost(existProduct.GoldWeight, (gsCost == 0 ? gbCost : gsCost), dsCost, existProduct.WageCost) * updatedOrderDetail.Value.Quantity
                         /*(existProduct.WageCost + (gsCost == 0 ? gbCost : gsCost) + dsCost) * updatedOrderDetail.Value.Quantity*/,
                         GoldBuyCost = existProduct.GoldID != null ? gbCost : null,
                         GoldSellCost = existProduct.GoldID != null ? gsCost : null,
@@ -158,6 +158,10 @@ namespace JewelrySalesSystem.Application.Order.UpdateOrder
                 if (order.TotalCost < existPromotion.ConditionsOfUse)
                 {
                     return "Không đủ điều kiện sử dụng ưu đãi";
+                }
+                if (existPromotion.ExpiresTime < DateTime.Now)
+                {
+                    return "Ưu đãi đã hết hạn sử dụng";
                 }
                 // cập nhật lại giá tiền order
                 if (order.TotalCost * (decimal)existPromotion.ReducedPercent / 100 > existPromotion.ConditionsOfUse)

@@ -49,5 +49,19 @@ namespace JewelrySalesSystem.Infrastructure.Functions
 
             return result;
         }
+
+        public int CalculatePoint(decimal totalCost)
+        {
+            int point = (int)(totalCost * 0.002m) / 100;
+            return point;
+        }
+
+        public decimal CalculateReorderCost(decimal diamondSellCost, decimal goldBuyCost, float goldWeight)
+        {
+            decimal result = 0;
+            result += goldBuyCost * (decimal)goldWeight;
+            result += diamondSellCost * 0.7m; //70%
+            return result;
+        }
     }
 }
