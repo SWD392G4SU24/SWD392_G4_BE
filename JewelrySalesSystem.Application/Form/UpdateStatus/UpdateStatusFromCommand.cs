@@ -13,26 +13,13 @@ namespace JewelrySalesSystem.Application.Form.UpdateStatus
 {
     public class UpdateStatusFromCommand : IRequest<string>, ICommand
     {
-        public UpdateStatusFromCommand(string id, string statusString)
+        public UpdateStatusFromCommand(string formID, FormStatus status)
         {
-            Id = id;
-            Status = ParseFormStatus(statusString);
-            StatusString = statusString;
+            FormID = formID;
+            Status = status;
         }
 
-        public string Id { get; set; }
-        [JsonIgnore]
+        public string FormID { get; set; }
         public FormStatus Status { get; set; }
-
-        public string StatusString { get; set; }
-
-        private FormStatus ParseFormStatus(string status)
-        {
-            if (Enum.TryParse(status, true, out FormStatus result))
-            {
-                return result;
-            }
-            return 0;
-        }
     }
 }

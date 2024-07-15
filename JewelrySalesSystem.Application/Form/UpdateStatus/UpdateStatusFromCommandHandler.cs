@@ -25,12 +25,13 @@ namespace JewelrySalesSystem.Application.Form.UpdateStatus
 
         public async Task<string> Handle(UpdateStatusFromCommand request, CancellationToken cancellationToken)
         {
-            var form = await _formRepository.FindAsync(x => x.ID == request.Id && x.DeletedAt == null, cancellationToken)
+            var form = await _formRepository.FindAsync(x => x.ID == request.FormID && x.DeletedAt == null, cancellationToken)
             ?? throw new NotFoundException("Không tìm thấy form nào");
             if (!form.Status.Equals(FormStatus.PENDING))
             {
-                throw new NotFoundException("Chỉ được sửa status khi đang trong tình trạng PENDING.");
+                return "Form đã được xử lý !!!";
             }
+
             form.Status = request.Status;
             form.LastestUpdateAt = DateTime.Now;
             form.UpdaterID = _currentUserService.UserId;

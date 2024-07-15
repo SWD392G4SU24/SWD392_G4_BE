@@ -34,10 +34,14 @@ namespace JewelrySalesSystem.Application.Form.CreateForm
             {
                 throw new NotFoundException("Đơn hàng không tồn tại");
             }
+            if (order.PickupDate == null || order.Status.Equals(OrderStatus.PAID))
+            {
+                return "Đơn hàng chưa được nhận, không thể tạo form !!!";
+            }
 
             if (request.Type.Equals(FormType.REFUND) &&
                 (order.Status.Equals(OrderStatus.PAID) || order.Status.Equals(OrderStatus.COMPLETED)) &&
-                 (DateTime.Now - (DateTime)order.LastestUpdateAt).TotalDays > 2)
+                 (DateTime.Now - (DateTime)order.PickupDate).TotalDays > 2)
             {
                 return "Đơn hàng đã thanh toán quá 2 ngày sẽ không được chọn REFUND, Vui lòng chọn lại Type";
             }
@@ -47,10 +51,10 @@ namespace JewelrySalesSystem.Application.Form.CreateForm
             {
                 return "Đơn hàng vẫn còn đang trong tình trạng " + order.Status + " sẽ không được chọn REFUND, Vui lòng chọn lại Type";
             }
-
+            
             if (request.Type.Equals(FormType.MAINTENANCE) &&
                  order.Status.Equals(OrderStatus.COMPLETED) &&
-                 (DateTime.Now - (DateTime)order.LastestUpdateAt).TotalDays > 750)
+                 (DateTime.Now.Year - order.PickupDate.Value.Year > 2))
             {
                 return "Đơn hàng đã thanh toán quá 2 năm sẽ không được chọn MAINTENANCE, Vui lòng chọn lại Type";
             }
@@ -65,7 +69,7 @@ namespace JewelrySalesSystem.Application.Form.CreateForm
             var form = new FormEntity
                 {
                     AppoinmentDate = DateTime.Today.AddDays(2),
-                    Content = request.Content.IsNullOrEmpty() ? null : request.Content,
+                    Content = request.OrderId + " || " + request.Type.ToString() + " || " + request.Content ,
                     Status = FormStatus.PENDING,
                     Type = request.Type,
                     CreatedAt = DateTime.Now,
