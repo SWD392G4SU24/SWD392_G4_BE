@@ -9,15 +9,15 @@ using System.Threading.Tasks;
 
 namespace JewelrySalesSystem.Application.Promotion.GetByUser
 {
-    public class GetPromotionByUserQuery : IRequest<PagedResult<PromotionDto>>, IQuery
+    public class GetUserByPaginationQuery : IRequest<PagedResult<PromotionDto>>, IQuery
     {
-        public GetPromotionByUserQuery() { }
+        public GetUserByPaginationQuery() { }
         
         public int PageNumber { get; set; }
         public int PageSize { get; set; }
         public string UserId { get; set; }
 
-        public GetPromotionByUserQuery(int pageNumber, int pageSize)
+        public GetUserByPaginationQuery(int pageNumber, int pageSize)
         {
             PageNumber = pageNumber;
             PageSize = pageSize;

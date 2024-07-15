@@ -19,7 +19,7 @@ namespace JewelrySalesSystem.Application.Product.FliterProduct
         public int? GoldID { get; set; } = 0;
         public int? DiamondID { get; set; } = 0;
         public int? CategoryID { get; set; } = 0;
-
+    
         public FilterProductQuery(int no, int pageSize)
         {
             PageNumber = no;
