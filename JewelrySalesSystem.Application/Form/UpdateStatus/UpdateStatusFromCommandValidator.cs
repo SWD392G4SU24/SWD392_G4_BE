@@ -18,16 +18,15 @@ namespace JewelrySalesSystem.Application.Form.UpdateStatus
 
         private void OnValidate()
         {
-            RuleFor(x => x.Id)
-               .NotNull().WithMessage("ID không được để trống");
+            RuleFor(x => x.FormID)
+                .NotNull().WithMessage("ID không được để trống");
+
             RuleFor(x => x.Status)
-                .NotNull().WithMessage("Status không được để trống");
-            RuleFor(x => x.Status)
-             .Must(BeValidStatus)
-                          .WithMessage("Status chỉ được nhập 2 loại:APPROVED, REJECTED");
+                .NotNull().WithMessage("Status không được để trống")
+                .Must(BeValidStatus).WithMessage("Status chỉ được nhập 2 loại:APPROVED, REJECTED");
        
         }
-
+        
         private bool BeValidStatus(FormStatus status)
         {
             return status.Equals(FormStatus.APPROVED) || status.Equals(FormStatus.REJECTED);

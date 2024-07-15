@@ -11,33 +11,21 @@ using static JewelrySalesSystem.Domain.Commons.Enums.Enums;
 
 namespace JewelrySalesSystem.Application.Form.CreateForm
 {
-    public class CreateFormCommand : IRequest<string>, ICommand
-    {
-        public CreateFormCommand(string content, string typeString, string orderId)
+        public class CreateFormCommand : IRequest<string>, ICommand
         {
-            Content = content;
-
-            Type = ParseFormType(typeString);
-            OrderId = orderId;
-            TypeString = typeString; // Set TypeString after parsing to FormType
-        }
-
-        public string OrderId { get; set; }
-
-        [JsonIgnore]
-        public FormType Type { get; set; }
-
-        public string TypeString { get; set; }
-
-        public string Content { get; set; }
-
-        private FormType ParseFormType(string type)
-        {
-            if (Enum.TryParse(type, true, out FormType result))
+            public CreateFormCommand(string content, FormType type, string orderId)
             {
-                return result;
+                Content = content;
+                Type = type;
+                OrderId = orderId;
             }
-            return 0;
+
+            public string OrderId { get; set; }
+            public FormType Type { get; set; }
+            public string Content { get; set; }
+            public CreateFormCommand()
+            {
+            
+            }
         }
-    }
 }

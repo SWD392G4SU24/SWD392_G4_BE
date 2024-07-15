@@ -80,15 +80,17 @@ namespace JewelrySalesSystem.Application.Product.FliterProduct
             var categories = await _categoryRepository.FindAllToDictionaryAsync(x => x.DeletedAt == null, x => x.ID, x => x.Name, cancellationToken);
             var diamonds = await _diamondRepository.FindAllToDictionaryAsync(x => x.CreatedAt != null, x => x.ID, x => x.Name, cancellationToken);
             var golds = await _goldRepository.FindAllToDictionaryAsync(x => x.CreatedAt != null, x => x.ID, x => x.Name, cancellationToken);
+            var goldList = await _goldService.GetGoldPricesAsync(cancellationToken);
+            var diamondList = await _diamondService.GetDiamondPricesAsync(cancellationToken);
 
             var productCost = result.ToDictionary(
                 x => x.ID,
                 x =>
-                {
-                    var goldPrice = _goldService.GetGoldPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == x.Gold?.Name);
+                {                  
+                    var goldPrice = goldList.FirstOrDefault(v => v.Name == x.Gold?.Name);
                     var goldCost = goldPrice?.SellCost > 0 ? goldPrice.SellCost : goldPrice?.BuyCost;
-
-                    var diamondPrice = _diamondService.GetDiamondPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == x.Diamond?.Name);
+                   
+                    var diamondPrice = diamondList.FirstOrDefault(v => v.Name == x.Diamond?.Name);
                     var dsCost = diamondPrice?.SellCost > 0 ? diamondPrice.SellCost : diamondPrice?.BuyCost;
                     return _tools.CalculateSellCost(x.GoldWeight, goldCost, dsCost, x.WageCost);
                 });
