@@ -1,5 +1,7 @@
 ﻿using JewelrySalesSystem.Application.Common.Interfaces;
 using JewelrySalesSystem.Application.Common.Pagination;
+using JewelrySalesSystem.Application.Counter.FilterRevenue;
+using JewelrySalesSystem.Application.Counter;
 using JewelrySalesSystem.Application.Users;
 using JewelrySalesSystem.Application.Users.CreateNewUser;
 using JewelrySalesSystem.Application.Users.CurrrentUser;
@@ -14,6 +16,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
+using JewelrySalesSystem.Application.Users.StaffRevenue;
 
 namespace Jewelry_Sales_System.API.Controllers
 {
@@ -158,6 +161,21 @@ namespace Jewelry_Sales_System.API.Controllers
                 return BadRequest(new JsonResponse<string>(result));
             }
             return Ok(new JsonResponse<string>(result));
+        }
+
+        [HttpGet("staff/filter-revenue")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(JsonResponse<List<StaffRevenueDto>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<List<StaffRevenueDto>>>> StaffFilterRevenue(
+            [FromQuery] FilterStaffRevenueQuery query
+            , CancellationToken cancellationToken = default)
+        {
+            var result = await _mediator.Send(query, cancellationToken);
+            return Ok(result);
         }
     }
 }
