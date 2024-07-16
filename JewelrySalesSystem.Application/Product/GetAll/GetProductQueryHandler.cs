@@ -12,6 +12,7 @@ using JewelrySalesSystem.Domain.Commons.Exceptions;
 using JewelrySalesSystem.Domain.Repositories.ConfiguredEntity;
 using JewelrySalesSystem.Domain.Functions;
 using JewelrySalesSystem.Domain.Commons.Interfaces;
+using JewelrySalesSystem.Application.Common.Models;
 
 namespace JewelrySalesSystem.Application.Product.GetProduct
 {
@@ -53,14 +54,17 @@ namespace JewelrySalesSystem.Application.Product.GetProduct
             var diamondType = await _diamondRepository.FindAllToDictionaryAsync(x => x.Name != null, x => x.ID, x => x.Name, cancellationToken);
             var category = await _categoryRepository.FindAllToDictionaryAsync(x => x.DeletedAt == null, x => x.ID, x => x.Name, cancellationToken);
 
+            var goldList = await _goldService.GetGoldPricesAsync(cancellationToken);
+            var diamondList = await _diamondService.GetDiamondPricesAsync(cancellationToken);
+
             var productCost = product.ToDictionary(
                 x => x.ID,
                 x =>
                 {
-                    var goldPrice = _goldService.GetGoldPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == x.Gold?.Name);
+                    var goldPrice = goldList.FirstOrDefault(v => v.Name == x.Gold?.Name);
                     var goldCost = goldPrice?.SellCost > 0 ? goldPrice.SellCost : goldPrice?.BuyCost;
 
-                    var diamondPrice = _diamondService.GetDiamondPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == x.Diamond?.Name);
+                    var diamondPrice = diamondList.FirstOrDefault(v => v.Name == x.Diamond?.Name);
                     var dsCost = diamondPrice?.SellCost > 0 ? diamondPrice.SellCost : diamondPrice?.BuyCost;
                     return _tools.CalculateSellCost(x.GoldWeight, goldCost, dsCost, x.WageCost);
                 });

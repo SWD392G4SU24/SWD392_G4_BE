@@ -15,12 +15,18 @@ namespace JewelrySalesSystem.Application.Form
     {
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<FormEntity, FormDto>()
-                .ForMember(dest => dest.TypeString, opt => opt.MapFrom(src => src.Type.ToString()));
+            profile.CreateMap<FormEntity, FormDto>();
         }
-        public required string Id { get; set; }
-        public string TypeString { get; set; }
+        public string ID { get; set; }
+        public string Type { get; set; }
+        public string Status {  get; set; }
         public string? Content { get; set; }
-        public required DateTime AppoinmentDate { get; set; }
+        public string CreatorID {  get; set; }
+        public string FullName {  get; set; }
+        public DateTime AppoinmentDate { get; set; }
+        public FormDto()
+        {
+            
+        }
     }
 }

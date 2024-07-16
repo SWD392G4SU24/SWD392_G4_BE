@@ -37,9 +37,9 @@ namespace Jewelry_Sales_System.API.Controllers
             CancellationToken cancellationToken = default)
         {
             var result = await this._mediator.Send(new GetAllFormQuery(), cancellationToken);
-            return result != null ? Ok(new JsonResponse<List<FormDto>>(result)) : NotFound();
+            return result != null ? Ok(result) : NotFound();
         }
-
+        
         [HttpGet]
         [Route("[controller]/{id}")]
         [ProducesResponseType(typeof(JsonResponse<FormDto>), StatusCodes.Status200OK)]
@@ -53,7 +53,7 @@ namespace Jewelry_Sales_System.API.Controllers
            CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(new GetFormByIDQuery(id: id), cancellationToken);
-            return result != null ? Ok(new JsonResponse<FormDto>(result)) : NotFound();
+            return result != null ? Ok(result) : NotFound();
         }
 
         [HttpPost]
@@ -69,16 +69,14 @@ namespace Jewelry_Sales_System.API.Controllers
           CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(command, cancellationToken);
-            if(result.Contains("Vui lòng chọn lại Type"))
-                {
+            if(!result.Contains("thành công"))
+            {
                 return BadRequest(new JsonResponse<string>(result));
-                }
+            }
             return Ok(new JsonResponse<string>(result));
         }
 
-        [AllowAnonymous]
-        [HttpPut]
-        [Route("[controller]/update")]
+        [HttpPatch("[controller]/update")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -86,7 +84,7 @@ namespace Jewelry_Sales_System.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<JsonResponse<string>>> UpdateForm(
-            UpdateFormCommand command,
+            [FromQuery] UpdateFormCommand command,
            CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(command, cancellationToken);
@@ -98,9 +96,7 @@ namespace Jewelry_Sales_System.API.Controllers
         }
 
 
-        [AllowAnonymous]
-        [HttpPatch]
-        [Route("[controller]/update-status")]
+        [HttpPut("form/update-status")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -108,18 +104,17 @@ namespace Jewelry_Sales_System.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<JsonResponse<string>>> UpdateStatusForm(
-            UpdateStatusFromCommand command,
+           [FromBody] UpdateStatusFromCommand command,
            CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(command, cancellationToken);
-            if (result.Contains("thất bại"))
+            if (!result.Contains("thành công"))
             {
                 return BadRequest(new JsonResponse<string>(result));
             }
             return Ok(new JsonResponse<string>(result));
         }
 
-        [AllowAnonymous]
         [HttpDelete]
         [Route("[controller]/delete/{id}")]
         [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status200OK)]
@@ -129,11 +124,11 @@ namespace Jewelry_Sales_System.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<JsonResponse<string>>> DeleteForm(
-           string id,
+           [FromRoute] string id,
           CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(new DeleteFormCommand(id : id), cancellationToken);
-            if (result.Contains("thất bại"))
+            if (!result.Contains("thành công"))
             {
                 return BadRequest(new JsonResponse<string>(result));
             }

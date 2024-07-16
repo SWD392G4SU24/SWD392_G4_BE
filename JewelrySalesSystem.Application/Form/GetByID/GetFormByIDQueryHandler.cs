@@ -14,17 +14,20 @@ namespace JewelrySalesSystem.Application.Form.GetByID
     {
         private readonly IFormRepository _formRepository;
         private readonly IMapper _mapper;
+        private readonly IUserRepository _userRepository;
 
-        public GetFormByIDQueryHandler(IFormRepository formRepository, IMapper mapper)
+        public GetFormByIDQueryHandler(IFormRepository formRepository, IMapper mapper, IUserRepository userRepository)
         {
             _formRepository = formRepository;
             _mapper = mapper;
+            _userRepository = userRepository;
         }
         public async Task<FormDto> Handle(GetFormByIDQuery request, CancellationToken cancellationToken)
         {
             var form = await _formRepository.FindAsync(x => x.ID == request.id,cancellationToken)
             ?? throw new NotFoundException("Form không tồn tại");
-            return form.MapToFormDto(_mapper);
+            var user = await _userRepository.FindAsync(x => x.ID == form.CreatorID && x.DeletedAt == null, cancellationToken);
+            return form.MapToFormDto(_mapper, user?.FullName ?? "Lỗi");
         }
     }
 }

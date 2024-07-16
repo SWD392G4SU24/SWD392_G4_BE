@@ -26,6 +26,10 @@ namespace Jewelry_Sales_System.API
                 opt =>
                 {
                     opt.Filters.Add<ExceptionFilter>();
+                })
+                .AddNewtonsoftJson(options =>
+                {
+                    options.SerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
                 });
             services.AddApplication(Configuration);
             services.ConfigureApplicationSecurity(Configuration);

@@ -20,17 +20,18 @@ namespace JewelrySalesSystem.Application.Promotion.ExpiresTimeBackgroundService
                 using (var scope = _serviceProvider.CreateScope())
                 {
                     var promotionRepository = scope.ServiceProvider.GetRequiredService<IPromotionRepository>();
-                    var promotions = await promotionRepository.FindAllAsync(x => x.DeletedAt == null, cancellationToken);
-                    foreach (var promotion in promotions)
+                    var expiredPromotions = await promotionRepository.FindAllAsync(x => x.DeletedAt == null 
+                        && x.ExpiresTime <= DateTime.Now, cancellationToken);
+                    if (expiredPromotions.Any())
                     {
-                        if (promotion.ExpiresTime <= DateTime.Now && promotion.Status != PromotionStatus.UNAVAILABLE)
+                        foreach (var promotion in expiredPromotions)
                         {
                             promotion.Status = PromotionStatus.UNAVAILABLE;
                             promotion.DeletedAt = DateTime.UtcNow;
                             promotionRepository.Update(promotion);
-                            await promotionRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
                         }
-                    }
+                        await promotionRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
+                    }                                       
                 }
                 await Task.Delay(TimeSpan.FromHours(1), cancellationToken); // Run every hour
             }

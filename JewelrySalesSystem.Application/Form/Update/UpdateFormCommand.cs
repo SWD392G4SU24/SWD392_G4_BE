@@ -11,15 +11,15 @@ namespace JewelrySalesSystem.Application.Form.Update
 {
     public class UpdateFormCommand : IRequest<string>, ICommand
     {
-        public UpdateFormCommand(string id, string content, DateTime appointmentDate)
+        public UpdateFormCommand(string formID, string? content, DateTime? appointmentDate)
         {
-            Id = id;
+            FormID = formID;
             Content = content;
             AppointmentDate = appointmentDate;
         }
 
-        public string Id { get; set; }
-        public string Content { get; set; }
-        public DateTime AppointmentDate { get; set; }
+        public string FormID { get; set; }
+        public string? Content { get; set; }
+        public DateTime? AppointmentDate { get; set; }
     }
 }
