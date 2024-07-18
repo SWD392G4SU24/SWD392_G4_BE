@@ -1,6 +1,7 @@
 ﻿using JewelrySalesSystem.Domain.Commons.Interfaces;
 using JewelrySalesSystem.Domain.Entities;
 using JewelrySalesSystem.Domain.Entities.Configured;
+using JewelrySalesSystem.Domain.Entities.EmailModel;
 using JewelrySalesSystem.Infrastructure.Persistence.Configurations;
 using JewelrySalesSystem.Infrastructure.Persistence.Configurations.ConfigEntity;
 using Microsoft.EntityFrameworkCore;
@@ -31,6 +32,7 @@ namespace JewelrySalesSystem.Infrastructure.Persistence
         public DbSet<GoldEntity> Golds { get; set; }
         public DbSet<DiamondEntity> Diamonds { get; set; }
         public DbSet<FormEntity> Forms { get; set; }
+        public DbSet<EmailVerification> EmailVerifications { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

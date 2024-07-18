@@ -28,7 +28,7 @@ namespace JewelrySalesSystem.Application.Form.Update
                 ?? throw new NotFoundException("Không tìm thấy form nào");
             if (!string.IsNullOrEmpty(request.Content))
             {
-                request.Content = form.Content;
+                form.Content = request.Content;
             }
             if (request.AppointmentDate.HasValue)
             {

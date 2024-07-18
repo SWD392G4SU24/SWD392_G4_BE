@@ -18,15 +18,18 @@ namespace JewelrySalesSystem.Application.Users.CurrrentUser
         private readonly IMapper _mapper;
         private readonly IUserRepository _userRepository;
         private readonly IRoleRepository _roleRepository;
+        private readonly ICounterRepository _counterRepository;
         public GetCurrentUserQueryHandler(ICurrentUserService currentUserService
             , IMapper mapper
             , IUserRepository userRepository
-            , IRoleRepository roleRepository)
+            , IRoleRepository roleRepository
+            , ICounterRepository counterRepository)
         {
             _roleRepository = roleRepository;
             _currentUserService = currentUserService;
             _mapper = mapper;
             _userRepository = userRepository;
+            _counterRepository = counterRepository;
         }
 
         public async Task<UserDto> Handle(GetCurrentUserQuery request, CancellationToken cancellationToken)
@@ -41,7 +44,7 @@ namespace JewelrySalesSystem.Application.Users.CurrrentUser
             {
                 throw new NotFoundException("Không tìm thấy role của User");
             }
-            return user.MapToUserDto(_mapper, role.Name);
+            return user.MapToUserDto(_mapper, role.Name, user.Counter?.Name);
         }
     }
 }

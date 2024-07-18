@@ -3,6 +3,7 @@ using JewelrySalesSystem.Domain.Functions;
 using JewelrySalesSystem.Domain.Repositories;
 using JewelrySalesSystem.Domain.Repositories.ConfiguredEntity;
 using JewelrySalesSystem.Infrastructure.ExternalService.Diamond;
+using JewelrySalesSystem.Infrastructure.ExternalService.EmailSender;
 using JewelrySalesSystem.Infrastructure.ExternalService.GoldBtmc;
 using JewelrySalesSystem.Infrastructure.ExternalService.VnPay;
 using JewelrySalesSystem.Infrastructure.Functions;
@@ -38,6 +39,7 @@ namespace JewelrySalesSystem.Infrastructure
             services.AddScoped<IUnitOfWork>(provider => provider.GetRequiredService<ApplicationDbContext>());
             services.AddScoped<IVnPayService, VnPayService>();          
             services.AddScoped<ICalculator, Calculator>();
+            services.AddScoped<IEmailSender, EmailSender>();
             services.AddHttpClient<IGoldService, GoldService>();
             services.AddHttpClient<IDiamondService, DiamondService>();
             
@@ -54,6 +56,7 @@ namespace JewelrySalesSystem.Infrastructure
             services.AddTransient<IPaymentMethodRepository, PaymentMethodRepository>();
             services.AddTransient<ICounterRepository, CounterRepository>();
             services.AddTransient<IFormRepository, FormRepository>();
+            services.AddTransient<IEmailVerificationRepository, EmailVerificationRepository>();
 
             return services;
         }

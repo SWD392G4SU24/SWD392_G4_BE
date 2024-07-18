@@ -17,7 +17,10 @@ namespace JewelrySalesSystem.Application.Form.Update
             Content = content;
             AppointmentDate = appointmentDate;
         }
-
+        public UpdateFormCommand()
+        {
+            
+        }
         public string FormID { get; set; }
         public string? Content { get; set; }
         public DateTime? AppointmentDate { get; set; }

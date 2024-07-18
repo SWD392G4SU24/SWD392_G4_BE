@@ -95,13 +95,15 @@ namespace JewelrySalesSystem.Application.Order.CustomerCreate
                 decimal gsCost = 0;
                 if (existProduct.GoldID != null)
                 {
-                    gbCost = _goldService.GetGoldPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == existProduct.Gold.Name).BuyCost;
-                    gsCost = _goldService.GetGoldPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == existProduct.Gold.Name).SellCost;
+                    var goldService = await _goldService.GetGoldPricesAsync(cancellationToken);
+                    gbCost = goldService.FirstOrDefault(v => v.Name == existProduct.Gold.Name).BuyCost;
+                    gsCost = goldService.FirstOrDefault(v => v.Name == existProduct.Gold.Name).SellCost;
                 }
                 decimal dsCost = 0;
                 if (existProduct.DiamondID != null)
                 {
-                    dsCost = _diamondService.GetDiamondPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == existProduct.Diamond.Name).SellCost;
+                    var diamondService = await _diamondService.GetDiamondPricesAsync(cancellationToken);
+                    dsCost = diamondService.FirstOrDefault(v => v.Name == existProduct.Diamond.Name).SellCost;
                 }
 
                 orderDetails.Add(new OrderDetailEntity
@@ -148,7 +150,7 @@ namespace JewelrySalesSystem.Application.Order.CustomerCreate
                 }
             }
 
-            return await _orderRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? "Tạo thành công" : "Tạo thất bại";
+            return await _orderRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? order.ID : "Tạo thất bại";
         }
     }
 }

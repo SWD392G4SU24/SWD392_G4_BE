@@ -11,9 +11,9 @@ namespace JewelrySalesSystem.Application.Promotion.ExchangeVoucher
     public class ExchangeVoucherCommand : IRequest<string>, IQuery
     {
 
-        public ExchangeVoucherCommand(string description)
+        public ExchangeVoucherCommand(string voucherContent)
         {
-            VoucherContent = description;
+            VoucherContent = voucherContent;
         }
 
         public string VoucherContent { get; set; }

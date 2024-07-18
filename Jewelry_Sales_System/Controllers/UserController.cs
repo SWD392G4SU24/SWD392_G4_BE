@@ -17,6 +17,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 using JewelrySalesSystem.Application.Users.StaffRevenue;
+using JewelrySalesSystem.Application.Users.ChangePassword;
+using JewelrySalesSystem.Application.Users.AssignStaff;
+using JewelrySalesSystem.Application.Users.CreateAccount;
+using JewelrySalesSystem.Application.Users.VerifyAccount;
 
 namespace Jewelry_Sales_System.API.Controllers
 {
@@ -176,6 +180,72 @@ namespace Jewelry_Sales_System.API.Controllers
         {
             var result = await _mediator.Send(query, cancellationToken);
             return Ok(result);
+        }
+
+        [HttpPut]
+        [Route("change-password")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<string>>> ChangePassword(
+                       [FromBody] ChangePasswordUserCommand command,
+                                  CancellationToken cancellationToken = default)
+        {
+            var result = await _mediator.Send(command, cancellationToken);
+            if(!result.Contains("thành công"))
+            {
+                return BadRequest(new JsonResponse<string> (result));
+            }
+            return Ok(new JsonResponse<string>(result));
+        }
+
+        [HttpPut("manager/assign-staff")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<string>>> AssignStaff(
+                       [FromBody] AssignStaffCommand command,
+                                  CancellationToken cancellationToken = default)
+        {
+            var result = await _mediator.Send(command, cancellationToken);
+            if (!result.Contains("thành công"))
+            {
+                return BadRequest(new JsonResponse<string>(result));
+            }
+            return Ok(new JsonResponse<string>(result));
+        }
+
+        [HttpPost("admin/create-account")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<string>>> CreateAccount(
+            [FromBody] CreateAccountCommand command,
+            CancellationToken cancellationToken = default)
+        {
+            var result = await _mediator.Send(command, cancellationToken);
+            return Ok(new JsonResponse<string>(result));
+        }
+
+        [AllowAnonymous]
+        [HttpPost("user/verify-email")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<string>>> VerifyEmail(
+            [FromBody] VerifyEmailCommand command,
+            CancellationToken cancellationToken = default)
+        {
+            var result = await _mediator.Send(command, cancellationToken);
+            if(result.Equals("Tài khoản không đủ quyền hạn"))
+            {
+                return Unauthorized(new JsonResponse<string>(result));
+            }
+            return Ok(new JsonResponse<string>(result));
         }
     }
 }

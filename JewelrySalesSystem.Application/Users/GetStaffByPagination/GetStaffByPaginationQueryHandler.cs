@@ -17,23 +17,30 @@ namespace JewelrySalesSystem.Application.Users.GetStaffByPagination
         private readonly IMapper _mapper;
         private readonly IRoleRepository _roleRepository;
         private readonly IUserRepository _userRepository;
-        public GetStaffByPaginationQueryHandler(IMapper mapper, IUserRepository userRepository, IRoleRepository roleRepository)
+        private readonly ICounterRepository _counterRepository;
+        public GetStaffByPaginationQueryHandler(IMapper mapper
+            , IUserRepository userRepository
+            , IRoleRepository roleRepository
+            , ICounterRepository counterRepository)
         {
             _roleRepository = roleRepository;
             _mapper = mapper;
             _userRepository = userRepository;
+            _counterRepository = counterRepository;
         }
         public async Task<PagedResult<UserDto>> Handle(GetStaffByPaginationQuery query, CancellationToken cancellationToken)
         {
             var list = await _userRepository.FindAllAsync(x => x.DeletedAt == null && x.Role.Name.Equals("Staff"), query.PageNumber, query.PageSize, cancellationToken);
             var roles = await _roleRepository.FindAllToDictionaryAsync(x => x.DeletedAt == null, x => x.ID, x => x.Name, cancellationToken);
+            var counters = await _counterRepository.FindAllToDictionaryAsync(x => x.DeletedAt == null, x => x.ID, x => x.Name, cancellationToken);
+
             return PagedResult<UserDto>.Create
                 (
                 totalCount: list.TotalCount,
                 pageCount: list.PageCount,
                 pageSize: list.PageSize,
                 pageNumber: list.PageNo,
-                data: list.MapToUserDtoList(_mapper, roles)
+                data: list.MapToUserDtoList(_mapper, roles, counters)
                 );
         }
     }
