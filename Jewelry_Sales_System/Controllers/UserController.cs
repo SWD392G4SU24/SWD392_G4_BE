@@ -227,6 +227,10 @@ namespace Jewelry_Sales_System.API.Controllers
             CancellationToken cancellationToken = default)
         {
             var result = await _mediator.Send(command, cancellationToken);
+            if (result.Equals("Tài khoản không đủ quyền hạn"))
+            {
+                return Unauthorized(new JsonResponse<string>(result));
+            }
             return Ok(new JsonResponse<string>(result));
         }
 
@@ -241,9 +245,9 @@ namespace Jewelry_Sales_System.API.Controllers
             CancellationToken cancellationToken = default)
         {
             var result = await _mediator.Send(command, cancellationToken);
-            if(result.Equals("Tài khoản không đủ quyền hạn"))
+            if(result.Equals("Token không hợp lệ hoặc đã hết hạn"))
             {
-                return Unauthorized(new JsonResponse<string>(result));
+                return BadRequest(new JsonResponse<string>(result));
             }
             return Ok(new JsonResponse<string>(result));
         }

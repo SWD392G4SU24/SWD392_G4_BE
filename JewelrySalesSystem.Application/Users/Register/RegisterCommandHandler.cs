@@ -55,7 +55,7 @@ namespace JewelrySalesSystem.Application.Users.CreateNewUser
                 PhoneNumber = request.PhoneNumber,
                 FullName = request.FullName,
                 PasswordHash = _userRepository.HashPassword(request.Password),
-                RoleID = 4,   
+                RoleID = 3,   
                 Status = UserStatus.UNVERIFIED,
                 Point = 0,
             };
