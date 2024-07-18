@@ -18,6 +18,8 @@ namespace JewelrySalesSystem.Application.Users
         public string Address { get; set; }
         public int RoleID {  get; set; }
         public string Role { get; set; }
+        public int? CounterID { get; set; }
+        public string? Counter {  get; set; }
         public int Point {  get; set; }
         public void Mapping(Profile profile)
         {

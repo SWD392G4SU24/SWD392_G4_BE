@@ -16,6 +16,7 @@ using MediatR;
 using JewelrySalesSystem.Domain.Commons.Interfaces;
 using JewelrySalesSystem.Infrastructure.ExternalService.GoldBtmc;
 using JewelrySalesSystem.Infrastructure.ExternalService.Diamond;
+using JewelrySalesSystem.Application.Promotion.ExpiresTimeBackgroundService;
 
 namespace JewelrySalesSystem.Application
 {
@@ -35,8 +36,7 @@ namespace JewelrySalesSystem.Application
             });
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddScoped<IValidatorProvider, ValidatorProvider>();
-            services.AddScoped<IGoldService, GoldService>();
-            services.AddScoped<IDiamondService, DiamondService>();
+            services.AddHostedService<UpdatePromotionBackgroundServiceHandler>();
 
             return services;
         }

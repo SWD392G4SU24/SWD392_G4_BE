@@ -18,6 +18,21 @@ namespace JewelrySalesSystem.Application.Promotion
         public static List<PromotionDto> MapToPromotionDtoList(this IEnumerable<PromotionEntity> projectFrom, IMapper mapper)
             => projectFrom.Select(x => x.MapToPromotionDto(mapper)).ToList();
 
-   
+        public static PromotionQuantityDto MapToPromotionQuantityDto(this PromotionEntity entity, IMapper mapper)
+        {
+            var dto = mapper.Map<PromotionQuantityDto>(entity);
+            return dto;
+        }
+
+        public static List<PromotionQuantityDto> MapToPromotionQuantityDtoList(this IEnumerable<PromotionEntity> projectFrom, IMapper mapper)
+          => projectFrom
+        .GroupBy(x => new { x.Description, x.ConditionsOfUse, x.ReducedPercent, x.MaximumReduce, x.ExchangePoint, x.ExpiresTime })
+        .Select(g => 
+        {
+            var dto = g.First().MapToPromotionQuantityDto(mapper);
+            dto.Quantity = g.Count();
+            return dto;
+        })
+        .ToList();
     }
 }

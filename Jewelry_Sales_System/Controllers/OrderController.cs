@@ -14,6 +14,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 using JewelrySalesSystem.Application.Order.GetByUserID;
+using JewelrySalesSystem.Application.Order.Re_order;
+using JewelrySalesSystem.Application.Order.GetTotalRevenue;
+using JewelrySalesSystem.Application.Users.StaffRevenue;
+using JewelrySalesSystem.Application.Order.FilterOrder;
 
 namespace Jewelry_Sales_System.API.Controllers
 {
@@ -59,6 +63,21 @@ namespace Jewelry_Sales_System.API.Controllers
             return result != null ? Ok(new JsonResponse<OrderDto>(result)) : NotFound();
         }
 
+        [HttpGet("order/get-revenue")]
+        [ProducesResponseType(typeof(JsonResponse<Dictionary<int,OrderRevenueDto>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<Dictionary<int, OrderRevenueDto>>> GetOrderByID(
+                 [FromQuery] GetTotalOrderRevenueQuery query,
+           CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(query, cancellationToken);
+            return result != null ? Ok(result) : NotFound();
+        }
+
         [HttpDelete]
         [Route("[controller]/delete/{id}")]
         [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status200OK)]
@@ -88,7 +107,7 @@ namespace Jewelry_Sales_System.API.Controllers
             CancellationToken cancellationToken = default)
         {
             var result = await _mediator.Send(command, cancellationToken);
-            if (!result.Contains("thành công"))
+            if (result.Contains("thất bại") || result.Contains("không đủ") || result.Contains("không thể"))
             {
                 return BadRequest(new JsonResponse<string>(result));
             }
@@ -107,6 +126,29 @@ namespace Jewelry_Sales_System.API.Controllers
             CancellationToken cancellationToken = default)
         {
             var result = await _mediator.Send(command, cancellationToken);
+            if (result.Contains("vnpayment"))
+            {
+                return Ok(new JsonResponse<string>(result));
+            }
+            else if (!result.Contains("thành công"))
+            {
+                return BadRequest(new JsonResponse<string>(result));
+            }
+            return Ok(new JsonResponse<string>(result));
+        }
+
+        [HttpPost("re-order/staff-create")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<string>>> CreateReOrder(
+            [FromBody] CreateReOrderCommand command,
+            CancellationToken cancellationToken = default)
+        {
+            var result = await _mediator.Send(command, cancellationToken);
             if (!result.Contains("thành công"))
             {
                 return BadRequest(new JsonResponse<string>(result));
@@ -114,7 +156,7 @@ namespace Jewelry_Sales_System.API.Controllers
             return Ok(new JsonResponse<string>(result));
         }
 
-        [HttpPut("order/update")]
+        [HttpPut("order/update")]   
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -131,6 +173,7 @@ namespace Jewelry_Sales_System.API.Controllers
             return Ok(new JsonResponse<string>(result));
         }
 
+        [AllowAnonymous]
         [HttpPut("order/callback-after-payment")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -157,6 +200,21 @@ namespace Jewelry_Sales_System.API.Controllers
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<JsonResponse<PagedResult<OrderDto>>>> GetByUserID(
             [FromQuery] GetOrderByUserIDQuery query
+            , CancellationToken cancellationToken = default)
+        {
+            var result = await _mediator.Send(query, cancellationToken);
+            return Ok(result);
+        }
+
+        [HttpGet("order/filter-order")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(JsonResponse<List<OrderDto>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<List<OrderDto>>>> FilterOrder(
+            [FromQuery] FilterOrderQuery query
             , CancellationToken cancellationToken = default)
         {
             var result = await _mediator.Send(query, cancellationToken);

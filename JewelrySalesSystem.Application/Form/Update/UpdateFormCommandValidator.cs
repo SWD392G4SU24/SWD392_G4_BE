@@ -17,17 +17,17 @@ namespace JewelrySalesSystem.Application.Form.Update
 
         private void OnValidate()
         {
-            RuleFor(x => x.Id)
+            RuleFor(x => x.FormID)
                 .NotNull().WithMessage("ID không được để trống");
+
             RuleFor(x => x.Content)
                 .MaximumLength(255);
-            RuleFor(x => x.AppointmentDate)
-                .NotNull().WithMessage("AppointmentDate không được để trống");
-            RuleFor(x => x.AppointmentDate)
+
+            RuleFor(x => x.AppointmentDate)               
                 .Must(NotBeInPast).WithMessage("AppointmentDate không được là năm cũ hay cùng ngày tháng năm");
           
         }
-        private bool NotBeInPast(DateTime time)
+        private bool NotBeInPast(DateTime? time)
         {
             return time >= DateTime.Now;
         }

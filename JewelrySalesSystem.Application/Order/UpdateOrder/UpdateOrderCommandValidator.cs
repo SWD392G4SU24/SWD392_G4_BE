@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using JewelrySalesSystem.Application.OrderDetail.UpdateOrderDetail;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,8 +19,12 @@ namespace JewelrySalesSystem.Application.Order.UpdateOrder
         {
             RuleFor(v => v.ID)
                 .NotNull().WithMessage("ID is required");
+
             RuleFor(v => v.OrderDetails)
                 .NotEmpty().WithMessage("Không có sản phẩm nào được đặt");
+
+            RuleForEach(v => v.OrderDetails)
+                .SetValidator(new UpdateOrderDetailCommandValidator());
         }
     }
 }

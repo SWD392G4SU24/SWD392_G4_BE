@@ -24,10 +24,16 @@ namespace JewelrySalesSystem.Application.Form.Update
 
         public async Task<string> Handle(UpdateFormCommand request, CancellationToken cancellationToken)
         {
-            var form = await _formRepository.FindAsync(x => x.ID == request.Id && x.DeletedAt == null, cancellationToken)
+            var form = await _formRepository.FindAsync(x => x.ID == request.FormID && x.DeletedAt == null, cancellationToken)
                 ?? throw new NotFoundException("Không tìm thấy form nào");
-            form.Content = request.Content;
-            form.AppoinmentDate = request.AppointmentDate;
+            if (!string.IsNullOrEmpty(request.Content))
+            {
+                form.Content = request.Content;
+            }
+            if (request.AppointmentDate.HasValue)
+            {
+                form.AppoinmentDate = (DateTime)request.AppointmentDate;
+            }
             form.UpdaterID =_currentUserService.UserId;
             form.LastestUpdateAt = DateTime.Now;
             _formRepository.Update(form);

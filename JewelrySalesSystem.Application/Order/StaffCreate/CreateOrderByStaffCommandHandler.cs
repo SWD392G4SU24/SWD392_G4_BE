@@ -3,6 +3,7 @@ using JewelrySalesSystem.Domain.Commons.Exceptions;
 using JewelrySalesSystem.Domain.Commons.Interfaces;
 using JewelrySalesSystem.Domain.Entities;
 using JewelrySalesSystem.Domain.Entities.VnPayModel;
+using JewelrySalesSystem.Domain.Functions;
 using JewelrySalesSystem.Domain.Repositories;
 using JewelrySalesSystem.Domain.Repositories.ConfiguredEntity;
 using JewelrySalesSystem.Infrastructure.Repositories;
@@ -33,7 +34,7 @@ namespace JewelrySalesSystem.Application.Order.StaffCreate
         private readonly IVnPayService _vnPayService;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ICounterRepository _counterRepository;
-
+        private readonly ICalculator _tools;
 
         public CreateOrderByStaffCommandHandler(ICurrentUserService currentUserService
             , IProductRepository productRepository
@@ -46,7 +47,8 @@ namespace JewelrySalesSystem.Application.Order.StaffCreate
             , IUserRepository userRepository
             , IVnPayService vnPayService
             , IHttpContextAccessor httpContextAccessor
-            , ICounterRepository counterRepository)
+            , ICounterRepository counterRepository
+            , ICalculator calculator)
         {
             _currentUserService = currentUserService;
             _productRepository = productRepository;
@@ -60,11 +62,12 @@ namespace JewelrySalesSystem.Application.Order.StaffCreate
             _vnPayService = vnPayService;
             _httpContextAccessor = httpContextAccessor;
             _counterRepository = counterRepository;
+            _tools = calculator;
         }
         public async Task<string> Handle(CreateOrderByStaffCommand command, CancellationToken cancellationToken)
         {
-            var existUser = await _userRepository.AnyAsync(x => x.ID == command.BuyerID && x.DeleterID == null, cancellationToken);
-            if (!existUser)
+            var existUser = await _userRepository.FindAsync(x => x.ID == command.BuyerID && x.DeleterID == null, cancellationToken);
+            if (existUser == null)
             {
                 throw new NotFoundException("Không tìm thấy người mua với ID: " + command.BuyerID);
             }
@@ -90,7 +93,7 @@ namespace JewelrySalesSystem.Application.Order.StaffCreate
 
             OrderEntity order = new OrderEntity
             {
-                BuyerID = command.BuyerID,
+                BuyerID = existUser.ID,
                 Note = existMethod.Name == "COD" ? command.BuyerID + " thanh toán tiền mặt tại cửa hàng" : command.BuyerID + " thanh toán chuyển khoản tại cửa hàng",
                 PaymentMethodID = command.PaymentMethodID,
                 Status = existMethod.Name == "COD" ? OrderStatus.COMPLETED : OrderStatus.PENDING,
@@ -98,13 +101,11 @@ namespace JewelrySalesSystem.Application.Order.StaffCreate
                 Type = OrderType.AT_SHOP_ORDER,
                 CounterID = staff.CounterID,
                 PickupDate = existMethod.Name == "COD" ? DateTime.Now : null,
-                CreatedAt = DateTime.Now,
                 CreatorID = _currentUserService.UserId,
                 PromotionID = command.PromotionID.IsNullOrEmpty() ? null : existPromotion.ID,
             };
 
             List<OrderDetailEntity> orderDetails = new List<OrderDetailEntity>();
-            //List<ProductEntity> products = new List<ProductEntity>();
             foreach (var item in command.OrderDetails)
             {
                 var existProduct = await _productRepository.FindAsync(x => x.ID == item.ProductID && x.DeleterID == null, cancellationToken);
@@ -122,25 +123,27 @@ namespace JewelrySalesSystem.Application.Order.StaffCreate
                 decimal gsCost = 0;
                 if (existProduct.GoldID != null)
                 {
-                    gbCost = _goldService.GetGoldPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == existProduct.Gold.Name).BuyCost;
-                    gsCost = _goldService.GetGoldPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == existProduct.Gold.Name).SellCost;
+                    var goldService = await _goldService.GetGoldPricesAsync(cancellationToken);
+                    gbCost = goldService.FirstOrDefault(v => v.Name == existProduct.Gold.Name).BuyCost;
+                    gsCost = goldService.FirstOrDefault(v => v.Name == existProduct.Gold.Name).SellCost;
                 }
                 decimal dsCost = 0;
                 if (existProduct.DiamondID != null)
                 {
-                    dsCost = _diamondService.GetDiamondPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == existProduct.Diamond.Name).SellCost;
+                    var diamondService = await _diamondService.GetDiamondPricesAsync(cancellationToken);
+                    dsCost = diamondService.FirstOrDefault(v => v.Name == existProduct.Diamond.Name).SellCost;
                 }
 
                 orderDetails.Add(new OrderDetailEntity
                 {
                     OrderID = order.ID,
                     ProductID = item.ProductID,
-                    ProductCost = (existProduct.WageCost + (gsCost == 0 ? gbCost : gsCost) + dsCost) * item.Quantity,
+                    ProductCost = _tools.CalculateSellCost(existProduct.GoldWeight, (gsCost == 0 ? gbCost : gsCost), dsCost, existProduct.WageCost) * item.Quantity
+                    /*(existProduct.WageCost + (gsCost == 0 ? gbCost : gsCost) + dsCost) * item.Quantity*/,
                     GoldBuyCost = existProduct.GoldID != null ? gbCost : null,
                     GoldSellCost = existProduct.GoldID != null ? gsCost : null,
                     DiamondSellCost = existProduct.DiamondID != null ? dsCost : null,
                     Quantity = item.Quantity,
-                    CreatedAt = DateTime.Now,
                     CreatorID = _currentUserService.UserId
                 });
             }
@@ -170,6 +173,10 @@ namespace JewelrySalesSystem.Application.Order.StaffCreate
                     {
                         return "Không đủ điều kiện sử dụng ưu đãi";
                     }
+                    if (existPromotion.Status != PromotionStatus.AVAILABLE)
+                    {
+                        return "Ưu đãi không thể sử dụng";
+                    }
 
                     // cập nhật nại status nếu được sử dụng
                     existPromotion.Status = PromotionStatus.USED;
@@ -187,8 +194,13 @@ namespace JewelrySalesSystem.Application.Order.StaffCreate
                         order.TotalCost -= order.TotalCost * (decimal)existPromotion.ReducedPercent / 100;
                     }                    
                 }
+                existUser.Point += _tools.CalculatePoint(order.TotalCost);
+                existUser.LastestUpdateAt = DateTime.UtcNow;
+                existUser.UpdaterID = existUser.ID;
+                _userRepository.Update(existUser);
                 return await _orderRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? "Tạo thành công" : "Tạo thất bại";
             }
+
             // flow này là thanh toán banking
             _orderRepository.Add(order);
             foreach (var orderDetail in orderDetails)
@@ -204,6 +216,11 @@ namespace JewelrySalesSystem.Application.Order.StaffCreate
                 {
                     return "Không đủ điều kiện sử dụng ưu đãi";
                 }
+                if (existPromotion.Status != PromotionStatus.AVAILABLE)
+                {
+                    return "Ưu đãi không thể sử dụng";
+                }
+
                 // cập nhật lại giá tiền order
                 if (order.TotalCost * (decimal)existPromotion.ReducedPercent / 100 > existPromotion.ConditionsOfUse)
                 {
@@ -220,8 +237,6 @@ namespace JewelrySalesSystem.Application.Order.StaffCreate
             {
                 Amount = (double)order.TotalCost,
                 OrderType = order.ID,
-                OrderDescription = order.Note,
-                Name = order.BuyerID
             };            
             //pass httpContext vô service
             var httpContext = _httpContextAccessor.HttpContext;

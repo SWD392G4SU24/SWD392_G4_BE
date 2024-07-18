@@ -10,6 +10,9 @@ using JewelrySalesSystem.Domain.Repositories;
 using AutoMapper;
 using JewelrySalesSystem.Domain.Commons.Exceptions;
 using JewelrySalesSystem.Domain.Repositories.ConfiguredEntity;
+using JewelrySalesSystem.Domain.Functions;
+using JewelrySalesSystem.Domain.Commons.Interfaces;
+using JewelrySalesSystem.Application.Common.Models;
 
 namespace JewelrySalesSystem.Application.Product.GetProduct
 {
@@ -20,16 +23,25 @@ namespace JewelrySalesSystem.Application.Product.GetProduct
         private readonly IDiamondRepository _diamondRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
+        private readonly ICalculator _tools;
+        private readonly IGoldService _goldService;
+        private readonly IDiamondService _diamondService;
         public GetProductQueryHandler(IProductRepository productRepository, IMapper mapper
             , IDiamondRepository diamondRepository
             , ICategoryRepository categoryRepository
-            , IGoldRepository goldRepository)
+            , IGoldRepository goldRepository
+            , ICalculator tools
+            , IDiamondService diamondService
+            , IGoldService goldService)
         {
             _goldRepository = goldRepository;
             _productRepository = productRepository;
             _mapper = mapper;
             _diamondRepository = diamondRepository;
             _categoryRepository = categoryRepository;
+            _tools = tools;
+            _goldService = goldService;
+            _diamondService = diamondService;
         }
 
         public async Task<List<ProductDto>> Handle(GetProductQuery request, CancellationToken cancellationToken)
@@ -42,7 +54,22 @@ namespace JewelrySalesSystem.Application.Product.GetProduct
             var diamondType = await _diamondRepository.FindAllToDictionaryAsync(x => x.Name != null, x => x.ID, x => x.Name, cancellationToken);
             var category = await _categoryRepository.FindAllToDictionaryAsync(x => x.DeletedAt == null, x => x.ID, x => x.Name, cancellationToken);
 
-            return product.MapToProductDtoList(_mapper, goldType, diamondType, category);
+            var goldList = await _goldService.GetGoldPricesAsync(cancellationToken);
+            var diamondList = await _diamondService.GetDiamondPricesAsync(cancellationToken);
+
+            var productCost = product.ToDictionary(
+                x => x.ID,
+                x =>
+                {
+                    var goldPrice = goldList.FirstOrDefault(v => v.Name == x.Gold?.Name);
+                    var goldCost = goldPrice?.SellCost > 0 ? goldPrice.SellCost : goldPrice?.BuyCost;
+
+                    var diamondPrice = diamondList.FirstOrDefault(v => v.Name == x.Diamond?.Name);
+                    var dsCost = diamondPrice?.SellCost > 0 ? diamondPrice.SellCost : diamondPrice?.BuyCost;
+                    return _tools.CalculateSellCost(x.GoldWeight, goldCost, dsCost, x.WageCost);
+                });
+
+            return product.MapToProductDtoList(_mapper, goldType, diamondType, category, productCost);
         }
     }
 }

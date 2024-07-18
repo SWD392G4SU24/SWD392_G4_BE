@@ -2,6 +2,7 @@
 using JewelrySalesSystem.Domain.Commons.Exceptions;
 using JewelrySalesSystem.Domain.Commons.Interfaces;
 using JewelrySalesSystem.Domain.Entities;
+using JewelrySalesSystem.Domain.Functions;
 using JewelrySalesSystem.Domain.Repositories;
 using JewelrySalesSystem.Domain.Repositories.ConfiguredEntity;
 using MediatR;
@@ -26,6 +27,7 @@ namespace JewelrySalesSystem.Application.Order.CustomerCreate
         private readonly IPaymentMethodRepository _paymentMethodRepository;
         private readonly IGoldService _goldService;
         private readonly IDiamondService _diamondService;
+        private readonly ICalculator _tools;
         public CreateOrderByCustomerCommandHandler(IOrderRepository orderRepository
             , IOrderDetailRepository orderDetailRepository
             , IProductRepository productRepository
@@ -34,7 +36,8 @@ namespace JewelrySalesSystem.Application.Order.CustomerCreate
             , ICurrentUserService currentUserService
             , IPaymentMethodRepository paymentMethodRepository
             , IDiamondService diamondService
-            , IGoldService goldService)
+            , IGoldService goldService
+            , ICalculator tools)
         {
             _goldService = goldService;
             _orderRepository = orderRepository;
@@ -45,6 +48,7 @@ namespace JewelrySalesSystem.Application.Order.CustomerCreate
             _currentUserService = currentUserService;
             _paymentMethodRepository = paymentMethodRepository;
             _diamondService = diamondService;
+            _tools = tools;
         }
         public async Task<string> Handle(CreateOrderByCustomerCommand command, CancellationToken cancellationToken)
         {
@@ -52,25 +56,19 @@ namespace JewelrySalesSystem.Application.Order.CustomerCreate
             if (existUser == null)
             {
                 throw new NotFoundException("Người dùng không tồn tại hoặc đã bị BAN");
-            }
-            
-            var existMethod = await _paymentMethodRepository.AnyAsync(x => x.ID == command.PaymentMethodID && x.DeleterID == null, cancellationToken);
-            if (!existMethod)
-            {
-                throw new NotFoundException("Không tìm thấy phương thức thanh toán với ID: " + command.PaymentMethodID);
-            }
+            }           
 
             var existPromotion = await _promotionRepository.FindAsync(x => x.ID == command.PromotionID && x.DeleterID == null, cancellationToken);
             if (existPromotion == null && !command.PromotionID.IsNullOrEmpty())
             {
                 throw new NotFoundException("Không tìm thấy ưu đãi với ID: " + command.PromotionID);
             }
-
+            var paymentMethod = await _paymentMethodRepository.FindAsync(x => x.Name.Equals("VnPay"), cancellationToken);
             OrderEntity order = new OrderEntity 
             {
                 BuyerID = existUser.ID,
                 Note = existUser.ID + " thanh toán online",
-                PaymentMethodID = command.PaymentMethodID,
+                PaymentMethodID = paymentMethod.ID,
                 Status = OrderStatus.PENDING,
                 TotalCost = 0,
                 Type = OrderType.ONLINE_ORDER,
@@ -97,20 +95,23 @@ namespace JewelrySalesSystem.Application.Order.CustomerCreate
                 decimal gsCost = 0;
                 if (existProduct.GoldID != null)
                 {
-                    gbCost = _goldService.GetGoldPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == existProduct.Gold.Name).BuyCost;
-                    gsCost = _goldService.GetGoldPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == existProduct.Gold.Name).SellCost;
+                    var goldService = await _goldService.GetGoldPricesAsync(cancellationToken);
+                    gbCost = goldService.FirstOrDefault(v => v.Name == existProduct.Gold.Name).BuyCost;
+                    gsCost = goldService.FirstOrDefault(v => v.Name == existProduct.Gold.Name).SellCost;
                 }
                 decimal dsCost = 0;
                 if (existProduct.DiamondID != null)
                 {
-                    dsCost = _diamondService.GetDiamondPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == existProduct.Diamond.Name).SellCost;
+                    var diamondService = await _diamondService.GetDiamondPricesAsync(cancellationToken);
+                    dsCost = diamondService.FirstOrDefault(v => v.Name == existProduct.Diamond.Name).SellCost;
                 }
 
                 orderDetails.Add(new OrderDetailEntity
                 {
                     OrderID = order.ID,
                     ProductID = item.ProductID,
-                    ProductCost = (existProduct.WageCost + (gsCost == 0 ? gbCost : gsCost) + dsCost) * item.Quantity,
+                    ProductCost = _tools.CalculateSellCost(existProduct.GoldWeight, (gsCost == 0 ? gbCost : gsCost), dsCost, existProduct.WageCost) * item.Quantity
+                    /*(existProduct.WageCost + (gsCost == 0 ? gbCost : gsCost) + dsCost) * item.Quantity*/,
                     GoldBuyCost = existProduct.GoldID != null ? gbCost : null,
                     GoldSellCost = existProduct.GoldID != null ? gsCost : null,
                     DiamondSellCost = existProduct.DiamondID != null ? dsCost : null,
@@ -134,6 +135,10 @@ namespace JewelrySalesSystem.Application.Order.CustomerCreate
                 {
                     return "Không đủ điều kiện sử dụng ưu đãi";
                 }
+                if (existPromotion.Status != PromotionStatus.AVAILABLE)
+                {
+                    return "Ưu đãi không thể sử dụng";
+                }
                 // cập nhật lại giá tiền order
                 if (order.TotalCost * (decimal)existPromotion.ReducedPercent / 100 > existPromotion.ConditionsOfUse)
                 {
@@ -145,7 +150,7 @@ namespace JewelrySalesSystem.Application.Order.CustomerCreate
                 }
             }
 
-            return await _orderRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? "Tạo thành công" : "Tạo thất bại";
+            return await _orderRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? order.ID : "Tạo thất bại";
         }
     }
 }

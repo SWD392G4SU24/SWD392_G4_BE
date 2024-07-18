@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace JewelrySalesSystem.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class final : Migration
+    public partial class Final : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -232,6 +232,27 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "EmailVerification",
+                columns: table => new
+                {
+                    EmailVerificationId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Token = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ExpiryDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CustomerID = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmailVerification", x => x.EmailVerificationId);
+                    table.ForeignKey(
+                        name: "FK_EmailVerification_Users_CustomerID",
+                        column: x => x.CustomerID,
+                        principalTable: "Users",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Order",
                 columns: table => new
                 {
@@ -347,12 +368,26 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Category",
+                columns: new[] { "ID", "CreatedAt", "CreatorID", "DeletedAt", "DeleterID", "LastestUpdateAt", "Name", "UpdaterID" },
+                values: new object[,]
+                {
+                    { 1, null, null, null, null, null, "Vòng cổ", null },
+                    { 2, null, null, null, null, null, "Vòng tay", null },
+                    { 3, null, null, null, null, null, "Nhẫn", null },
+                    { 4, null, null, null, null, null, "Đồng hồ", null },
+                    { 5, null, null, null, null, null, "Bông tai", null },
+                    { 6, null, null, null, null, null, "Kiềng", null },
+                    { 7, null, null, null, null, null, "Lắc", null }
+                });
+
+            migrationBuilder.InsertData(
                 table: "PaymentMethod",
                 columns: new[] { "ID", "CreatedAt", "CreatorID", "DeletedAt", "DeleterID", "LastestUpdateAt", "Name", "UpdaterID" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 7, 7, 8, 25, 9, 725, DateTimeKind.Utc).AddTicks(1020), null, null, null, null, "VnPay", null },
-                    { 2, new DateTime(2024, 7, 7, 8, 25, 9, 725, DateTimeKind.Utc).AddTicks(1021), null, null, null, null, "COD", null }
+                    { 1, null, null, null, null, null, "VnPay", null },
+                    { 2, null, null, null, null, null, "COD", null }
                 });
 
             migrationBuilder.InsertData(
@@ -360,10 +395,24 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                 columns: new[] { "ID", "CreatedAt", "CreatorID", "DeletedAt", "DeleterID", "LastestUpdateAt", "Name", "UpdaterID" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 7, 7, 8, 25, 9, 725, DateTimeKind.Utc).AddTicks(848), null, null, null, null, "Admin", null },
-                    { 2, new DateTime(2024, 7, 7, 8, 25, 9, 725, DateTimeKind.Utc).AddTicks(855), null, null, null, null, "Manager", null },
-                    { 3, new DateTime(2024, 7, 7, 8, 25, 9, 725, DateTimeKind.Utc).AddTicks(857), null, null, null, null, "Customer", null },
-                    { 4, new DateTime(2024, 7, 7, 8, 25, 9, 725, DateTimeKind.Utc).AddTicks(861), null, null, null, null, "Staff", null }
+                    { 1, null, null, null, null, null, "Admin", null },
+                    { 2, null, null, null, null, null, "Manager", null },
+                    { 3, null, null, null, null, null, "Customer", null },
+                    { 4, null, null, null, null, null, "Staff", null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Counter",
+                columns: new[] { "ID", "CategoryID", "CreatedAt", "CreatorID", "DeletedAt", "DeleterID", "LastestUpdateAt", "Name", "UpdaterID" },
+                values: new object[,]
+                {
+                    { 1, 1, null, null, null, null, null, "Quầy Vòng cổ", null },
+                    { 2, 2, null, null, null, null, null, "Quầy Vòng tay", null },
+                    { 3, 3, null, null, null, null, null, "Quầy Nhẫn", null },
+                    { 4, 4, null, null, null, null, null, "Quầy Đồng hồ", null },
+                    { 5, 5, null, null, null, null, null, "Quầy Bông tai", null },
+                    { 6, 6, null, null, null, null, null, "Quầy Kiềng", null },
+                    { 7, 7, null, null, null, null, null, "Quầy Lắc", null }
                 });
 
             migrationBuilder.InsertData(
@@ -371,14 +420,21 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                 columns: new[] { "ID", "Address", "CounterID", "CreatedAt", "CreatorID", "DeletedAt", "DeleterID", "Email", "FullName", "LastestUpdateAt", "PasswordHash", "PhoneNumber", "Point", "RoleID", "Status", "UpdaterID", "Username" },
                 values: new object[,]
                 {
-                    { "1208b53c37ff4ef7af58f09a0ce6d64a", "123 Admin St.", null, new DateTime(2024, 7, 7, 15, 25, 9, 886, DateTimeKind.Local).AddTicks(1401), null, null, null, "admin@gmail.com", "Administrator", new DateTime(2024, 7, 7, 15, 25, 9, 725, DateTimeKind.Local).AddTicks(1087), "$2a$11$76ZctgQARUzS1xnNb0OE6e3cxUAze.8ZbNLoD2ZSmt1TsCYu8q.zK", "1234567890", 0, 1, "VERIFIED", null, "admin" },
-                    { "34bb034371604ab5b3065d0c8cb3217d", "123 Manager St.", null, new DateTime(2024, 7, 7, 15, 25, 10, 57, DateTimeKind.Local).AddTicks(7698), null, null, null, "manager@gmail.com", "Manager", new DateTime(2024, 7, 7, 15, 25, 9, 886, DateTimeKind.Local).AddTicks(1475), "$2a$11$EAzAFrXCt4O1tyisYBU0dOW3wSL2AtOZ8OtD6Eq/RqM89gVHIk9FS", "2234567890", 0, 2, "VERIFIED", null, "manager" }
+                    { "831d3da4def349d4b1e62b91c85f82fd", "123 Manager St.", null, new DateTime(2024, 7, 18, 17, 16, 30, 246, DateTimeKind.Local).AddTicks(671), null, null, null, "manager@gmail.com", "Manager", new DateTime(2024, 7, 18, 17, 16, 30, 246, DateTimeKind.Local).AddTicks(671), "$2a$11$ZYbyena.w1hqVvc3fDT2nuWxlRsFZljRkMYIeRCcEG/8codgd5Ede", "2234567890", 0, 2, "VERIFIED", null, "manager" },
+                    { "d7bd20cf7b504952a0666ddd0956d7ab", "Vinhomes GP", null, new DateTime(2024, 7, 18, 17, 16, 30, 459, DateTimeKind.Local).AddTicks(897), null, null, null, "phannam151@gmail.com", "Phan Hai Nam", new DateTime(2024, 7, 18, 17, 16, 30, 459, DateTimeKind.Local).AddTicks(897), "$2a$11$A.rHmRAXEIv46blSeMH1Y.JF7DA1Elrwa6SI508boAv4HN/ZTePQS", "093221349", 0, 3, "VERIFIED", null, "phannam151" },
+                    { "df9583bebf784d18bb91b3b6fd2c4d1f", "123 Admin St.", null, new DateTime(2024, 7, 18, 17, 16, 30, 61, DateTimeKind.Local).AddTicks(5501), null, null, null, "admin@gmail.com", "Administrator", new DateTime(2024, 7, 18, 17, 16, 30, 61, DateTimeKind.Local).AddTicks(5501), "$2a$11$jcdXdg8F484Xl.vWAml5xekBOZ6jbVtqaPjwE1n9Lf6p3EEERZdy2", "1234567890", 0, 1, "VERIFIED", null, "admin" },
+                    { "e04d42a4ec404aed9491c9f013844cf0", "123 Staff St.", null, new DateTime(2024, 7, 18, 17, 16, 30, 640, DateTimeKind.Local).AddTicks(5472), null, null, null, "staff@gmail.com", "Staff", new DateTime(2024, 7, 18, 17, 16, 30, 640, DateTimeKind.Local).AddTicks(5472), "$2a$11$wSmTHxmYVyCUK.M5xsP5fucdRMbFQ54TTQxRhHBqlDhT6QpK.21Ny", "7234567890", 0, 4, "VERIFIED", null, "staff" }
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Counter_CategoryID",
                 table: "Counter",
                 column: "CategoryID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmailVerification_CustomerID",
+                table: "EmailVerification",
+                column: "CustomerID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Order_BuyerID",
@@ -473,12 +529,16 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                 table: "Counter");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_Order_Counter_CounterID",
+                name: "FK_Order_Users_BuyerID",
                 table: "Order");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_Users_Counter_CounterID",
-                table: "Users");
+                name: "FK_Promotion_Users_UserID",
+                table: "Promotion");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Order_Counter_CounterID",
+                table: "Order");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_Order_PaymentMethod_PaymentMethodID",
@@ -487,6 +547,9 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
             migrationBuilder.DropForeignKey(
                 name: "FK_Order_Promotion_VoucherCode",
                 table: "Order");
+
+            migrationBuilder.DropTable(
+                name: "EmailVerification");
 
             migrationBuilder.DropTable(
                 name: "Forms");
@@ -507,6 +570,12 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                 name: "Category");
 
             migrationBuilder.DropTable(
+                name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Role");
+
+            migrationBuilder.DropTable(
                 name: "Counter");
 
             migrationBuilder.DropTable(
@@ -517,12 +586,6 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Order");
-
-            migrationBuilder.DropTable(
-                name: "Users");
-
-            migrationBuilder.DropTable(
-                name: "Role");
         }
     }
 }

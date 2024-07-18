@@ -46,10 +46,10 @@ namespace JewelrySalesSystem.Application.Promotion.CreateByQuantity
                     CreatorID = _currentUserService.UserId,
                     Status = PromotionStatus.UNAVAILABLE
                 };
-                _promotionRepository.Add(promotionEntity);
-                await _promotionRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
+                _promotionRepository.Add(promotionEntity);              
                 promotionIds.Add(promotionEntity.ID);
             }
+            await _promotionRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
             return promotionIds;
         }
     }
