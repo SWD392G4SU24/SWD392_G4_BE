@@ -17,12 +17,17 @@ namespace JewelrySalesSystem.Application.Users.FilterUser
     {
         private readonly IUserRepository _userRepository;
         private readonly IRoleRepository _roleRepository;
+        private readonly ICounterRepository _counterRepository;
         private readonly IMapper _mapper;
-        public FilterUserQueryHandler(IUserRepository userRepository, IRoleRepository roleRepository, IMapper mapper)
+        public FilterUserQueryHandler(IUserRepository userRepository
+            , IRoleRepository roleRepository
+            , IMapper mapper
+            , ICounterRepository counterRepository)
         {
             _roleRepository = roleRepository;
             _userRepository = userRepository;
             _mapper = mapper;
+            _counterRepository = counterRepository;
         }
 
         public async Task<PagedResult<UserDto>> Handle(FilterUserQuery request, CancellationToken cancellationToken)
@@ -55,13 +60,13 @@ namespace JewelrySalesSystem.Application.Users.FilterUser
                 throw new NotFoundException("Không tìm thấy User");
             }
             var roles = await _roleRepository.FindAllToDictionaryAsync(x => x.DeletedAt == null, x => x.ID, x => x.Name, cancellationToken);
-            
+            var counters = await _counterRepository.FindAllToDictionaryAsync(x => x.DeletedAt == null, x => x.ID, x => x.Name, cancellationToken);
             return PagedResult<UserDto>.Create(
                 totalCount: result.TotalCount,
                 pageCount: result.PageCount,
                 pageSize: result.PageSize,
                 pageNumber: result.PageNo,
-                data: result.MapToUserDtoList(_mapper, roles));
+                data: result.MapToUserDtoList(_mapper, roles, counters));
         }
     }
 }

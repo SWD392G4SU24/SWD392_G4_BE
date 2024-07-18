@@ -17,7 +17,6 @@ namespace JewelrySalesSystem.Application.Users.CreateNewUser
             RuleFor(x => x.PhoneNumber).NotEmpty();
             RuleFor(x => x.Username).NotEmpty();
             RuleFor(x => x.FullName).NotEmpty();       
-            RuleFor(x => x.RoleID).NotEmpty();
         }
     }
 }

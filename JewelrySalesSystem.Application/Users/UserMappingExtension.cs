@@ -19,16 +19,18 @@ namespace JewelrySalesSystem.Application.Users
         public static List<UserDto> MapToUserDtoList(this IEnumerable<UserEntity> projectFrom, IMapper mapper)
             => projectFrom.Select(x => x.MapToUserDto(mapper)).ToList();
 
-        public static UserDto MapToUserDto(this UserEntity entity, IMapper mapper, string role)
+        public static UserDto MapToUserDto(this UserEntity entity, IMapper mapper, string role, string? counter)
         {
             var dto = mapper.Map<UserDto>(entity);
             dto.Role = role;
+            dto.Counter = counter;
             return dto;
         }
-        public static List<UserDto> MapToUserDtoList(this IEnumerable<UserEntity> entities, IMapper mapper, Dictionary<int, string> role)
+        public static List<UserDto> MapToUserDtoList(this IEnumerable<UserEntity> entities, IMapper mapper, Dictionary<int, string> role, Dictionary<int, string> counter)
             => entities.Select(x =>
             x.MapToUserDto(mapper,              
-                role.ContainsKey(x.RoleID) ? role[x.RoleID] : "Lỗi"
+                role.ContainsKey(x.RoleID) ? role[x.RoleID] : "Lỗi",
+                x.CounterID.HasValue && counter != null && counter.ContainsKey(x.CounterID.Value) ? counter[x.CounterID.Value] : null
             )).ToList();
 
 

@@ -101,13 +101,11 @@ namespace JewelrySalesSystem.Application.Order.StaffCreate
                 Type = OrderType.AT_SHOP_ORDER,
                 CounterID = staff.CounterID,
                 PickupDate = existMethod.Name == "COD" ? DateTime.Now : null,
-                CreatedAt = DateTime.Now,
                 CreatorID = _currentUserService.UserId,
                 PromotionID = command.PromotionID.IsNullOrEmpty() ? null : existPromotion.ID,
             };
 
             List<OrderDetailEntity> orderDetails = new List<OrderDetailEntity>();
-            //List<ProductEntity> products = new List<ProductEntity>();
             foreach (var item in command.OrderDetails)
             {
                 var existProduct = await _productRepository.FindAsync(x => x.ID == item.ProductID && x.DeleterID == null, cancellationToken);
@@ -125,13 +123,15 @@ namespace JewelrySalesSystem.Application.Order.StaffCreate
                 decimal gsCost = 0;
                 if (existProduct.GoldID != null)
                 {
-                    gbCost = _goldService.GetGoldPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == existProduct.Gold.Name).BuyCost;
-                    gsCost = _goldService.GetGoldPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == existProduct.Gold.Name).SellCost;
+                    var goldService = await _goldService.GetGoldPricesAsync(cancellationToken);
+                    gbCost = goldService.FirstOrDefault(v => v.Name == existProduct.Gold.Name).BuyCost;
+                    gsCost = goldService.FirstOrDefault(v => v.Name == existProduct.Gold.Name).SellCost;
                 }
                 decimal dsCost = 0;
                 if (existProduct.DiamondID != null)
                 {
-                    dsCost = _diamondService.GetDiamondPricesAsync(cancellationToken).Result.FirstOrDefault(v => v.Name == existProduct.Diamond.Name).SellCost;
+                    var diamondService = await _diamondService.GetDiamondPricesAsync(cancellationToken);
+                    dsCost = diamondService.FirstOrDefault(v => v.Name == existProduct.Diamond.Name).SellCost;
                 }
 
                 orderDetails.Add(new OrderDetailEntity
@@ -144,7 +144,6 @@ namespace JewelrySalesSystem.Application.Order.StaffCreate
                     GoldSellCost = existProduct.GoldID != null ? gsCost : null,
                     DiamondSellCost = existProduct.DiamondID != null ? dsCost : null,
                     Quantity = item.Quantity,
-                    CreatedAt = DateTime.Now,
                     CreatorID = _currentUserService.UserId
                 });
             }
@@ -238,8 +237,6 @@ namespace JewelrySalesSystem.Application.Order.StaffCreate
             {
                 Amount = (double)order.TotalCost,
                 OrderType = order.ID,
-                OrderDescription = order.Note,
-                Name = order.BuyerID
             };            
             //pass httpContext vô service
             var httpContext = _httpContextAccessor.HttpContext;

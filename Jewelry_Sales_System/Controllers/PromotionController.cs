@@ -162,8 +162,7 @@ namespace Jewelry_Sales_System.API.Controllers
             return Ok(new JsonResponse<string>(result));
         }
 
-        [HttpPatch]
-        [Route("[controller]/Exchange-points")]
+        [HttpPost("[controller]/Exchange-points")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -182,8 +181,7 @@ namespace Jewelry_Sales_System.API.Controllers
             return Ok(new JsonResponse<string>(result));
         }
 
-        [HttpPatch]
-        [Route("[controller]/Exchange-voucher")]
+        [HttpPost("[controller]/Exchange-voucher")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status200OK)]

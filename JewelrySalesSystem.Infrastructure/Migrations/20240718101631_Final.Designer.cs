@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JewelrySalesSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240707082510_final")]
-    partial class final
+    [Migration("20240718101631_Final")]
+    partial class Final
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -61,6 +61,43 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Category");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            Name = "Vòng cổ"
+                        },
+                        new
+                        {
+                            ID = 2,
+                            Name = "Vòng tay"
+                        },
+                        new
+                        {
+                            ID = 3,
+                            Name = "Nhẫn"
+                        },
+                        new
+                        {
+                            ID = 4,
+                            Name = "Đồng hồ"
+                        },
+                        new
+                        {
+                            ID = 5,
+                            Name = "Bông tai"
+                        },
+                        new
+                        {
+                            ID = 6,
+                            Name = "Kiềng"
+                        },
+                        new
+                        {
+                            ID = 7,
+                            Name = "Lắc"
+                        });
                 });
 
             modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.Configured.CounterEntity", b =>
@@ -102,6 +139,50 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     b.HasIndex("CategoryID");
 
                     b.ToTable("Counter");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            CategoryID = 1,
+                            Name = "Quầy Vòng cổ"
+                        },
+                        new
+                        {
+                            ID = 2,
+                            CategoryID = 2,
+                            Name = "Quầy Vòng tay"
+                        },
+                        new
+                        {
+                            ID = 3,
+                            CategoryID = 3,
+                            Name = "Quầy Nhẫn"
+                        },
+                        new
+                        {
+                            ID = 4,
+                            CategoryID = 4,
+                            Name = "Quầy Đồng hồ"
+                        },
+                        new
+                        {
+                            ID = 5,
+                            CategoryID = 5,
+                            Name = "Quầy Bông tai"
+                        },
+                        new
+                        {
+                            ID = 6,
+                            CategoryID = 6,
+                            Name = "Quầy Kiềng"
+                        },
+                        new
+                        {
+                            ID = 7,
+                            CategoryID = 7,
+                            Name = "Quầy Lắc"
+                        });
                 });
 
             modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.Configured.DiamondEntity", b =>
@@ -207,13 +288,11 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                         new
                         {
                             ID = 1,
-                            CreatedAt = new DateTime(2024, 7, 7, 8, 25, 9, 725, DateTimeKind.Utc).AddTicks(1020),
                             Name = "VnPay"
                         },
                         new
                         {
                             ID = 2,
-                            CreatedAt = new DateTime(2024, 7, 7, 8, 25, 9, 725, DateTimeKind.Utc).AddTicks(1021),
                             Name = "COD"
                         });
                 });
@@ -257,27 +336,49 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                         new
                         {
                             ID = 1,
-                            CreatedAt = new DateTime(2024, 7, 7, 8, 25, 9, 725, DateTimeKind.Utc).AddTicks(848),
                             Name = "Admin"
                         },
                         new
                         {
                             ID = 2,
-                            CreatedAt = new DateTime(2024, 7, 7, 8, 25, 9, 725, DateTimeKind.Utc).AddTicks(855),
                             Name = "Manager"
                         },
                         new
                         {
                             ID = 3,
-                            CreatedAt = new DateTime(2024, 7, 7, 8, 25, 9, 725, DateTimeKind.Utc).AddTicks(857),
                             Name = "Customer"
                         },
                         new
                         {
                             ID = 4,
-                            CreatedAt = new DateTime(2024, 7, 7, 8, 25, 9, 725, DateTimeKind.Utc).AddTicks(861),
                             Name = "Staff"
                         });
+                });
+
+            modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.EmailModel.EmailVerification", b =>
+                {
+                    b.Property<int>("EmailVerificationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmailVerificationId"));
+
+                    b.Property<string>("CustomerID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("ExpiryDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("EmailVerificationId");
+
+                    b.HasIndex("CustomerID");
+
+                    b.ToTable("EmailVerification");
                 });
 
             modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.FormEntity", b =>
@@ -649,13 +750,13 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            ID = "1208b53c37ff4ef7af58f09a0ce6d64a",
+                            ID = "df9583bebf784d18bb91b3b6fd2c4d1f",
                             Address = "123 Admin St.",
-                            CreatedAt = new DateTime(2024, 7, 7, 15, 25, 9, 886, DateTimeKind.Local).AddTicks(1401),
+                            CreatedAt = new DateTime(2024, 7, 18, 17, 16, 30, 61, DateTimeKind.Local).AddTicks(5501),
                             Email = "admin@gmail.com",
                             FullName = "Administrator",
-                            LastestUpdateAt = new DateTime(2024, 7, 7, 15, 25, 9, 725, DateTimeKind.Local).AddTicks(1087),
-                            PasswordHash = "$2a$11$76ZctgQARUzS1xnNb0OE6e3cxUAze.8ZbNLoD2ZSmt1TsCYu8q.zK",
+                            LastestUpdateAt = new DateTime(2024, 7, 18, 17, 16, 30, 61, DateTimeKind.Local).AddTicks(5501),
+                            PasswordHash = "$2a$11$jcdXdg8F484Xl.vWAml5xekBOZ6jbVtqaPjwE1n9Lf6p3EEERZdy2",
                             PhoneNumber = "1234567890",
                             Point = 0,
                             RoleID = 1,
@@ -664,18 +765,48 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                         },
                         new
                         {
-                            ID = "34bb034371604ab5b3065d0c8cb3217d",
+                            ID = "831d3da4def349d4b1e62b91c85f82fd",
                             Address = "123 Manager St.",
-                            CreatedAt = new DateTime(2024, 7, 7, 15, 25, 10, 57, DateTimeKind.Local).AddTicks(7698),
+                            CreatedAt = new DateTime(2024, 7, 18, 17, 16, 30, 246, DateTimeKind.Local).AddTicks(671),
                             Email = "manager@gmail.com",
                             FullName = "Manager",
-                            LastestUpdateAt = new DateTime(2024, 7, 7, 15, 25, 9, 886, DateTimeKind.Local).AddTicks(1475),
-                            PasswordHash = "$2a$11$EAzAFrXCt4O1tyisYBU0dOW3wSL2AtOZ8OtD6Eq/RqM89gVHIk9FS",
+                            LastestUpdateAt = new DateTime(2024, 7, 18, 17, 16, 30, 246, DateTimeKind.Local).AddTicks(671),
+                            PasswordHash = "$2a$11$ZYbyena.w1hqVvc3fDT2nuWxlRsFZljRkMYIeRCcEG/8codgd5Ede",
                             PhoneNumber = "2234567890",
                             Point = 0,
                             RoleID = 2,
                             Status = "VERIFIED",
                             Username = "manager"
+                        },
+                        new
+                        {
+                            ID = "d7bd20cf7b504952a0666ddd0956d7ab",
+                            Address = "Vinhomes GP",
+                            CreatedAt = new DateTime(2024, 7, 18, 17, 16, 30, 459, DateTimeKind.Local).AddTicks(897),
+                            Email = "phannam151@gmail.com",
+                            FullName = "Phan Hai Nam",
+                            LastestUpdateAt = new DateTime(2024, 7, 18, 17, 16, 30, 459, DateTimeKind.Local).AddTicks(897),
+                            PasswordHash = "$2a$11$A.rHmRAXEIv46blSeMH1Y.JF7DA1Elrwa6SI508boAv4HN/ZTePQS",
+                            PhoneNumber = "093221349",
+                            Point = 0,
+                            RoleID = 3,
+                            Status = "VERIFIED",
+                            Username = "phannam151"
+                        },
+                        new
+                        {
+                            ID = "e04d42a4ec404aed9491c9f013844cf0",
+                            Address = "123 Staff St.",
+                            CreatedAt = new DateTime(2024, 7, 18, 17, 16, 30, 640, DateTimeKind.Local).AddTicks(5472),
+                            Email = "staff@gmail.com",
+                            FullName = "Staff",
+                            LastestUpdateAt = new DateTime(2024, 7, 18, 17, 16, 30, 640, DateTimeKind.Local).AddTicks(5472),
+                            PasswordHash = "$2a$11$wSmTHxmYVyCUK.M5xsP5fucdRMbFQ54TTQxRhHBqlDhT6QpK.21Ny",
+                            PhoneNumber = "7234567890",
+                            Point = 0,
+                            RoleID = 4,
+                            Status = "VERIFIED",
+                            Username = "staff"
                         });
                 });
 
@@ -688,6 +819,17 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.EmailModel.EmailVerification", b =>
+                {
+                    b.HasOne("JewelrySalesSystem.Domain.Entities.UserEntity", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.OrderDetailEntity", b =>
