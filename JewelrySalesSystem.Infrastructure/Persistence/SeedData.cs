@@ -17,15 +17,15 @@ namespace JewelrySalesSystem.Infrastructure.Persistence
         public static void Seed(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<RoleEntity>().HasData(
-                    new RoleEntity {ID = 1, Name = "Admin" },
-                    new RoleEntity {ID = 2, Name = "Manager" },
-                    new RoleEntity {ID = 3, Name = "Customer" },
-                    new RoleEntity {ID = 4, Name = "Staff" }
+                    new RoleEntity {ID = 1, Name = "Admin" , CreatedAt = DateTime.UtcNow},
+                    new RoleEntity {ID = 2, Name = "Manager" , CreatedAt = DateTime.UtcNow },
+                    new RoleEntity {ID = 3, Name = "Customer" , CreatedAt = DateTime.UtcNow },
+                    new RoleEntity {ID = 4, Name = "Staff" , CreatedAt = DateTime.UtcNow }
                 );
 
             modelBuilder.Entity<PaymentMethodEntity>().HasData(
-                    new PaymentMethodEntity { ID = 1, Name = "VnPay" },
-                    new PaymentMethodEntity { ID = 2, Name = "COD" }
+                    new PaymentMethodEntity { ID = 1, Name = "VnPay" , CreatedAt = DateTime.UtcNow},
+                    new PaymentMethodEntity { ID = 2, Name = "COD" , CreatedAt = DateTime.UtcNow}
                 );
 
             var categories = new List<CategoryEntity>
@@ -75,7 +75,7 @@ namespace JewelrySalesSystem.Infrastructure.Persistence
                     FullName = "Manager",
                     Address = "123 Manager St.",
                     PhoneNumber = "2234567890",
-                    Point = 0,
+                    Point = 10000,
                     Status = UserStatus.VERIFIED
                 },
 
@@ -83,8 +83,8 @@ namespace JewelrySalesSystem.Infrastructure.Persistence
                 new UserEntity
                 {
                     ID = Guid.NewGuid().ToString("N"),
-                    Username = "phannam151",
-                    Email = "phannam151@gmail.com",
+                    Username = "phannam",
+                    Email = "phannam@gmail.com",
                     PasswordHash = BCrypt.Net.BCrypt.HashPassword("namdeptrai"),
                     RoleID = 3,
                     FullName = "Phan Hai Nam",

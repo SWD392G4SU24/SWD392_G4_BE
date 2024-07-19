@@ -32,10 +32,18 @@ namespace JewelrySalesSystem.Application.Promotion.ExchangePoint
         public async Task<string> Handle(ExchangePointsCommand request, CancellationToken cancellationToken)
         {
             var customer = await _userRepository.FindAsync(x => x.ID == request.CustomerID && x.DeletedAt == null, cancellationToken)
-                  ?? throw new NotFoundException("Không tìm thấy Customer nào!");
+                  ?? throw new NotFoundException("Không tìm thấy tài khoản khách hàng!");
+            if(customer.Status.Equals(UserStatus.BANNED))
+            {
+                return "Tài khoản người dùng đã bị BAN. Liên hệ Admin để mở khóa";
+            }
+            if (customer.Status.Equals(UserStatus.UNVERIFIED))
+            {
+                return "Tài khoản người dùng chưa được xác thực";
+            }
 
             var promotion = await _promotionRepository.FindAsync(x => x.ID == request.VoucherCode && x.DeletedAt == null, cancellationToken)
-                  ?? throw new NotFoundException("Không tìm thấy promotion nào!");
+                  ?? throw new NotFoundException("Ưu đãi không tồn tại!");
 
             if (promotion.ExchangePoint > customer.Point) 
                 return "Bạn không đủ điểm để đổi thưởng";
@@ -53,8 +61,7 @@ namespace JewelrySalesSystem.Application.Promotion.ExchangePoint
             customer.LastestUpdateAt = DateTime.Now;
             _promotionRepository.Update(promotion);
             _userRepository.Update(customer);
-            return await _userRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? "Đổi điểm thành voucher thành công" : "Đổi điểm thành voucher thất bại";
-
+            return await _userRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? "Đổi ưu đãi thành công" : "Đổi ưu đãi thất bại";
 
         }
     }

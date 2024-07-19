@@ -18,39 +18,30 @@ namespace JewelrySalesSystem.Application.Promotion.UpdatePromotion
         {
             RuleFor(x => x.ID)
                 .NotNull().WithMessage("ID không được để trống");
+
             RuleFor(x => x.ReducedPercent)
-                .NotNull().
-                WithMessage("ReducedPercent không được để trống");
-            RuleFor(x => x.ReducedPercent)
-                .GreaterThanOrEqualTo(1).
-                WithMessage("ReducedPercent phải lớn hơn 0");
-            RuleFor(x => x.ReducedPercent)
-                .LessThan(100).
-                WithMessage("ReducedPercent phải nhỏ hơn 100");
+                .NotNull().WithMessage("Phần trăm được giảm không được để trống")
+                .GreaterThanOrEqualTo(1).WithMessage("Phần trăm được giảm phải lớn hơn 0")
+                .LessThan(100).WithMessage("Phần trăm được giảm phải nhỏ hơn 100");
+
             RuleFor(x => x.ConditionsOfUse)
-                .NotNull().
-                WithMessage("ConditionsOfUse không được để trống");
-            RuleFor(x => x.ConditionsOfUse)
-                .GreaterThanOrEqualTo(1).
-                WithMessage("ConditionsOfUse không được bằng 0");
+                .NotNull().WithMessage("Điều kiện sử dụng không được để trống")
+                .GreaterThanOrEqualTo(0).WithMessage("Điều kiện sử dụng không được là số âm");
+
             RuleFor(x => x.MaximumReduce)
-                .NotNull().
-                WithMessage("MaximumReduce không được để trống");
-            RuleFor(x => x.MaximumReduce)
-                .GreaterThanOrEqualTo(1).
-                WithMessage("MaximumReduce không phải lớn hơn 0");
-            RuleFor(x => x.MaximumReduce)
-                .LessThan(100).
-                WithMessage("MaximumReduce không được nhỏ hơn 100");
+                .NotNull().WithMessage("Số tiền giảm tối đa không được để trống")
+                .GreaterThanOrEqualTo(0).WithMessage("Số tiền giảm tối đa không được là số âm");          
+
             RuleFor(x => x.ExchangePoint)
-                .NotNull().
-                WithMessage("ExchangePoint không được để trống");
-            RuleFor(x => x.ExchangePoint)
-                .GreaterThanOrEqualTo(1).
-                WithMessage("ExchangePoint không được bằng 0");
+                .NotNull().WithMessage("Điểm đổi không được để trống")
+                .GreaterThanOrEqualTo(0).WithMessage("Điểm đổi không được là số âm");
+
+            RuleFor(x => x.ExpiresTime)
+                .Must(NotBeInPast).WithMessage("Thời gian hết hạn không hợp lệ");
+
             RuleFor(x => x.Description).MaximumLength(255);
         }
-        private bool NotBeInPast(DateTime time)
+        private bool NotBeInPast(DateTime? time)
         {
             return time >= DateTime.Now;
         }

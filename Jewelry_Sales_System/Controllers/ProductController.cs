@@ -27,6 +27,7 @@ namespace Jewelry_Sales_System.API.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [Route("[controller]")]
         [ProducesResponseType(typeof(JsonResponse<List<ProductDto>>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -41,6 +42,7 @@ namespace Jewelry_Sales_System.API.Controllers
             return result != null ? Ok(result) : NotFound();
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("[controller]/{id}")]
         [ProducesResponseType(typeof(JsonResponse<ProductDto>), StatusCodes.Status200OK)]
@@ -57,6 +59,7 @@ namespace Jewelry_Sales_System.API.Controllers
             return result != null ? Ok(result) : NotFound();
         }
         [HttpGet]
+        [AllowAnonymous]
         [Route("[controller]/filter-product")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(JsonResponse<PagedResult<ProductDto>>), StatusCodes.Status200OK)]

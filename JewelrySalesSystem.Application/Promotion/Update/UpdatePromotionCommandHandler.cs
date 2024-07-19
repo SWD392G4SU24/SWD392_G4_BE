@@ -30,15 +30,16 @@ namespace JewelrySalesSystem.Application.Promotion.UpdatePromotion
                 ?? throw new NotFoundException("Promotion không tồn tại");
 
             // Update specific fields based on request properties
-            promotion.ConditionsOfUse = request.ConditionsOfUse;
-            promotion.Description = request.Description ?? request.Description;
-            promotion.ReducedPercent = request.ReducedPercent;
-            promotion.ExchangePoint = request.ExchangePoint;
-            promotion.MaximumReduce = request.MaximumReduce;
+            promotion.ConditionsOfUse = request.ConditionsOfUse ?? promotion.ConditionsOfUse;
+            promotion.Description = request.Description ?? promotion.Description;
+            promotion.ReducedPercent = request.ReducedPercent ?? promotion.ReducedPercent;
+            promotion.ExchangePoint = request.ExchangePoint ?? promotion.ExchangePoint;
+            promotion.MaximumReduce = request.MaximumReduce ?? promotion.MaximumReduce;
+            promotion.ExpiresTime = request.ExpiresTime ?? promotion.ExpiresTime;
             promotion.UpdaterID = _currentUserService.UserId;
             promotion.LastestUpdateAt = DateTime.Now;
             _promotionRepository.Update(promotion);
-            return await _promotionRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? "Promotion cập nhật thành công" : "Promotion cập nhật thất bại";
+            return await _promotionRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? "Cập nhật thành công" : "Cập nhật thất bại";
         }
 
  

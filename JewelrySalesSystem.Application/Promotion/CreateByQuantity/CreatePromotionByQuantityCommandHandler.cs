@@ -4,6 +4,7 @@ using JewelrySalesSystem.Domain.Commons.Exceptions;
 using JewelrySalesSystem.Domain.Entities;
 using JewelrySalesSystem.Domain.Repositories;
 using MediatR;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,7 +37,7 @@ namespace JewelrySalesSystem.Application.Promotion.CreateByQuantity
                 var promotionEntity = new PromotionEntity
                 {
                     ConditionsOfUse = request.ConditionsOfUse,
-                    Description = request.Description == "NULL" ? null : request.Description,
+                    Description = request.Description.IsNullOrEmpty() ? null : request.Description,
                     ExchangePoint = request.ExchangePoint,
                     ExpiresTime = request.ExpiresTime,
                     MaximumReduce = request.MaximumReduce,

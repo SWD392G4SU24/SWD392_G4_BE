@@ -10,7 +10,7 @@ namespace JewelrySalesSystem.Domain.Entities.Base
 {
     public abstract class BaseEntity : IDisposable
     {
-        protected BaseEntity() 
+        protected BaseEntity()
         {
             ID = Guid.NewGuid().ToString("N");
             CreatedAt = LastestUpdateAt = DateTime.Now;

@@ -20,6 +20,10 @@ namespace JewelrySalesSystem.Infrastructure.Persistence.Configurations
             builder.Property(e => e.Type)
                 .HasConversion(v => v.ToString()
                 , v => (FormType)Enum.Parse(typeof(FormType), v));
+            builder.HasOne(e => e.Creator)
+                .WithMany()
+                .HasForeignKey(e => e.CreatorID)
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

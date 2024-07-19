@@ -1,4 +1,5 @@
-﻿using JewelrySalesSystem.Application.Common.Interfaces;
+﻿using Castle.Core.Resource;
+using JewelrySalesSystem.Application.Common.Interfaces;
 using JewelrySalesSystem.Domain.Commons.Exceptions;
 using JewelrySalesSystem.Domain.Commons.Interfaces;
 using JewelrySalesSystem.Domain.Entities;
@@ -70,6 +71,14 @@ namespace JewelrySalesSystem.Application.Order.StaffCreate
             if (existUser == null)
             {
                 throw new NotFoundException("Không tìm thấy người mua với ID: " + command.BuyerID);
+            }
+            if (existUser.Status.Equals(UserStatus.BANNED))
+            {
+                return "Người dùng đã bị BAN. Liên hệ admin để mở khóa tài khoản";
+            }
+            if (existUser.Status.Equals(UserStatus.UNVERIFIED))
+            {
+                return "Tài khoản chưa được xác thực";
             }
 
             var existMethod = await _paymentMethodRepository.FindAsync(x => x.ID == command.PaymentMethodID && x.DeleterID == null, cancellationToken);
