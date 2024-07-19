@@ -48,6 +48,7 @@ namespace Jewelry_Sales_System.API.Controllers
             return Ok(new JsonResponse<string>(result));
         }
 
+        [AllowAnonymous]
         [HttpGet("filter-category")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(JsonResponse<PagedResult<CategoryDto>>), StatusCodes.Status200OK)]
@@ -61,6 +62,7 @@ namespace Jewelry_Sales_System.API.Controllers
             return Ok(result);
         }
 
+        [AllowAnonymous]
         [HttpGet("category/pagination")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(JsonResponse<PagedResult<CategoryDto>>), StatusCodes.Status200OK)]
@@ -88,6 +90,7 @@ namespace Jewelry_Sales_System.API.Controllers
             return Ok(result);
         }
 
+        [AllowAnonymous]
         [HttpGet("category/{id}")]
         [ProducesResponseType(typeof(JsonResponse<CategoryDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -150,6 +153,7 @@ namespace Jewelry_Sales_System.API.Controllers
             return Ok(new JsonResponse<string>(result));
         }
 
+        [AllowAnonymous]
         [HttpGet("category")]
         [ProducesResponseType(typeof(JsonResponse<List<CategoryDto>>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

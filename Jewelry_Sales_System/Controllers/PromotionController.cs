@@ -142,7 +142,7 @@ namespace Jewelry_Sales_System.API.Controllers
             return Ok(new JsonResponse<List<string>>(result));
         }
 
-        [HttpPut]
+        [HttpPatch]
         [Route("[controller]/update")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status201Created)]
@@ -151,7 +151,7 @@ namespace Jewelry_Sales_System.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<JsonResponse<string>>> UpdatePromotion(
-               UpdatePromotionCommand command,
+               [FromForm]UpdatePromotionCommand command,
                CancellationToken cancellationToken = default)
         {
             var result = await _mediator.Send(command, cancellationToken);
@@ -193,7 +193,7 @@ namespace Jewelry_Sales_System.API.Controllers
                CancellationToken cancellationToken = default)
         {
             var result = await _mediator.Send(command, cancellationToken);
-            if (result.Contains("thất bại"))
+            if (!result.Contains("thành công"))
             {
                 return BadRequest(new JsonResponse<string>(result));
             }

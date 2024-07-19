@@ -10,7 +10,8 @@ namespace JewelrySalesSystem.Application.Promotion.UpdatePromotion
 {
     public class UpdatePromotionCommand : IRequest<string>
     {
-        public UpdatePromotionCommand(string id, string? description, decimal conditionsOfUse, float reducedPercent, decimal maximumReduce, int exchangePoint)
+        public UpdatePromotionCommand(string id, string? description
+            , decimal? conditionsOfUse, float? reducedPercent, decimal? maximumReduce, int? exchangePoint, DateTime? expiresTime)
         {
             ID = id;
             Description = description;
@@ -18,13 +19,15 @@ namespace JewelrySalesSystem.Application.Promotion.UpdatePromotion
             ReducedPercent = reducedPercent;
             MaximumReduce = maximumReduce;
             ExchangePoint = exchangePoint;
+            ExpiresTime = expiresTime;
         }
 
         public string ID { get; set; }
         public string? Description { get; set; }
-        public decimal ConditionsOfUse { get; set; }
-        public float ReducedPercent { get; set; }
-        public decimal MaximumReduce { get; set; }
-        public int ExchangePoint { get; set; }
+        public decimal? ConditionsOfUse { get; set; }
+        public float? ReducedPercent { get; set; }
+        public decimal? MaximumReduce { get; set; }
+        public int? ExchangePoint { get; set; }
+        public DateTime? ExpiresTime { get; set; }
     }
 }

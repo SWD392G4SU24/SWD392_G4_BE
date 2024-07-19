@@ -14,5 +14,7 @@ namespace JewelrySalesSystem.Domain.Entities
         public string? Content {  get; set; }
         public required FormStatus Status { get; set; }
         public required DateTime AppoinmentDate {  get; set; }
+
+        public virtual UserEntity? Creator { get; set; }
     }
 }

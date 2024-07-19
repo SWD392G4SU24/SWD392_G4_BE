@@ -21,7 +21,7 @@ namespace JewelrySalesSystem.Infrastructure.Functions
             // Tăng thêm wage cost dựa trên loại kim cương
             if (diamondType.Contains("7ly") || diamondType.Contains("8ly") || diamondType.Contains("9ly"))
             {
-                wageCost *= 0.5m; //kim cương loại cao cấp tăng 50% wage cost
+                wageCost *= 1.5m; //kim cương loại cao cấp tăng 50% wage cost
             }
 
             return wageCost;

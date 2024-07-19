@@ -45,6 +45,14 @@ namespace JewelrySalesSystem.Application.Order.Re_order
             {
                 throw new NotFoundException("Không tìm thấy User");
             }
+            if(customer.Status.Equals(UserStatus.BANNED))
+            {
+                return "Người dùng đã bị BAN. Liên hệ admin để mở khóa tài khoản";
+            }
+            if (customer.Status.Equals(UserStatus.UNVERIFIED))
+            {
+                return "Tài khoản chưa được xác thực";
+            }
             var paymentMethod = await _paymentMethodRepository.FindAsync(x => x.Name.Equals("COD") && x.DeleterID == null, cancellationToken);
             if (paymentMethod == null)
             {

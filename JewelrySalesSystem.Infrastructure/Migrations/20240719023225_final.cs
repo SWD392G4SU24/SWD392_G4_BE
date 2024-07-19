@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace JewelrySalesSystem.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Final : Migration
+    public partial class final : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -46,27 +46,6 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("DiamondID", x => x.ID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Forms",
-                columns: table => new
-                {
-                    ID = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AppoinmentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatorID = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdaterID = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastestUpdateAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeleterID = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Forms", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -253,6 +232,33 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Forms",
+                columns: table => new
+                {
+                    ID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AppoinmentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatorID = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdaterID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastestUpdateAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeleterID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Forms", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Forms_Users_CreatorID",
+                        column: x => x.CreatorID,
+                        principalTable: "Users",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.SetNull);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Order",
                 columns: table => new
                 {
@@ -420,10 +426,10 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                 columns: new[] { "ID", "Address", "CounterID", "CreatedAt", "CreatorID", "DeletedAt", "DeleterID", "Email", "FullName", "LastestUpdateAt", "PasswordHash", "PhoneNumber", "Point", "RoleID", "Status", "UpdaterID", "Username" },
                 values: new object[,]
                 {
-                    { "831d3da4def349d4b1e62b91c85f82fd", "123 Manager St.", null, new DateTime(2024, 7, 18, 17, 16, 30, 246, DateTimeKind.Local).AddTicks(671), null, null, null, "manager@gmail.com", "Manager", new DateTime(2024, 7, 18, 17, 16, 30, 246, DateTimeKind.Local).AddTicks(671), "$2a$11$ZYbyena.w1hqVvc3fDT2nuWxlRsFZljRkMYIeRCcEG/8codgd5Ede", "2234567890", 0, 2, "VERIFIED", null, "manager" },
-                    { "d7bd20cf7b504952a0666ddd0956d7ab", "Vinhomes GP", null, new DateTime(2024, 7, 18, 17, 16, 30, 459, DateTimeKind.Local).AddTicks(897), null, null, null, "phannam151@gmail.com", "Phan Hai Nam", new DateTime(2024, 7, 18, 17, 16, 30, 459, DateTimeKind.Local).AddTicks(897), "$2a$11$A.rHmRAXEIv46blSeMH1Y.JF7DA1Elrwa6SI508boAv4HN/ZTePQS", "093221349", 0, 3, "VERIFIED", null, "phannam151" },
-                    { "df9583bebf784d18bb91b3b6fd2c4d1f", "123 Admin St.", null, new DateTime(2024, 7, 18, 17, 16, 30, 61, DateTimeKind.Local).AddTicks(5501), null, null, null, "admin@gmail.com", "Administrator", new DateTime(2024, 7, 18, 17, 16, 30, 61, DateTimeKind.Local).AddTicks(5501), "$2a$11$jcdXdg8F484Xl.vWAml5xekBOZ6jbVtqaPjwE1n9Lf6p3EEERZdy2", "1234567890", 0, 1, "VERIFIED", null, "admin" },
-                    { "e04d42a4ec404aed9491c9f013844cf0", "123 Staff St.", null, new DateTime(2024, 7, 18, 17, 16, 30, 640, DateTimeKind.Local).AddTicks(5472), null, null, null, "staff@gmail.com", "Staff", new DateTime(2024, 7, 18, 17, 16, 30, 640, DateTimeKind.Local).AddTicks(5472), "$2a$11$wSmTHxmYVyCUK.M5xsP5fucdRMbFQ54TTQxRhHBqlDhT6QpK.21Ny", "7234567890", 0, 4, "VERIFIED", null, "staff" }
+                    { "108032be0bf74643b0b28b1f2f5d5b2a", "123 Admin St.", null, new DateTime(2024, 7, 19, 9, 32, 24, 396, DateTimeKind.Local).AddTicks(1064), null, null, null, "admin@gmail.com", "Administrator", new DateTime(2024, 7, 19, 9, 32, 24, 396, DateTimeKind.Local).AddTicks(1064), "$2a$11$fE011t0YSF.CFpQ83MnA9u.fhh/RwCcm8Pv2EUCNyOX3Le1KqEHmC", "1234567890", 0, 1, "VERIFIED", null, "admin" },
+                    { "9b0c4fa953f84cabae42f901ba93496c", "123 Staff St.", null, new DateTime(2024, 7, 19, 9, 32, 24, 920, DateTimeKind.Local).AddTicks(1961), null, null, null, "staff@gmail.com", "Staff", new DateTime(2024, 7, 19, 9, 32, 24, 920, DateTimeKind.Local).AddTicks(1961), "$2a$11$2nYuwqp.FS1gzFBWl5iZ3.Ev6NEXQUu/bMMVw1jJR1nZ9aVgaLjbq", "7234567890", 0, 4, "VERIFIED", null, "staff" },
+                    { "abe63fbc57ed476ba5dd3184c1ab1fcd", "123 Manager St.", null, new DateTime(2024, 7, 19, 9, 32, 24, 563, DateTimeKind.Local).AddTicks(2706), null, null, null, "manager@gmail.com", "Manager", new DateTime(2024, 7, 19, 9, 32, 24, 563, DateTimeKind.Local).AddTicks(2706), "$2a$11$qcoGdv2.KMiOYaSa2rE9b.8WP2vQqL5h5VDj4y92M9b2peDgzfQeO", "2234567890", 0, 2, "VERIFIED", null, "manager" },
+                    { "ce754321f37f4863a90c6bb5ae6fecf7", "Vinhomes GP", null, new DateTime(2024, 7, 19, 9, 32, 24, 742, DateTimeKind.Local).AddTicks(836), null, null, null, "phannam151@gmail.com", "Phan Hai Nam", new DateTime(2024, 7, 19, 9, 32, 24, 742, DateTimeKind.Local).AddTicks(836), "$2a$11$EuHyzMQs9amLNXbZf0q7Ru1zqZGBvMtfXQ.SzQwSL.zL21Vwuw6be", "093221349", 0, 3, "VERIFIED", null, "phannam151" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -435,6 +441,11 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                 name: "IX_EmailVerification_CustomerID",
                 table: "EmailVerification",
                 column: "CustomerID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Forms_CreatorID",
+                table: "Forms",
+                column: "CreatorID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Order_BuyerID",

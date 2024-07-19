@@ -25,12 +25,12 @@ namespace JewelrySalesSystem.Application.Promotion.DeletePromotion
         {
             // Logic to retrieve promotions base on query parameters(if any)
             var promotion = await _promotionRepository.FindAsync(s => s.ID == request.ID && s.DeletedAt == null, cancellationToken)
-                ?? throw new NotFoundException("Promotion không tồn tại");
+                ?? throw new NotFoundException("Ưu đãi không tồn tại");
 
             promotion.DeleterID = _currentUserService.UserId;
             promotion.DeletedAt = DateTime.Now;
             _promotionRepository.Update(promotion);
-            return await _promotionRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? "Xóa Promotion thành công" : "Xóa Promotion thất bại";
+            return await _promotionRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? "Xóa thành công" : "Xóa thất bại";
         }
     }
 }

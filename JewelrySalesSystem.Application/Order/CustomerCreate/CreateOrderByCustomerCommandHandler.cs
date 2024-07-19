@@ -56,13 +56,21 @@ namespace JewelrySalesSystem.Application.Order.CustomerCreate
             if (existUser == null)
             {
                 throw new NotFoundException("Người dùng không tồn tại hoặc đã bị BAN");
-            }           
+            }
+            if (existUser.Status.Equals(UserStatus.BANNED))
+            {
+                return "Người dùng đã bị BAN. Liên hệ admin để mở khóa tài khoản";
+            }
+            if (existUser.Status.Equals(UserStatus.UNVERIFIED))
+            {
+                return "Tài khoản chưa được xác thực";
+            }
 
             var existPromotion = await _promotionRepository.FindAsync(x => x.ID == command.PromotionID && x.DeleterID == null, cancellationToken);
             if (existPromotion == null && !command.PromotionID.IsNullOrEmpty())
             {
                 throw new NotFoundException("Không tìm thấy ưu đãi với ID: " + command.PromotionID);
-            }
+            }         
             var paymentMethod = await _paymentMethodRepository.FindAsync(x => x.Name.Equals("VnPay"), cancellationToken);
             OrderEntity order = new OrderEntity 
             {
