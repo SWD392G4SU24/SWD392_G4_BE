@@ -18,6 +18,7 @@ using JewelrySalesSystem.Application.Order.Re_order;
 using JewelrySalesSystem.Application.Order.GetTotalRevenue;
 using JewelrySalesSystem.Application.Users.StaffRevenue;
 using JewelrySalesSystem.Application.Order.FilterOrder;
+using JewelrySalesSystem.Application.Order.ConfirmPickedOrder;
 
 namespace Jewelry_Sales_System.API.Controllers
 {
@@ -107,7 +108,11 @@ namespace Jewelry_Sales_System.API.Controllers
             CancellationToken cancellationToken = default)
         {
             var result = await _mediator.Send(command, cancellationToken);
-            if (result.Contains("thất bại") || result.Contains("không đủ") || result.Contains("không thể"))
+            if (result.Contains("thất bại") 
+                || result.Contains("không đủ") 
+                || result.Contains("không thể") 
+                || result.Contains("BAN") 
+                || result.Contains("chưa xác thực"))
             {
                 return BadRequest(new JsonResponse<string>(result));
             }
@@ -219,6 +224,23 @@ namespace Jewelry_Sales_System.API.Controllers
         {
             var result = await _mediator.Send(query, cancellationToken);
             return Ok(result);
+        }
+
+        [HttpPut("order/confirm-picked-up")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<string>>> ConfirmPickedUp(
+           [FromBody] ConfirmPickedOrderCommand command,
+           CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(command, cancellationToken);
+            if (!result.Contains("thành công"))
+            {
+                return BadRequest(new JsonResponse<string>(result));
+            }
+            return Ok(new JsonResponse<string>(result));
         }
     }
 }

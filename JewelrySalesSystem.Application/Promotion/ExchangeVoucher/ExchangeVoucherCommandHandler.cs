@@ -1,4 +1,5 @@
-﻿using JewelrySalesSystem.Application.Common.Interfaces;
+﻿using Castle.Core.Resource;
+using JewelrySalesSystem.Application.Common.Interfaces;
 using JewelrySalesSystem.Domain.Commons.Exceptions;
 using JewelrySalesSystem.Domain.Repositories;
 using MediatR;
@@ -8,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static JewelrySalesSystem.Domain.Commons.Enums.Enums;
 
 namespace JewelrySalesSystem.Application.Promotion.ExchangeVoucher
 {
@@ -35,13 +37,25 @@ namespace JewelrySalesSystem.Application.Promotion.ExchangeVoucher
             {
                 throw new NotFoundException("Không tìm thấy tài khoản");
             }
+            if (user.Status.Equals(UserStatus.BANNED))
+            {
+                return "Tài khoản người dùng đã bị BAN. Liên hệ Admin để mở khóa";
+            }
+            if (user.Status.Equals(UserStatus.UNVERIFIED))
+            {
+                return "Tài khoản người dùng chưa được xác thực";
+            }
             var randomPromotion = promotionList.First();           
             randomPromotion.UserID = _currentUserService.UserId;
+            randomPromotion.LastestUpdateAt = DateTime.UtcNow;
+            randomPromotion.UpdaterID = _currentUserService.UserId;
             user.Point -= randomPromotion.ExchangePoint;
+            user.LastestUpdateAt = DateTime.UtcNow;
+            user.UpdaterID = _currentUserService.UserId;
             
             _promotionRepository.Update(randomPromotion);
             _userRepository.Update(user);
-            return await _promotionRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? "User đã đổi promotion thành công" : "User đã đổi promotion thất bại";
+            return await _promotionRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0 ? "Đổi ưu đãi thành công" : "Đổi ưu đãi thất bại";
 
         }
     }

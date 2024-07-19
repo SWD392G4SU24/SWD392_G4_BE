@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JewelrySalesSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240718101631_Final")]
-    partial class Final
+    [Migration("20240719023225_final")]
+    partial class final
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -396,7 +396,7 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatorID")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
@@ -419,6 +419,8 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("CreatorID");
 
                     b.ToTable("Forms");
                 });
@@ -750,13 +752,13 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            ID = "df9583bebf784d18bb91b3b6fd2c4d1f",
+                            ID = "108032be0bf74643b0b28b1f2f5d5b2a",
                             Address = "123 Admin St.",
-                            CreatedAt = new DateTime(2024, 7, 18, 17, 16, 30, 61, DateTimeKind.Local).AddTicks(5501),
+                            CreatedAt = new DateTime(2024, 7, 19, 9, 32, 24, 396, DateTimeKind.Local).AddTicks(1064),
                             Email = "admin@gmail.com",
                             FullName = "Administrator",
-                            LastestUpdateAt = new DateTime(2024, 7, 18, 17, 16, 30, 61, DateTimeKind.Local).AddTicks(5501),
-                            PasswordHash = "$2a$11$jcdXdg8F484Xl.vWAml5xekBOZ6jbVtqaPjwE1n9Lf6p3EEERZdy2",
+                            LastestUpdateAt = new DateTime(2024, 7, 19, 9, 32, 24, 396, DateTimeKind.Local).AddTicks(1064),
+                            PasswordHash = "$2a$11$fE011t0YSF.CFpQ83MnA9u.fhh/RwCcm8Pv2EUCNyOX3Le1KqEHmC",
                             PhoneNumber = "1234567890",
                             Point = 0,
                             RoleID = 1,
@@ -765,13 +767,13 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                         },
                         new
                         {
-                            ID = "831d3da4def349d4b1e62b91c85f82fd",
+                            ID = "abe63fbc57ed476ba5dd3184c1ab1fcd",
                             Address = "123 Manager St.",
-                            CreatedAt = new DateTime(2024, 7, 18, 17, 16, 30, 246, DateTimeKind.Local).AddTicks(671),
+                            CreatedAt = new DateTime(2024, 7, 19, 9, 32, 24, 563, DateTimeKind.Local).AddTicks(2706),
                             Email = "manager@gmail.com",
                             FullName = "Manager",
-                            LastestUpdateAt = new DateTime(2024, 7, 18, 17, 16, 30, 246, DateTimeKind.Local).AddTicks(671),
-                            PasswordHash = "$2a$11$ZYbyena.w1hqVvc3fDT2nuWxlRsFZljRkMYIeRCcEG/8codgd5Ede",
+                            LastestUpdateAt = new DateTime(2024, 7, 19, 9, 32, 24, 563, DateTimeKind.Local).AddTicks(2706),
+                            PasswordHash = "$2a$11$qcoGdv2.KMiOYaSa2rE9b.8WP2vQqL5h5VDj4y92M9b2peDgzfQeO",
                             PhoneNumber = "2234567890",
                             Point = 0,
                             RoleID = 2,
@@ -780,13 +782,13 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                         },
                         new
                         {
-                            ID = "d7bd20cf7b504952a0666ddd0956d7ab",
+                            ID = "ce754321f37f4863a90c6bb5ae6fecf7",
                             Address = "Vinhomes GP",
-                            CreatedAt = new DateTime(2024, 7, 18, 17, 16, 30, 459, DateTimeKind.Local).AddTicks(897),
+                            CreatedAt = new DateTime(2024, 7, 19, 9, 32, 24, 742, DateTimeKind.Local).AddTicks(836),
                             Email = "phannam151@gmail.com",
                             FullName = "Phan Hai Nam",
-                            LastestUpdateAt = new DateTime(2024, 7, 18, 17, 16, 30, 459, DateTimeKind.Local).AddTicks(897),
-                            PasswordHash = "$2a$11$A.rHmRAXEIv46blSeMH1Y.JF7DA1Elrwa6SI508boAv4HN/ZTePQS",
+                            LastestUpdateAt = new DateTime(2024, 7, 19, 9, 32, 24, 742, DateTimeKind.Local).AddTicks(836),
+                            PasswordHash = "$2a$11$EuHyzMQs9amLNXbZf0q7Ru1zqZGBvMtfXQ.SzQwSL.zL21Vwuw6be",
                             PhoneNumber = "093221349",
                             Point = 0,
                             RoleID = 3,
@@ -795,13 +797,13 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                         },
                         new
                         {
-                            ID = "e04d42a4ec404aed9491c9f013844cf0",
+                            ID = "9b0c4fa953f84cabae42f901ba93496c",
                             Address = "123 Staff St.",
-                            CreatedAt = new DateTime(2024, 7, 18, 17, 16, 30, 640, DateTimeKind.Local).AddTicks(5472),
+                            CreatedAt = new DateTime(2024, 7, 19, 9, 32, 24, 920, DateTimeKind.Local).AddTicks(1961),
                             Email = "staff@gmail.com",
                             FullName = "Staff",
-                            LastestUpdateAt = new DateTime(2024, 7, 18, 17, 16, 30, 640, DateTimeKind.Local).AddTicks(5472),
-                            PasswordHash = "$2a$11$wSmTHxmYVyCUK.M5xsP5fucdRMbFQ54TTQxRhHBqlDhT6QpK.21Ny",
+                            LastestUpdateAt = new DateTime(2024, 7, 19, 9, 32, 24, 920, DateTimeKind.Local).AddTicks(1961),
+                            PasswordHash = "$2a$11$2nYuwqp.FS1gzFBWl5iZ3.Ev6NEXQUu/bMMVw1jJR1nZ9aVgaLjbq",
                             PhoneNumber = "7234567890",
                             Point = 0,
                             RoleID = 4,
@@ -830,6 +832,16 @@ namespace JewelrySalesSystem.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Customer");
+                });
+
+            modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.FormEntity", b =>
+                {
+                    b.HasOne("JewelrySalesSystem.Domain.Entities.UserEntity", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorID")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Creator");
                 });
 
             modelBuilder.Entity("JewelrySalesSystem.Domain.Entities.OrderDetailEntity", b =>
