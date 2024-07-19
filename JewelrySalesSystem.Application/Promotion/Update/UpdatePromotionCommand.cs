@@ -21,6 +21,10 @@ namespace JewelrySalesSystem.Application.Promotion.UpdatePromotion
             ExchangePoint = exchangePoint;
             ExpiresTime = expiresTime;
         }
+        public UpdatePromotionCommand()
+        {
+            
+        }
 
         public string ID { get; set; }
         public string? Description { get; set; }

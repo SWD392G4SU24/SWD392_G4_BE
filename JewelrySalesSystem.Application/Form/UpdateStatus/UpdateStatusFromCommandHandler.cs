@@ -15,12 +15,16 @@ namespace JewelrySalesSystem.Application.Form.UpdateStatus
     public class UpdateStatusFromCommandHandler : IRequestHandler<UpdateStatusFromCommand, string>
     {
         private readonly IFormRepository _formRepository;
+        private readonly IOrderRepository _orderRepository;
         private readonly ICurrentUserService _currentUserService;
 
-        public UpdateStatusFromCommandHandler(IFormRepository formRepository, ICurrentUserService currentUserService)
+        public UpdateStatusFromCommandHandler(IFormRepository formRepository
+            , ICurrentUserService currentUserService
+            , IOrderRepository orderRepository)
         {
             _formRepository = formRepository;
             _currentUserService = currentUserService;
+            _orderRepository = orderRepository;
         }
 
         public async Task<string> Handle(UpdateStatusFromCommand request, CancellationToken cancellationToken)
@@ -31,8 +35,19 @@ namespace JewelrySalesSystem.Application.Form.UpdateStatus
             {
                 return "Form đã được xử lý !!!";
             }
+            var order = await _orderRepository.FindAsync(x => form.Content.Contains(x.ID), cancellationToken);
+            if (order == null)
+            {
+                throw new NotFoundException("Đơn hàng không còn tồn tại");
+            }
 
             form.Status = request.Status;
+            if (form.Status.Equals(FormStatus.APPROVED) && form.Type.Equals(FormType.REFUND))
+            {              
+                order.Status = OrderStatus.REFUNDED;
+                _orderRepository.Update(order);
+            }
+
             form.LastestUpdateAt = DateTime.Now;
             form.UpdaterID = _currentUserService.UserId;
             _formRepository.Update(form);
