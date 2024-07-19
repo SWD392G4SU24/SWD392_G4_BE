@@ -91,7 +91,7 @@ namespace Jewelry_Sales_System.API.Controllers
             return Ok(new JsonResponse<string>(result));
         }
        
-        [HttpPut]
+        [HttpPatch]
         [Route("[controller]/update")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status201Created)]
@@ -104,7 +104,7 @@ namespace Jewelry_Sales_System.API.Controllers
            CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(command, cancellationToken);
-            if (result.Contains("thất bại"))
+            if (!result.Contains("thành công"))
             {
                 return BadRequest(new JsonResponse<string>(result));
             }

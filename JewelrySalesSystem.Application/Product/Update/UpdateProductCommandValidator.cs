@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,13 +18,11 @@ namespace JewelrySalesSystem.Application.Product.Update
         private void OnValidate()
         {
             RuleFor(x => x.ID)
-                .NotNull().WithMessage("ID không được để trống");
-            RuleFor(x => x.CategoryID)
-                 .NotEmpty().WithMessage("CatergoryID không được để trống");
+                .NotNull().WithMessage("ID không được để trống");     
+            
             RuleFor(x => x.Quantity)
-                .NotEmpty().WithMessage("Vui lòng nhập số lượng");
-            RuleFor(x => x.Quantity)
-                .GreaterThanOrEqualTo(1).WithMessage("Quantity phải lớn hơn hoặc bằng 1");
+                .GreaterThanOrEqualTo(0).When(x => x.Quantity.HasValue).WithMessage("Số lượng không được là số âm");
+
             RuleFor(x => x.Description)
                 .MaximumLength(255);
         }
