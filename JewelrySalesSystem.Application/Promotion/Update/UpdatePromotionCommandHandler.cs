@@ -27,7 +27,7 @@ namespace JewelrySalesSystem.Application.Promotion.UpdatePromotion
         public async Task<string> Handle(UpdatePromotionCommand request, CancellationToken cancellationToken)
         {
             var promotion = await _promotionRepository.FindAsync(s => s.ID == request.ID && s.DeletedAt == null, cancellationToken)
-                ?? throw new NotFoundException("Promotion không tồn tại");
+                ?? throw new NotFoundException("Ưu đãi không tồn tại");
 
             // Update specific fields based on request properties
             promotion.ConditionsOfUse = request.ConditionsOfUse ?? promotion.ConditionsOfUse;

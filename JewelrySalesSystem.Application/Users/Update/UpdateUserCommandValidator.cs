@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,12 +18,12 @@ namespace JewelrySalesSystem.Application.Users.Update
         private void ConfigureValidationRule()
         {
             RuleFor(x => x.Password)
-                .MinimumLength(6).WithMessage("Password must contain 6 characters");
+                .MinimumLength(6).WithMessage("Mật khẩu phải có ít nhất 6 ký tụ");
             RuleFor(x => x.Email)
-                .EmailAddress().WithMessage("Email is not correct format");
+                .EmailAddress().When(x => !x.Email.IsNullOrEmpty()).WithMessage("Email không đúng format");
             RuleFor(x => x.PhoneNumber)
-                .MaximumLength(12).WithMessage("Phone number must contain 10-12 numbers")
-                .MinimumLength(10).WithMessage("Phone number must contain 10-12 numbers");
+                .MaximumLength(12).WithMessage("Số điện thoại bao gồm 10-12 số")
+                .MinimumLength(10).WithMessage("Số điện thoại bao gồm 10-12 số");
         }
     }
 }

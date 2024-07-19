@@ -10,26 +10,36 @@ namespace JewelrySalesSystem.Application.Product.Update
 {
     public class UpdateProductCommand : IRequest<string>, ICommand
     {
-        public UpdateProductCommand(string name, string iD, float? goldWeight, int? goldID, int? diamondID, string? imageURL, int quantity, string? description, int categoryID)
+        public UpdateProductCommand(string? name
+            , string id, float? goldWeight, string? goldType
+            , string? diamondType
+            , string? imageURL
+            , int? quantity
+            , string? description
+            , int? categoryID)
         {
             Name = name;
-            ID = iD;
+            ID = id;
             GoldWeight = goldWeight;
-            GoldID = goldID;
-            DiamondID = diamondID;
+            GoldType = goldType;
+            DiamondType = diamondType;
             ImageURL = imageURL;
             Quantity = quantity;
             Description = description;
             CategoryID = categoryID;
         }
-        public string Name {  get; set; }
+        public UpdateProductCommand()
+        {
+            
+        }
+        public string? Name {  get; set; }
         public string ID { get; set; }
         public float? GoldWeight { get; set; }
-        public int? GoldID { get; set; }
-        public int? DiamondID { get; set; }
+        public string? GoldType { get; set; }
+        public string? DiamondType { get; set; }
         public string? ImageURL { get; set; }
-        public required int Quantity { get; set; }
+        public int? Quantity { get; set; }
         public string? Description { get; set; }
-        public required int CategoryID { get; set; }
+        public int? CategoryID { get; set; }
     }
 }
